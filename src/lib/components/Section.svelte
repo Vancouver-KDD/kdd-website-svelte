@@ -4,7 +4,7 @@
 </script>
 
 <section class={clsx('flex-center', $$restProps.class)}>
-  <div class="w-full max-w-4xl">
+  <div class="w-[calc(100vw-2rem)] max-w-4xl">
     {#if title}
       <div class="flex-col flex-center gap-4 mb-6">
         <h2 class="text-2xl md:text-3xl font-bold text-center">

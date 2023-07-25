@@ -28,6 +28,15 @@ declare namespace DB {
     members: number
   }
 
+  interface Blog {
+    id: string
+    author: {id: string; email: string; name: string} | void
+    date: string
+    description: string | void
+    published: boolean
+    title: string | void
+  }
+
   interface Event {
     id: string
     date: string
