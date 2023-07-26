@@ -3,6 +3,31 @@ import Airtable from 'airtable'
 Airtable.configure({apiKey: AIRTABLE_TOKEN})
 import type {Attachment} from 'airtable'
 
+export const getLatestBlogs = async ({limit}: {limit: number}) => {
+  const base = Airtable.base(AIRTABLE_KDD_BASE)
+  const records = await base('Blogs')
+    .select({
+      pageSize: limit,
+      sort: [{field: 'date', direction: 'desc'}],
+      filterByFormula: '{published} = 1',
+    })
+    .firstPage()
+  return records.map((record) => {
+    const {
+      id,
+      fields: {author, date, description, title, published},
+    } = record
+    return {
+      id,
+      author,
+      date,
+      description,
+      published,
+      title,
+    }
+  }) as DB.Blog[]
+}
+
 export const getLatestEvents = async ({limit}: {limit: number}) => {
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Events')
@@ -73,7 +98,7 @@ export const getPhotos = async ({limit}: {limit: number}) => {
 
 export const getOrganizers = async () => {
   const base = Airtable.base(AIRTABLE_KDD_BASE)
-  const records = await base('Organizers').select({filterByFormula: '{isDraft} = 0'}).firstPage()
+  const records = await base('Organizers').select({filterByFormula: '{published} = 1'}).firstPage()
   return records.map((record) => {
     const name = record.fields.name as string
     const title = record.fields.title as string

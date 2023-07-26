@@ -1,7 +1,6 @@
 <script lang="ts">
   import Organizer from '$lib/components/Organizer.svelte'
-  import type {PageData} from './$types'
-  export let data: PageData
+  export let data
   import aboutUs0 from '$lib/images/about-us-0.jpg'
 </script>
 

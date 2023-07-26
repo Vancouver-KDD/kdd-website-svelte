@@ -19,6 +19,7 @@
   <a href="/" class="w-36"><img src={isHome ? kddLogo1 : kddLogo2} alt="kdd logo" /></a>
   <div class="{'flex-row gap-6 font-bold [&>a]:p-2 '}{isHome ? 'text-white' : 'text-black'}">
     <a href="/about">About Us</a>
+    <a href="/blogs">Blogs</a>
     <a href="/events">Events</a>
     <a href="/photos">Photos</a>
   </div>
