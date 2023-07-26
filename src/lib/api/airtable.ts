@@ -98,7 +98,7 @@ export const getPhotos = async ({limit}: {limit: number}) => {
 
 export const getOrganizers = async () => {
   const base = Airtable.base(AIRTABLE_KDD_BASE)
-  const records = await base('Organizers').select({filterByFormula: '{isDraft} = 0'}).firstPage()
+  const records = await base('Organizers').select({filterByFormula: '{published} = 1'}).firstPage()
   return records.map((record) => {
     const name = record.fields.name as string
     const title = record.fields.title as string

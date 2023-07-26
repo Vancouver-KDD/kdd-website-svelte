@@ -58,7 +58,8 @@ declare namespace DB {
     socialMediaLink: string
     socialMediaType2: string
     socialMediaLink2: string
-    isDraft: boolean
+    published: boolean
+    isDraft: boolean // deprecated
   }
 
   interface Contributor {

@@ -1,12 +1,11 @@
 <script lang="ts">
   import {Button, EventCard, Section, Stats, Sponsors, Photos} from '$lib/components'
   import ellipse from '$lib/images/ellipse.svg'
-  import type {PageData} from './$types'
   import {LinkedIn, Slack, naverCafe} from '$lib/icons'
   import {DateTime} from 'luxon'
   // import {applyAction, enhance} from '$app/forms'
   // import type {ActionData as SubscribeActionData} from '../../api/subscribe/$types'
-  export let data: PageData
+  export let data
 
   // export let form: SubscribeActionData
   $: isPastEvent = DateTime.fromISO(data.event.date).diffNow().toMillis() < 0

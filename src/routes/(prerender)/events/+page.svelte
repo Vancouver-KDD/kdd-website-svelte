@@ -2,8 +2,7 @@
   import {EventCard, Section} from '$lib/components'
   import comingSoonPoster from '$lib/images/coming-soon.jpg'
   import {DateTime} from 'luxon'
-  import type {PageData} from './$types'
-  export let data: PageData
+  export let data
   const {events} = data
 
   const pastEvents: DB.Event[] = []

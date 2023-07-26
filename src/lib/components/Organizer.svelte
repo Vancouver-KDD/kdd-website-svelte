@@ -19,7 +19,7 @@
   <div class="w-full p-2">
     <div class="text-xl font-bold">{name}</div>
     <div class="font-bold">{title}</div>
-    {#if description}<div>description: {description}</div>{/if}
+    {#if description}<div>{description}</div>{/if}
     <div class="flex gap-4 p-2">
       {#if socialMediaType && socialMediaLink}
         <SocialMediaIcon {socialMediaType} href={socialMediaLink} />
