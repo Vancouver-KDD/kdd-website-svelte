@@ -1,8 +1,8 @@
-name: Netlify build every hour
+name: Netlify build every 2 hours
 
 on:
   schedule:
-    - cron: 0 * * * *
+    - cron: 0 */2 * * *
   workflow_dispatch:
     inputs:
       logLevel:
@@ -16,4 +16,4 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build the Docker image
-        run: curl -X POST https://api.netlify.com/build_hooks/649be2362a4f554692344160
+        run: curl -X POST https://api.netlify.com/build_hooks/64c190bc8d5c591958409196
