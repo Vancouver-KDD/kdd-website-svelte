@@ -2,7 +2,7 @@ name: Netlify build every 2 hours
 
 on:
   schedule:
-    - cron: 0 */2 * * *
+    - cron: 30 */2 * * *
   workflow_dispatch:
     inputs:
       logLevel:

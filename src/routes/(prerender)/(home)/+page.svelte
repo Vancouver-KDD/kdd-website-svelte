@@ -19,7 +19,8 @@
 </svelte:head>
 
 <div class="flex-col gap-10">
-  <section class={`flex-center h-screen bg-[url('$lib/images/hero-bg.jpg')] bg-cover bg-center`}>
+  <section
+    class={`flex-center h-screen bg-[url('$lib/images/hero-bg-2023-07.jpg')] bg-cover bg-center`}>
     <div class="flex-col items-center gap-8 text-center text-white px-4">
       <h1 class="text-4xl md:text-5xl font-bold text-shadow-lg text-transparent sm:text-inherit">
         Vancouver KDD
