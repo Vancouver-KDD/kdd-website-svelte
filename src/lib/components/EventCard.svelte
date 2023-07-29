@@ -8,9 +8,15 @@
   let dialog: HTMLDialogElement
 
   $: isPastEvent = DateTime.fromISO(event.date).diffNow().toMillis() < 0
+
+  let scrollToTopAnchor: HTMLDivElement
 </script>
 
-<button on:click={() => dialog?.showModal()}>
+<button
+  on:click={() => {
+    dialog?.showModal()
+    scrollToTopAnchor?.scrollIntoView()
+  }}>
   <div class="w-full rounded-md overflow-clip grid max-md:grid-cols-1 md:grid-cols-2 group">
     <div class="h-full md:max-h-72 overflow-hidden">
       <img
@@ -61,13 +67,13 @@
           alt="event poster" />
       </div>
       <div class="flex-col min-h-40 max-h-72 overflow-y-auto bg-gray-100 p-6 gap-3">
-        <div>
+        <div bind:this={scrollToTopAnchor}>
           <p class="text-base">
             {DateTime.fromISO(event.date).toFormat('yyyy LLL dd H:mm a')}
           </p>
           <p class="font-medium">{event.location ?? ''}</p>
         </div>
-        <h3 class="text-2xl font-bold line-clamp-1">{event.title ?? ''}</h3>
+        <h3 class="text-2xl font-bold">{event.title ?? ''}</h3>
         <p class="text-sm">
           {@html Marked.parse(event.description ?? '')}
         </p>

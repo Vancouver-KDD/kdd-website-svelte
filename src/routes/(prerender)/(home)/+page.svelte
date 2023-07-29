@@ -91,6 +91,14 @@
     </div>
   </Section>
 
+  <Section title="Subscribe to KDD">
+    <div class="flex justify-center items-center">
+      <iframe
+        title="KDD Subscription Form"
+        class="h-[25rem] w-96"
+        src="https://cdn.forms-content-1.sg-form.com/8b68ce59-2df9-11ee-9e33-62034a8aab83" />
+    </div>
+  </Section>
   <Section title="Contact Us" class="text-center">
     <a class="text-2xl font-bold" href="mailto:vancouverkdd@gmail.com"> vancouverkdd@gmail.com </a>
   </Section>

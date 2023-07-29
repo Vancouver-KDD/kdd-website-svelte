@@ -17,11 +17,11 @@
           <img
             class="w-full h-full object-cover hover:scale-125 transition-transform"
             src={photo.url}
-            alt="{description} {photo.filename}"
+            alt="{description ?? ''} {photo.filename}"
             loading="lazy" />
         </div>
         <div class="text-lg font-bold">{title}</div>
-        <div>{description}</div>
+        <div>{description ?? ''}</div>
       </button>
     {/each}
   {/if}
