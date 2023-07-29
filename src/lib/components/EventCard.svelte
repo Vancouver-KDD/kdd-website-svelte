@@ -56,10 +56,8 @@
   on:click={() => dialog.close()}
   class="bg-transparent backdrop-blur-sm max-w-full max-h-full min-w-full min-h-full">
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions-->
-  <div
-    class="grid items-center place-items-center max-w-3xl w-full h-screen m-auto"
-    on:click|stopPropagation={() => null}>
-    <div class="rounded-md overflow-clip">
+  <div class="grid items-center place-items-center max-w-3xl w-full h-screen m-auto">
+    <div class="rounded-md overflow-clip" on:click|stopPropagation={() => null}>
       <div class="md:max-h-120">
         <img
           class="w-full object-cover transition-transform duration-500"
@@ -74,7 +72,7 @@
           <p class="font-medium">{event.location ?? ''}</p>
         </div>
         <h3 class="text-2xl font-bold">{event.title ?? ''}</h3>
-        <p class="text-sm">
+        <p class="text-sm [&>*]:pb-4">
           {@html Marked.parse(event.description ?? '')}
         </p>
         {#if event.joinLink}

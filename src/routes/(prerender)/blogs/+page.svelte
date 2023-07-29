@@ -28,9 +28,11 @@
 </svelte:head>
 
 <Section title="Blogs">
-  <div class="grid gap-6">
+  <div class="grid gap-10">
     {#each data.blogs as _blog}
-      <button on:click={() => (blog = _blog)}>
+      <button on:click={() => (blog = _blog)} class="relative isolate overflow-hidden">
+        <!-- Prevent <a> links to activate along with dialog -->
+        <div class="absolute inset-0 bg-white opacity-0 z-10" />
         <p class="line-clamp-1 text-gray-800 text-xl font-bold">
           {_blog.title ?? ''}
         </p>
@@ -55,10 +57,8 @@
   class="bg-transparent backdrop-blur-sm max-w-full max-h-full min-w-full min-h-full">
   <!-- svelte-ignore a11y-click-events-have-key-events a11y-no-static-element-interactions-->
   {#if blog}
-    <div
-      class="grid items-center place-items-center max-w-5xl w-full h-screen m-auto"
-      on:click|stopPropagation={() => null}>
-      <div class="rounded-md overflow-clip">
+    <div class="grid items-center place-items-center max-w-5xl w-full h-screen m-auto">
+      <div class="rounded-md overflow-clip" on:click|stopPropagation={() => null}>
         <div class="flex-col max-h-screen overflow-y-auto bg-white p-6 gap-3">
           <h3 class="text-4xl font-bold text-gray-900">{blog.title ?? ''}</h3>
           <span class="text-base text-gray-500">
