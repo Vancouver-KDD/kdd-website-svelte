@@ -92,11 +92,16 @@
   </Section>
 
   <Section title="Subscribe to KDD">
-    <div class="flex justify-center items-center">
+    <div class="flex justify-center items-center h-72 md:h-auto">
+      <script type="text/javascript" src="https://campaigns.zoho.com/js/zc.iframe.js"></script>
+      <!-- ZOHO Campaign - Sign Up Form -->
       <iframe
         title="KDD Subscription Form"
-        class="h-[25rem] w-96"
-        src="https://cdn.forms-content-1.sg-form.com/8b68ce59-2df9-11ee-9e33-62034a8aab83" />
+        frameborder="0"
+        id="iframewin"
+        width="100%"
+        height="100%"
+        src="https://zcsub-cmpzourl.maillist-manage.com/ua/Optin?od=11287ecc59340d&zx=130eee8c7&tD=1fc927abddb173c1&sD=1fc927abddb177ad" />
     </div>
   </Section>
   <Section title="Contact Us" class="text-center">
