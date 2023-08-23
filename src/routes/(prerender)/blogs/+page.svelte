@@ -37,7 +37,8 @@
           {_blog.title ?? ''}
         </p>
         <p class="line-clamp-4 text-gray-500 text-base my-2">
-          {@html Marked.parse(_blog.description ?? '')}
+          <!-- eslint-disable svelte/no-at-html-tags -->
+          {@html Marked.parse(_blog.description ?? '', {sanitize: true})}
         </p>
         <span class="text-sm text-gray-500">
           {DateTime.fromISO(_blog.date).toFormat('LLL dd')} ·
@@ -67,7 +68,8 @@
             {#if blog.author}By <span class="font-medium">{blog.author.name}</span>{/if}
           </span>
           <p class="text-lg text-gray-800 [&>*]:pb-4">
-            {@html Marked.parse(blog.description ?? '')}
+            <!-- eslint-disable svelte/no-at-html-tags -->
+            {@html Marked.parse(blog.description ?? '', {sanitize: true})}
           </p>
         </div>
       </div>
