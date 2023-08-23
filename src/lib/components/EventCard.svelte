@@ -35,7 +35,7 @@
       <!-- <p class="line-clamp-6 md:line-clamp-4 text-sm"> original code not working in safari -->
       <p class="line-clamp-6-safari text-sm">
         <!-- eslint-disable svelte/no-at-html-tags -->
-        {@html Marked.parse(event.description ?? '', {sanitize: true})}
+        {@html Marked.parse(event.description ?? '')}
       </p>
       {#if event.joinLink}
         <Button
@@ -75,7 +75,7 @@
         <h3 class="text-2xl font-bold">{event.title ?? ''}</h3>
         <p class="text-sm [&>*]:pb-4">
           <!-- eslint-disable svelte/no-at-html-tags -->
-          {@html Marked.parse(event.description ?? '', {sanitize: true})}
+          {@html Marked.parse(event.description ?? '')}
         </p>
         {#if event.joinLink}
           <Button disabled={isPastEvent} class="rounded-full" href={event.joinLink}>

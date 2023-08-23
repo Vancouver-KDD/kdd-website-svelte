@@ -38,7 +38,7 @@
         </p>
         <p class="line-clamp-4 text-gray-500 text-base my-2">
           <!-- eslint-disable svelte/no-at-html-tags -->
-          {@html Marked.parse(_blog.description ?? '', {sanitize: true})}
+          {@html Marked.parse(_blog.description ?? '')}
         </p>
         <span class="text-sm text-gray-500">
           {DateTime.fromISO(_blog.date).toFormat('LLL dd')} ·
@@ -69,7 +69,7 @@
           </span>
           <p class="text-lg text-gray-800 [&>*]:pb-4">
             <!-- eslint-disable svelte/no-at-html-tags -->
-            {@html Marked.parse(blog.description ?? '', {sanitize: true})}
+            {@html Marked.parse(blog.description ?? '')}
           </p>
         </div>
       </div>
