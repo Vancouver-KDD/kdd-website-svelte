@@ -1,5 +1,5 @@
 <script lang="ts">
-  import '../../app.sass'
+  import '../app.sass'
   import clsx from 'clsx'
   import kddLogo1 from '$lib/images/logo_kr_white_horizontal.svg'
   import kddLogo2 from '$lib/images/logo_kr_color_horizontal.png'
