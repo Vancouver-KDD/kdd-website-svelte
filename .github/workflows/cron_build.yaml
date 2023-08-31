@@ -1,19 +1,19 @@
-name: Netlify build every 2 hours
+# name: Netlify build every 2 hours
 
-on:
-  schedule:
-    - cron: 30 */2 * * *
-  workflow_dispatch:
-    inputs:
-      logLevel:
-        description: 'Log level'
-        required: true
-        default: 'warning'
-      tags:
-        description: 'Test scenario tags'
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Build the Docker image
-        run: curl -X POST https://api.netlify.com/build_hooks/64c190bc8d5c591958409196
+# on:
+#   schedule:
+#     - cron: 30 */2 * * *
+#   workflow_dispatch:
+#     inputs:
+#       logLevel:
+#         description: 'Log level'
+#         required: true
+#         default: 'warning'
+#       tags:
+#         description: 'Test scenario tags'
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - name: Build the Docker image
+#         run: curl -X POST https://api.netlify.com/build_hooks/64c190bc8d5c591958409196
