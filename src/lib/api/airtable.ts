@@ -4,7 +4,6 @@ Airtable.configure({apiKey: AIRTABLE_TOKEN})
 import type {Attachment} from 'airtable'
 
 export const getLatestBlogs = async ({limit}: {limit: number}) => {
-  console.log('getLatestBlogs')
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Blogs')
     .select({
@@ -30,7 +29,6 @@ export const getLatestBlogs = async ({limit}: {limit: number}) => {
 }
 
 export const getLatestEvents = async ({limit}: {limit: number}) => {
-  console.log('getLatestEvents')
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Events')
     .select({pageSize: limit, sort: [{field: 'date', direction: 'desc'}]})
@@ -64,7 +62,6 @@ export const getLatestEvents = async ({limit}: {limit: number}) => {
 }
 
 export const getStats = async () => {
-  console.log('getStats')
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Stats').select({maxRecords: 1}).firstPage()
   return {
@@ -74,7 +71,6 @@ export const getStats = async () => {
 }
 
 export const getSponsors = async () => {
-  console.log('getSponsors')
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Sponsors').select().firstPage()
   return records.map((record) => {
@@ -86,7 +82,6 @@ export const getSponsors = async () => {
 }
 
 export const getPhotos = async ({limit}: {limit: number}) => {
-  console.log('getPhotos')
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Photos')
     .select({pageSize: limit, sort: [{field: 'date', direction: 'desc'}]})
@@ -102,8 +97,6 @@ export const getPhotos = async ({limit}: {limit: number}) => {
 }
 
 export const getOrganizers = async () => {
-  console.log('getOrganizers')
-
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Organizers').select({filterByFormula: '{published} = 1'}).firstPage()
   return records.map((record) => {
@@ -130,7 +123,6 @@ export const getOrganizers = async () => {
 }
 
 export const getContributors = async () => {
-  console.log('getContributors')
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Contributors').select().firstPage()
   const developers: DB.Contributor[] = []

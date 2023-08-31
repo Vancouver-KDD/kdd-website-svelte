@@ -3,8 +3,8 @@ import type {PageServerLoad} from './$types'
 
 export const load = (async () => {
   const event = (await getLatestEvents({limit: 1}))?.[0]
-  const stats = await getStats()
-  const sponsors = await getSponsors()
-  const photos = await getPhotos({limit: 20})
+  const stats = getStats()
+  const sponsors = getSponsors()
+  const photos = getPhotos({limit: 20})
   return {event, stats, sponsors, photos}
 }) satisfies PageServerLoad
