@@ -1,23 +1,20 @@
 # KDD Website built using SvelteKit
 
-To test and edit this project from the browser, use stackblitz or github1s
-https://stackblitz.com/github/Vancouver-KDD/kdd-website-svelte
+To test and edit this project from the browser, use stackblitz or github1s  
+https://stackblitz.com/github/Vancouver-KDD/kdd-website-svelte  
 https://github1s.com/Vancouver-KDD/kdd-website-svelte
 
-## Hosting on Netlify
+## Hosting on Vercel
 
-Email: vancouverkdd@gmail.com
-Team: https://app.netlify.com/teams/vancouverkdd
+Email: admin@vancouverkdd.com  
+Team: https://vercel.com/vancouver-kdd
 
-#### Continuous Deployments
+### Automatic deploys from `main` branch
 
-### Production
+https://github.com/Vancouver-KDD/kdd-website-svelte
 
-https://app.netlify.com/sites/vancouverkddsvelte (https://vancouverkddsvelte.netlify.app)
-Deploys from github.com/Vancouver-KDD/kdd-website-svelte (branch: `main`)
+### Database and CMS using AirTable
 
-### Database using AirTable
-
-Email: vancouverkdd@gmail.com, marketing@vancouverkdd.com
-Base(KDD Website): https://airtable.com/appcUH0p5UGV7xyQY
+Email: vancouverkdd@gmail.com, marketing@vancouverkdd.com  
+Base(KDD Website): https://airtable.com/appcUH0p5UGV7xyQY  
 Tables: Events, Organizers, Photos, Sponsors, Stats, Contributors, Blogs

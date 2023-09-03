@@ -105,7 +105,17 @@
     </div>
   </Section>
   <Section title="Contact Us" class="text-center">
-    <a class="text-2xl font-bold" href="mailto:vancouverkdd@gmail.com"> vancouverkdd@gmail.com </a>
+    <div class="flex flex-center text-center flex-col gap-4">
+      <a class="text-2xl font-bold" href="mailto:marketing@vancouverkdd.com">
+        marketing@vancouverkdd.com
+      </a>
+      <a class="text-2xl font-bold" href="mailto:partner@vancouverkdd.com">
+        partner@vancouverkdd.com
+      </a>
+      <a class="text-2xl font-bold" href="mailto:subgroup@vancouverkdd.com">
+        subgroup@vancouverkdd.com
+      </a>
+    </div>
   </Section>
 </div>
 
