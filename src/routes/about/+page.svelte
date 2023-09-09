@@ -15,7 +15,9 @@
     KDD는 2017년 부터 한인 IT분야 종사자들의 교류와 지역사회 발전을 위해 노력하고 있습니다.
   </p>
 </section>
-<img src={aboutUs0} alt="about-us-laptop-with-code" />
+<section>
+  <img src={aboutUs0} alt="about-us-laptop-with-code" />
+</section>
 <section>
   <h2>About Us</h2>
   <p>
