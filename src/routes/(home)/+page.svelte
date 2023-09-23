@@ -13,10 +13,9 @@
 
 <svelte:head>
   <title>Vancouver KDD | 밴쿠버 KDD | 한인 개발자 디자이너 모임</title>
-  <description>
-    저희는 밴쿠버 한인 개발자 디자이너로 이루어져 있으며 네트워킹 및 한인 사회에 기여를 추구하는
-    모임 입니다.
-  </description>
+  <meta
+    name="description"
+    content="저희는 밴쿠버 한인 개발자 디자이너로 이루어져 있으며 네트워킹 및 한인 사회에 기여를 추구하는 모임 입니다." />
 </svelte:head>
 
 <div class="flex-col gap-10">
