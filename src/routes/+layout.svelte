@@ -5,6 +5,7 @@
   import kddLogo2 from '$lib/images/logo_kr_color_horizontal.png'
   import {page} from '$app/stores'
   $: isHome = $page.url.pathname === '/'
+  $: isFooterVisible = $page.url.pathname !== '/checkout'
 
   import type {LayoutServerData} from './$types'
   export let data: LayoutServerData
@@ -25,27 +26,29 @@
   </div>
 </nav>
 <slot />
-<footer class="p-8 flex-col items-center gap-2">
-  <span class="font-bold text-xl">Developed by</span>
-  <div class="max-w-4xl">
-    {#each developers as developer}
-      <a
-        class={clsx('mx-1', developer.link && 'font-medium')}
-        href={developer.link}
-        target="_blank">
-        {developer.name}
-      </a>
-    {/each}
-  </div>
-  <span class="font-bold text-xl">Special thanks to</span>
-  <div class="max-w-4xl">
-    {#each supporters as supporter}
-      <a
-        class={clsx('mx-1', supporter.link && 'font-medium')}
-        href={supporter.link}
-        target="_blank">
-        {supporter.name}
-      </a>
-    {/each}
-  </div>
-</footer>
+{#if isFooterVisible}
+  <footer class="p-8 flex-col items-center gap-2">
+    <span class="font-bold text-xl">Developed by</span>
+    <div class="max-w-4xl">
+      {#each developers as developer}
+        <a
+          class={clsx('mx-1', developer.link && 'font-medium')}
+          href={developer.link}
+          target="_blank">
+          {developer.name}
+        </a>
+      {/each}
+    </div>
+    <span class="font-bold text-xl">Special thanks to</span>
+    <div class="max-w-4xl">
+      {#each supporters as supporter}
+        <a
+          class={clsx('mx-1', supporter.link && 'font-medium')}
+          href={supporter.link}
+          target="_blank">
+          {supporter.name}
+        </a>
+      {/each}
+    </div>
+  </footer>
+{/if}
