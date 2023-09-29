@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { saveFormData } from '$lib/api/firebase';
+
+
   export let isOpen = false
   let name = ''
   let email = ''
@@ -7,11 +10,24 @@
   let message = ''
 
   function handleSubmit() {
-    console.log('Name:', name)
-    console.log('Email:', email)
-    console.log('Occupation:', occupation)
-    console.log('Work:', work)
-    console.log('Message:', message)
+    const formData = {
+      name,
+      email,
+      occupation,
+      work,
+      message,
+    };
+
+    // Save the form data to Firebase
+    saveFormData(formData)
+      .then(() => {
+        console.log('Form data saved successfully');
+        // Redirect to the main page
+        window.location.href = '/';
+      })
+      .catch((error) => {
+        console.error('Error saving form data:', error);
+      });
   }
 </script>
 
