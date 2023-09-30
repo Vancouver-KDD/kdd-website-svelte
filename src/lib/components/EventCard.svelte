@@ -24,14 +24,15 @@
         src={event.poster?.url}
         alt="event poster" />
     </div>
-    <div class="h-full flex-col min-h-40 bg-gray-100 p-6 gap-3">
+    <div class="h-full flex-col min-h-40 bg-gray-100 px-5 py-4 gap-3">
       <div>
         <p class="text-base">
           {DateTime.fromISO(event.date).toFormat('yyyy LLL dd H:mm a')}
         </p>
         <p class="text-sm font-medium">{event.location ?? ''}</p>
+        <!-- <p class="text-sm font-medium">{event.location ?? ''}</p> -->
       </div>
-      <h3 class="text-2xl font-bold line-clamp-1">{event.title ?? ''}</h3>
+      <h3 class="text-2xl font-bold line-clamp-1 -mt-1">{event.title ?? ''}</h3>
       <!-- <p class="line-clamp-6 md:line-clamp-4 text-sm"> original code not working in safari -->
       <p class="line-clamp-6-safari text-sm">
         <!-- eslint-disable svelte/no-at-html-tags -->
