@@ -23,13 +23,15 @@
     saveFormData(formData)
       .then(() => {
         toast.success('이벤트에 성공적으로 신청되었습니다')
-        // window.location.href = '/'
+        window.location.href = '/checkout/success'
       })
       .catch((error) => {
         toast.error('오류 발생! 다시 시도해주세요')
         console.error('Error saving form data:', error)
       })
   }
+
+  const isEventFree = false
 </script>
 
 <Toaster />
@@ -97,10 +99,16 @@
       </div>
 
       <div class="text-right">
-        <button
-          type="submit"
-          class="px-4 py-2 bg-royalBlue-500 text-white rounded-md hover:bg-[#794bc4]"
-          >Submit</button>
+        {#if isEventFree}
+          <button
+            type="submit"
+            class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
+            >Reserve</button>
+        {:else}
+          <button
+            type="submit"
+            class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]">Next</button>
+        {/if}
       </div>
     </form>
   </div>

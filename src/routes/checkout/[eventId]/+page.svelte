@@ -1,6 +1,5 @@
 <script lang="ts">
   import {CheckoutForm} from '$lib/components'
-  import CheckoutImage from '$lib/images/checkout-image.png'
   import {page} from '$app/stores'
   import {DateTime} from 'luxon'
 
