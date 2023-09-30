@@ -16,7 +16,8 @@
   "dependencies": {
     "firebase": "^10.4.0",
     "flowbite-svelte": "^0.44.17",
-    "luxon": "^3.4.1"
+    "luxon": "^3.4.1",
+    "svelte-french-toast": "^1.2.0"
   },
   "devDependencies": {
     "@sveltejs/adapter-auto": "^2.1.0",

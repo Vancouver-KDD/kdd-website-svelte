@@ -1,5 +1,8 @@
 <script lang="ts">
   import {saveFormData} from '$lib/api/firebase'
+  import toast, {Toaster} from 'svelte-french-toast'
+
+  export let checkoutEvent: any
 
   export let isOpen = false
   let name = ''
@@ -17,22 +20,29 @@
       message,
     }
 
-    // Save the form data to Firebase
     saveFormData(formData)
       .then(() => {
-        console.log('Form data saved successfully')
-        // Redirect to the main page
-        window.location.href = '/'
+        toast.success('이벤트에 성공적으로 신청되었습니다')
+        // window.location.href = '/'
       })
       .catch((error) => {
+        toast.error('오류 발생! 다시 시도해주세요')
         console.error('Error saving form data:', error)
       })
   }
 </script>
 
+<Toaster />
+
 <div class="w-full flex items-center justify-center">
   <div class="w-full p-6">
     <form on:submit={handleSubmit}>
+      <div class="mb-5">
+        <h1 class="text-xl text-royalBlue-800 font-semibold animate-bounce">
+          {checkoutEvent.title}
+        </h1>
+      </div>
+
       <div class="mb-4">
         <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
         <input
@@ -40,7 +50,7 @@
           id="name"
           bind:value={name}
           required
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500" />
+          class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-royalBlue-500" />
       </div>
 
       <div class="mb-4">
@@ -50,7 +60,7 @@
           id="email"
           bind:value={email}
           required
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500" />
+          class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-royalBlue-500" />
       </div>
 
       <div class="mb-4">
@@ -60,7 +70,8 @@
           id="occupation"
           bind:value={occupation}
           required
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500" />
+          placeholder="학생, 개발자, 디자이너, 기타"
+          class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
       </div>
 
       <div class="mb-4">
@@ -70,7 +81,8 @@
           id="work"
           bind:value={work}
           required
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500" />
+          placeholder="학교, 회사, 기타"
+          class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
       </div>
 
       <div class="mb-4">
