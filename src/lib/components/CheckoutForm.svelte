@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { saveFormData } from '$lib/api/firebase';
-
+  import {saveFormData} from '$lib/api/firebase'
 
   export let isOpen = false
   let name = ''
@@ -16,18 +15,18 @@
       occupation,
       work,
       message,
-    };
+    }
 
     // Save the form data to Firebase
     saveFormData(formData)
       .then(() => {
-        console.log('Form data saved successfully');
+        console.log('Form data saved successfully')
         // Redirect to the main page
-        window.location.href = '/';
+        window.location.href = '/'
       })
       .catch((error) => {
-        console.error('Error saving form data:', error);
-      });
+        console.error('Error saving form data:', error)
+      })
   }
 </script>
 
@@ -88,7 +87,7 @@
       <div class="text-right">
         <button
           type="submit"
-          class="px-4 py-2 bg-[#794bc4] text-white rounded-md hover:bg-royalBlue-500"
+          class="px-4 py-2 bg-royalBlue-500 text-white rounded-md hover:bg-[#794bc4]"
           >Submit</button>
       </div>
     </form>
