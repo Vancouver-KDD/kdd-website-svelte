@@ -10,7 +10,7 @@
   const pathnameParts = pageUrl.pathname.split('/')
   const eventId = pathnameParts[pathnameParts.length - 1]
 
-  const checkoutEvent = events.find((event) => event.id === eventId)
+  const checkoutEvent = events.find((event: any) => event.id === eventId)
   console.log('checkoutEvent', checkoutEvent)
 
   function limit(string = '', limit = 0) {

@@ -24,7 +24,7 @@
     <div class="w-full flex-center">
       <iframe
         id="kofiframe"
-        src="https://ko-fi.com/vancouverkdd/?hidefeed=true&widget=true&embed=true&preview=true"
+        src="https://ko-fi.com/vancouverkdd/?hidefeed=true&widget=true&embed=true&preview=true&amount=1000"
         style="
       border:none;
       width:100%;
@@ -34,6 +34,7 @@
       "
         height="712"
         title="vancouverkdd"></iframe>
+      <!-- web hook test -->
     </div>
   </div>
   <div class="p-6">
