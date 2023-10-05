@@ -42,7 +42,7 @@
         <div class="grid grid-cols-4 mt-2">
           <h3 class="font-semibold text-lg text-royalBlue-700">Summary</h3>
           <div class="col-span-3 px-2 text-gray-500 text-sm">
-            {checkoutEvent && limit(checkoutEvent.description, 190)}[...]
+            {checkoutEvent && limit(checkoutEvent.description, 320)} [...]
           </div>
         </div>
       </div>
@@ -52,7 +52,7 @@
     </div>
   </div>
   <div class="mt-24">
-    <p>
+    <p class="text-xs md:text-sm">
       ** This information is solely for reserving KDD's open events and will not be used for any
       other purpose.
     </p>

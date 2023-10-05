@@ -1,5 +1,29 @@
 <script lang="ts">
+  import {onMount} from 'svelte'
   import CheckoutImage from '$lib/images/checkout-image.png'
+
+  let kofiIframe: HTMLIFrameElement
+
+  onMount(() => {
+    kofiIframe = document.getElementById('kofiframe') as HTMLIFrameElement
+
+    if (kofiIframe) {
+      kofiIframe.addEventListener('load', function () {
+        setTimeout(() => {
+          const iframeWindow = kofiIframe.contentWindow as Window
+          const inputElement = iframeWindow?.document.querySelector(
+            '.form-control'
+          ) as HTMLInputElement
+
+          if (inputElement) {
+            inputElement.style.color = '#eee'
+          }
+
+          console.log(kofiIframe)
+        }, 1000)
+      })
+    }
+  })
 </script>
 
 <svelte:head>
@@ -9,6 +33,7 @@
 <section class="flex-center flex-col">
   <div class="max-w-4xl w-full flex gap-8">
     <div class="w-full flex-center flex-col">
+      <div id="event-price">$ 13</div>
       <img class="w-96 -mt-24 -ml-2" src={CheckoutImage} alt="kdd-logo" />
       <div class="">
         <p class="text-center -mt-8 p-3 rounded-xl bg-royalBlue-500 text-white">
@@ -24,14 +49,8 @@
     <div class="w-full flex-center">
       <iframe
         id="kofiframe"
-        src="https://ko-fi.com/vancouverkdd/?hidefeed=true&widget=true&embed=true&preview=true&amount=1000"
-        style="
-      border:none;
-      width:100%;
-      padding:4px;
-      background:#fff;
-      overflow: hidden;
-      "
+        src="https://ko-fi.com/vancouverkdd/?hidefeed=true&widget=true&embed=true&preview=true"
+        style="border:none;width:100%;padding:4px;background:#f9f9f9;"
         height="712"
         title="vancouverkdd"></iframe>
       <!-- web hook test -->

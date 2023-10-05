@@ -12,8 +12,6 @@
   $: isPastEvent = DateTime.fromISO(event.date).diffNow().toMillis() < 0
 
   let scrollToTopAnchor: HTMLDivElement
-
-  console.log('event', event)
 </script>
 
 <button

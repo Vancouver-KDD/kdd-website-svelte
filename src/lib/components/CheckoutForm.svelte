@@ -4,26 +4,36 @@
 
   export let checkoutEvent: any
 
-  export let isOpen = false
+  let timestamp = ''
+  let firstTime = ''
   let name = ''
   let email = ''
   let occupation = ''
   let work = ''
+  let location = ''
   let message = ''
 
   function handleSubmit() {
     const formData = {
+      timestamp: new Date().toISOString(),
+      firstTime,
       name,
       email,
       occupation,
       work,
+      location,
       message,
+    }
+
+    function redirectToSuccessPage() {
+      const successUrl = isEventPaid ? '/checkout/payment' : '/events'
+      window.location.href = successUrl
     }
 
     saveFormData(formData)
       .then(() => {
         toast.success('이벤트에 성공적으로 신청되었습니다')
-        window.location.href = '/checkout/success'
+        redirectToSuccessPage()
       })
       .catch((error) => {
         toast.error('오류 발생! 다시 시도해주세요')
@@ -31,7 +41,7 @@
       })
   }
 
-  const isEventFree = false
+  let isEventPaid = false
 </script>
 
 <Toaster />
@@ -43,6 +53,32 @@
         <h1 class="text-xl text-royalBlue-800 font-semibold animate-bounce">
           {checkoutEvent.title}
         </h1>
+      </div>
+
+      <div class="flex gap-6 mb-4">
+        <h3 class="text-sm text-gray-700 font-medium">** KDD 밋업에 처음 참석하시나요?</h3>
+        <div class="flex items-center gap-5">
+          <span>
+            <input
+              type="radio"
+              id="yes"
+              name="attendance"
+              value="Yes"
+              bind:group={firstTime}
+              required
+              class="form-radio text-royalBlue-500" />
+            <label for="yes" class="text-sm text-gray-700 font-medium">Yes</label>
+          </span>
+          <span>
+            <input
+              type="radio"
+              id="no"
+              name="attendance"
+              value="No"
+              bind:group={firstTime}
+              class="form-radio text-royalBlue-500" />
+            <label for="no" class="text-sm text-gray-700 font-medium">No</label></span>
+        </div>
       </div>
 
       <div class="mb-4">
@@ -88,6 +124,17 @@
       </div>
 
       <div class="mb-4">
+        <label for="work" class="block text-sm font-medium text-gray-700">Location:</label>
+        <input
+          type="text"
+          id="work"
+          bind:value={location}
+          required
+          placeholder="다운타운, 밴쿠버, 버나비, 코퀴틀람, 리치몬드, 기타"
+          class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
+      </div>
+
+      <div class="mb-4">
         <label for="message" class="block text-sm font-medium text-gray-700">Message:</label>
         <textarea
           id="message"
@@ -99,15 +146,15 @@
       </div>
 
       <div class="text-right">
-        {#if isEventFree}
+        {#if isEventPaid}
+          <button
+            type="submit"
+            class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]">Next</button>
+        {:else}
           <button
             type="submit"
             class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
             >Reserve</button>
-        {:else}
-          <button
-            type="submit"
-            class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]">Next</button>
         {/if}
       </div>
     </form>
