@@ -22,6 +22,19 @@ declare namespace App {
     is_first_subscription_payment: boolean
     kofi_transaction_id: string // ex. '00000000-1111-2222-3333-444444444444'
   }
+  interface Ticket {
+    ticketId: string
+    eventId: string
+    eventName: string
+    timeStamp: string
+    firstTime: string
+    email: string
+    name: string
+    occupation: string
+    work: string
+    location: string
+    message: string
+  }
 }
 
 declare namespace DB {

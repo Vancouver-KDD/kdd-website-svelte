@@ -15,6 +15,8 @@
   function handleSubmit() {
     const formData = {
       timestamp: new Date().toISOString(),
+      eventId: checkoutEvent.id,
+      eventName: checkoutEvent.title,
       firstTime,
       name,
       email,
@@ -38,7 +40,7 @@
       })
   }
 
-  let isEventFree = false
+  let isEventFree = true
 </script>
 
 <Toaster />

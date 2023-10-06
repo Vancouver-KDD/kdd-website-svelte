@@ -2,65 +2,57 @@
   import Drawer, {AppContent, Content} from '@smui/drawer'
   import List, {Item, Text} from '@smui/list'
 
-  let clicked = ''
+  export let tickets: App.Ticket[]
+
+  console.log('tickets', tickets)
+
+  let eventNames: string[] = []
+  let eventTickets: {eventName: string; tickets: App.Ticket[]}[] = []
+
+  function handleItemClick(eventName: string) {
+    const filteredTickets = eventTickets.find((et) => et.eventName === eventName)?.tickets || []
+    console.log('filteredTickets', filteredTickets)
+  }
+
+  const groupedTickets = tickets.reduce((acc, ticket) => {
+    if (!acc[ticket.eventName]) {
+      acc[ticket.eventName] = []
+    }
+    acc[ticket.eventName].push(ticket)
+    return acc
+  }, {})
+
+  eventTickets = Object.entries(groupedTickets).map(([eventName, tickets]) => {
+    return {
+      eventName,
+      tickets,
+    }
+  })
 </script>
 
-<div class="drawer-container">
+<div class="flex h-full border">
   <Drawer class="w-40 max-h-screen">
     <Content class="h-full">
-      <List class="flex-start flex-col gap-4 p-4 border bg-gray-50 h-full">
-        {clicked}
-        <Item
-          href="javascript:void(0)"
-          class="text-center"
-          on:click={() => (clicked = '9월 Event')}>
-          <Text>9월 Event</Text>
-        </Item>
-        <Item
-          href="javascript:void(0)"
-          class="text-center"
-          on:click={() => (clicked = '8월 Event')}>
-          <Text>8월 Event</Text>
-        </Item>
-        <Item
-          href="javascript:void(0)"
-          class="text-center"
-          on:click={() => (clicked = '7월 Event')}>
-          <Text>7월 Event</Text>
-        </Item>
-        <Item
-          href="javascript:void(0)"
-          class="text-center"
-          on:click={() => (clicked = '6월 Event')}>
-          <Text>6월 Event</Text>
-        </Item>
-        <Item
-          href="javascript:void(0)"
-          class="text-center"
-          on:click={() => (clicked = '5월 Event')}>
-          <Text>5월 Event</Text>
-        </Item>
+      <List class="flex-start flex-col gap-4 p-2 border bg-gray-50 h-full overflow-auto">
+        {#each eventTickets as { eventName }}
+          <Item on:click={() => handleItemClick(eventName)} class="cursor-pointer">
+            <Text>{eventName}</Text>
+          </Item>
+        {/each}
       </List>
     </Content>
   </Drawer>
 
   <AppContent class="app-content">
     <main class="main-content">
-      <div id="json-output"></div>
+      {#each eventNames as eventName}
+        <div>{eventName}</div>
+      {/each}
     </main>
   </AppContent>
 </div>
 
 <style>
-  .drawer-container {
-    position: relative;
-    display: flex;
-    height: 350px;
-    border: 1px solid var(--mdc-theme-text-hint-on-background, rgba(0, 0, 0, 0.1));
-    overflow: hidden;
-    z-index: 0;
-  }
-
   * :global(.app-content) {
     flex: auto;
     overflow: auto;
