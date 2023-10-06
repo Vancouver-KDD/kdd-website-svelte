@@ -72,9 +72,12 @@ declare namespace DB {
     id: string
     email: string
     eventId: string
+    eventName: string
     status: 'free' | 'unpaid' | 'paid' | 'cancelled'
     createdAt: DateTime
     formData: string // JSON string
+    price: string // '3.00'
+    currency: 'CAD'
   }
 
   interface Email {
