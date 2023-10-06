@@ -5,7 +5,7 @@
   import kddLogo2 from '$lib/images/logo_kr_color_horizontal.png'
   import {page} from '$app/stores'
   $: isHome = $page.url.pathname === '/'
-  $: isFooterVisible = $page.url.pathname.includes('checkout' && 'admin') === false
+  $: isFooterVisible = $page.url.pathname.includes('checkout' || 'admin') === false
   $: isHeaderVisible = $page.url.pathname.includes('admin') === false
 
   import type {LayoutServerData} from './$types'
