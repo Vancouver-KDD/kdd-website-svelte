@@ -32,7 +32,7 @@
   <div
     class="max-w-4xl w-full flex-center flex-col justify-between items-center md:flex-row gap-8 border border-gray-200 p-6">
     <form class="mx-auto" on:submit|preventDefault={register}>
-      <label for="username">Username:</label>
+      <label for="username">Email:</label>
       <input
         type="text"
         id="username"

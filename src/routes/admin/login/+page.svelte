@@ -12,7 +12,7 @@
     signInWithEmailAndPassword(firebaseAuth, email, password)
       .then(() => {
         toast.success('admin 계정으로 로그인되었습니다')
-        goto('/admin/success')
+        goto('/admin/dashboard')
       })
       .catch((error) => {
         const errorCode = error.code
@@ -36,7 +36,7 @@
   <div
     class="max-w-4xl w-full flex-center flex-col justify-between items-center md:flex-row gap-8 border border-gray-200 p-6">
     <form class="mx-auto" method="POST" on:submit|preventDefault={login}>
-      <label for="username">Username:</label>
+      <label for="username">Email:</label>
       <input
         type="text"
         id="username"
@@ -50,6 +50,7 @@
         type="password"
         id="password"
         name="password"
+        placeholder=" 6글자 이상"
         bind:value={password}
         required
         class="border mr-4" />
