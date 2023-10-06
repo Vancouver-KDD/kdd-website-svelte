@@ -1,5 +1,4 @@
 <script lang="ts">
-  import {saveFormData} from '$lib/api/firebase'
   import toast, {Toaster} from 'svelte-french-toast'
 
   export let checkoutEvent: any
@@ -30,15 +29,15 @@
       window.location.href = successUrl
     }
 
-    saveFormData(formData)
-      .then(() => {
-        toast.success('이벤트에 성공적으로 신청되었습니다')
-        redirectToSuccessPage()
-      })
-      .catch((error) => {
-        toast.error('오류 발생! 다시 시도해주세요')
-        console.error('Error saving form data:', error)
-      })
+    // saveFormData(formData)
+    //   .then(() => {
+    //     toast.success('이벤트에 성공적으로 신청되었습니다')
+    //     redirectToSuccessPage()
+    //   })
+    //   .catch((error) => {
+    //     toast.error('오류 발생! 다시 시도해주세요')
+    //     console.error('Error saving form data:', error)
+    //   })
   }
 
   let isEventPaid = false

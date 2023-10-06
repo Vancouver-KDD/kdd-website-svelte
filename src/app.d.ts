@@ -66,4 +66,35 @@ declare namespace DB {
     name: string
     link: string
   }
+
+  // Firestore
+  interface Ticket {
+    id: string
+    email: string
+    eventId: string
+    status: 'free' | 'unpaid' | 'paid' | 'cancelled'
+    createdAt: DateTime
+    formData: string // JSON string
+  }
+
+  interface Email {
+    //
+  }
+
+  interface Event {}
+
+  interface User {
+    uid: string
+    isAdmin: boolean
+    email: string
+  }
+
+  // TODO: allow form data to be changed per event
+  interface FormData {
+    name: string
+    email: string
+    occupation: string
+    work: string
+    message: string
+  }
 }
