@@ -97,7 +97,16 @@ declare namespace DB {
   }
 
   interface Email {
-    //
+    to: string | string[]
+    message?: {
+      subject: string
+      text?: string
+      html?: string
+    }
+    template?: {
+      name: string
+      data: unknown
+    }
   }
 
   interface Event {}
