@@ -3,7 +3,9 @@
   import {Button} from '$lib/components'
   import {Marked} from '@ts-stack/markdown'
 
-  Marked.setOptions({sanitize: true})
+  Marked.setOptions({
+    sanitize: true,
+  })
   export let event: DB.Event
   let dialog: HTMLDialogElement
 
@@ -43,8 +45,7 @@
           on:click={(e) => e.stopImmediatePropagation()}
           disabled={isPastEvent}
           class="rounded-full"
-          href={event.joinLink}
-          target="_blank">
+          href={`/checkout/${event.id}`}>
           {isPastEvent ? 'CLOSED' : 'RSVP'}
         </Button>
       {/if}
@@ -109,6 +110,7 @@
       height: 7.5rem;
     }
   }
+
   /* 
   .md\:line-clamp-4-safari {
     height: 1rem;

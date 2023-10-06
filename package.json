@@ -14,9 +14,15 @@
     "format": "prettier --plugin=prettier-plugin-svelte . --write ."
   },
   "dependencies": {
-    "luxon": "^3.4.1"
+    "firebase": "^10.4.0",
+    "firebase-admin": "^11.11.0",
+    "flowbite-svelte": "^0.44.17",
+    "luxon": "^3.4.1",
+    "svelte-french-toast": "^1.2.0"
   },
   "devDependencies": {
+    "@smui/drawer": "^7.0.0-beta.15",
+    "@smui/list": "^7.0.0-beta.15",
     "@sveltejs/adapter-auto": "^2.1.0",
     "@sveltejs/adapter-netlify": "^2.0.8",
     "@sveltejs/adapter-vercel": "^3.0.3",
