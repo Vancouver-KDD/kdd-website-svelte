@@ -6,6 +6,22 @@ declare namespace App {
   // interface Locals {}
   // interface PageData {}
   // interface Platform {}
+  interface KoFiWebhookData {
+    verification_token: string // ex. 'a3d45423-d339-4053-ba7b-4d83b5633d77'
+    message_id: string // ex. '8e466784-d7d2-4a8c-a654-1cc10b5f739b'
+    timestamp: string // ex. '2023-10-05T22:21:56Z'
+    type: 'Donation' | 'Shop Order' | 'Subscription'
+    is_public: boolean
+    from_name: string
+    message: string
+    amount: string // ex. "3.00"
+    url: string
+    email: string
+    currency: 'USD' | 'CAD'
+    is_subscription_payment: boolean
+    is_first_subscription_payment: boolean
+    kofi_transaction_id: string // ex. '00000000-1111-2222-3333-444444444444'
+  }
 }
 
 declare namespace DB {
