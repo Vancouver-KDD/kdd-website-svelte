@@ -13,7 +13,7 @@
     createUserWithEmailAndPassword(firebaseAuth, email, password)
       .then(() => {
         toast.success('admin 계정이 성공적으로 생성되었습니다')
-        goto('/admin/login')
+        goto('/admin')
       })
       .catch((error) => {
         const errorCode = error.code

@@ -28,7 +28,7 @@
   <title>KDD Admin Login</title>
 </svelte:head>
 
-<section class="flex flex-col items-center gap-4 p-10">
+<section class="flex flex-col items-center gap-4 p-20">
   <div class="">
     <img class="w-full h-52 rounded-full shadow-lgz" src={adminLoginLogo} alt="admin-logo" />
   </div>
@@ -58,5 +58,9 @@
       <button type="submit" class="border bg-royalBlue-500 text-white px-4 py-2 rounded"
         >Log in</button>
     </form>
+  </div>
+  <div class="flex gap-2">
+    <p class="text-center">아직 계정이 없으신가요?</p>
+    <a href="/admin/register" class="text-center text-royalBlue-500">운영진 등록</a>
   </div>
 </section>

@@ -21,14 +21,14 @@
   <title>KDD Admin Page</title>
 </svelte:head>
 
-<section class="flex flex-col items-center gap-4 p-10">
+<section class="flex flex-col items-center gap-4 p-10 bg-gray-50 h-full">
   <div class="w-full flex justify-between items-center gap-8 p-4">
     <h1 class="text-xl font-semibold">KDD Admin Dashboard</h1>
     <button
       on:click={handleLogout}
       class="border px-4 py-2 rounded-lg bg-royalBlue-500 text-white font-semibold">Logout</button>
   </div>
-  <div class="w-full">
+  <div class="w-full h-full">
     <Drawer />
   </div>
 </section>
