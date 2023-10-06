@@ -15,9 +15,6 @@ const serviceAccount = {
   universe_domain: env.FIREABSE_ADMIN_UNIVERSE_DOMAIN,
 } as admin.ServiceAccount
 
-export const app = admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://vancouver-kdd-default-rtdb.firebaseio.com',
-})
+const app = admin.initializeApp(serviceAccount)
 
 export const db = app.firestore()
