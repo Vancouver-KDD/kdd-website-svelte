@@ -56,7 +56,7 @@
   <div class="mt-24">
     <p class="text-xs md:text-sm">
       ** This information is solely for reserving KDD's open events and will not be used for any
-      other purpose.
+      other purpose..
     </p>
   </div>
 </section>
