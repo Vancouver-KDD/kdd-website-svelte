@@ -45,7 +45,7 @@
           on:click={(e) => e.stopImmediatePropagation()}
           disabled={isPastEvent}
           class="rounded-full"
-          href={`/checkout/${event.id}`}>
+          href={event.joinLink}>
           {isPastEvent ? 'CLOSED' : 'RSVP'}
         </Button>
       {/if}
