@@ -14,7 +14,7 @@ const serviceAccount = {
   client_x509_cert_url: env.FIREABSE_ADMIN_CLIENT_X509_CERT_URL,
   universe_domain: env.FIREABSE_ADMIN_UNIVERSE_DOMAIN,
 } as unknown as ServiceAccount
-
+console.log(serviceAccount)
 const app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: 'https://vancouver-kdd-default-rtdb.firebaseio.com',
