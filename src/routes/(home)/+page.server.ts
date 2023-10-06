@@ -1,4 +1,4 @@
-import {getLatestEvents, getStats, getSponsors, getPhotos} from '$lib/api/airtable'
+import {getLatestEvents, getStats, getSponsors, getPhotos} from '$lib/actions/airtable'
 import type {PageServerLoad} from './$types'
 
 export const load = (async () => {

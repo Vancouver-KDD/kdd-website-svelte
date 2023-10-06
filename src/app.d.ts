@@ -6,6 +6,19 @@ declare namespace App {
   // interface Locals {}
   // interface PageData {}
   // interface Platform {}
+  interface Ticket {
+    ticketId: string
+    eventId: string
+    eventName: string
+    timeStamp: string
+    firstTime: string
+    email: string
+    name: string
+    occupation: string
+    work: string
+    location: string
+    message: string
+  }
 }
 
 declare namespace DB {

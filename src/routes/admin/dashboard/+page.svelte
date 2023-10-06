@@ -5,6 +5,9 @@
   import {goto} from '$app/navigation'
   import Drawer from '$lib/components/Drawer.svelte'
 
+  export let data
+  const {tickets} = data
+
   const handleLogout = () => {
     signOut(firebaseAuth)
       .then(() => {
@@ -29,6 +32,6 @@
       class="border px-4 py-2 rounded-lg bg-royalBlue-500 text-white font-semibold">Logout</button>
   </div>
   <div class="w-full h-full">
-    <Drawer />
+    <Drawer {tickets} />
   </div>
 </section>

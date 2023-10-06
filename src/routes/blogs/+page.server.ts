@@ -1,4 +1,4 @@
-import {getLatestBlogs} from '$lib/api/airtable'
+import {getLatestBlogs} from '$lib/actions/airtable'
 import type {PageServerLoad} from './$types'
 
 export const load = (async () => {

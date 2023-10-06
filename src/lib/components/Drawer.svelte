@@ -2,32 +2,52 @@
   import Drawer, {AppContent, Content} from '@smui/drawer'
   import List, {Item, Text} from '@smui/list'
 
-  let clicked = ''
+  export let tickets: App.Ticket[]
+
+  console.log('tickets', tickets)
+
+  let eventNames: string[] = []
+  let eventTickets: {eventName: string; tickets: App.Ticket[]}[] = []
+
+  function handleItemClick(eventName: string) {
+    const filteredTickets = eventTickets.find((et) => et.eventName === eventName)?.tickets || []
+    console.log('filteredTickets', filteredTickets)
+  }
+
+  const groupedTickets = tickets.reduce((acc, ticket) => {
+    if (!acc[ticket.eventName]) {
+      acc[ticket.eventName] = []
+    }
+    acc[ticket.eventName].push(ticket)
+    return acc
+  }, {})
+
+  eventTickets = Object.entries(groupedTickets).map(([eventName, tickets]) => {
+    return {
+      eventName,
+      tickets,
+    }
+  })
 </script>
 
 <div class="flex h-full border">
   <Drawer class="w-40 max-h-screen">
     <Content class="h-full">
       <List class="flex-start flex-col gap-4 p-2 border bg-gray-50 h-full overflow-auto">
-        <Item
-          href="javascript:void(0)"
-          class="text-center p-2 hover:bg-gray-300 focus:bg-gray-300"
-          on:click={() => (clicked = '9월 Event')}>
-          <Text>9월 Event</Text>
-        </Item>
-        <Item
-          href="javascript:void(0)"
-          class="text-center p-2 hover:bg-gray-300 focus:bg-gray-300"
-          on:click={() => (clicked = '8월 Event')}>
-          <Text>8월 Event</Text>
-        </Item>
+        {#each eventTickets as { eventName }}
+          <Item on:click={() => handleItemClick(eventName)} class="cursor-pointer">
+            <Text>{eventName}</Text>
+          </Item>
+        {/each}
       </List>
     </Content>
   </Drawer>
 
   <AppContent class="app-content">
     <main class="main-content">
-      <div id="json-output">{clicked}</div>
+      {#each eventNames as eventName}
+        <div>{eventName}</div>
+      {/each}
     </main>
   </AppContent>
 </div>

@@ -1,4 +1,4 @@
-import {getPhotos} from '$lib/api/airtable'
+import {getPhotos} from '$lib/actions/airtable'
 import type {PageServerLoad} from './$types'
 
 export const load = (async () => {
