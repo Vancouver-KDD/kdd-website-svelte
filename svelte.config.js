@@ -31,9 +31,9 @@ const config = {
         // allowQuery: ['search'],
       },
     }),
-  },
-  csrf: {
-    checkOrigin: false,
+    csrf: {
+      checkOrigin: false,
+    },
   },
   vitePlugin: {
     inspector: true,
