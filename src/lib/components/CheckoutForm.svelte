@@ -1,4 +1,5 @@
 <script lang="ts">
+  // import {saveFormData} from '$lib/api/firebase'
   import toast, {Toaster} from 'svelte-french-toast'
 
   export let checkoutEvent: any
@@ -25,7 +26,7 @@
     }
 
     function redirectToSuccessPage() {
-      const successUrl = isEventPaid ? '/checkout/payment' : '/events'
+      const successUrl = isEventFree ? '/events' : '/checkout/payment'
       window.location.href = successUrl
     }
 
@@ -40,7 +41,7 @@
     //   })
   }
 
-  let isEventPaid = false
+  let isEventFree = false
 </script>
 
 <Toaster />
@@ -134,6 +135,41 @@
       </div>
 
       <div class="mb-4">
+        <label for="work" class="block text-sm font-medium text-gray-700"
+          >무료 Tire 조건 (아래 중 한가지에 해당하면 됩니다)</label>
+        <div class="flex flex-col gap-2 border border-gray-200 rounded-lg p-2">
+          <p class="text-sm text-gray-500">1. 저는 현재 학생입니다</p>
+          <p class="text-sm text-gray-500">2. 저는 현재 구직중입니다</p>
+          <p class="text-sm text-gray-500">3. 저는 KDD 밋업에 처음 참석합니다</p>
+        </div>
+        <div></div>
+        <h3 class="text-sm text-gray-700 font-medium">** KDD 밋업에 처음 참석하시나요?</h3>
+        <div>
+          <span>
+            <input
+              type="radio"
+              id="yes"
+              name="attendance"
+              value="Yes"
+              bind:group={firstTime}
+              required
+              class="form-radio text-royalBlue-500" />
+            <label for="yes" class="text-sm text-gray-700 font-medium">Yes</label>
+          </span>
+          <span>
+            <input
+              type="radio"
+              id="no"
+              name="attendance"
+              value="No"
+              bind:group={firstTime}
+              class="form-radio text-royalBlue-500" />
+            <label for="no" class="text-sm text-gray-700 font-medium">No</label>
+          </span>
+        </div>
+      </div>
+
+      <div class="mb-4">
         <label for="message" class="block text-sm font-medium text-gray-700">Message:</label>
         <textarea
           id="message"
@@ -145,7 +181,7 @@
       </div>
 
       <div class="text-right">
-        {#if isEventPaid}
+        {#if !isEventFree}
           <button
             type="submit"
             class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]">Next</button>

@@ -1,29 +1,5 @@
 <script lang="ts">
-  import {onMount} from 'svelte'
   import CheckoutImage from '$lib/images/checkout-image.png'
-
-  let kofiIframe: HTMLIFrameElement
-
-  onMount(() => {
-    kofiIframe = document.getElementById('kofiframe') as HTMLIFrameElement
-
-    if (kofiIframe) {
-      kofiIframe.addEventListener('load', function () {
-        setTimeout(() => {
-          const iframeWindow = kofiIframe.contentWindow as Window
-          const inputElement = iframeWindow?.document.querySelector(
-            '.form-control'
-          ) as HTMLInputElement
-
-          if (inputElement) {
-            inputElement.style.color = '#eee'
-          }
-
-          console.log(kofiIframe)
-        }, 1000)
-      })
-    }
-  })
 </script>
 
 <svelte:head>
