@@ -1,3 +1,4 @@
+import {env} from '$env/dynamic/private'
 import {db} from '$lib/server/firebaseAdmin'
 
 export async function createTicket(data: DB.Ticket) {
@@ -74,7 +75,11 @@ type KoFiWebhookData = {
 }
 
 export async function handleKofiWebhook(data: KoFiWebhookData) {
-  const {email, amount, currency, kofi_transaction_id, url} = data
+  const {verification_token, email, amount, currency, kofi_transaction_id, url} = data
+  if (verification_token !== env.KOFI_VERIFICATION_TOKEN) {
+    throw new Error('Invalid verificationToken')
+  }
+
   await db.runTransaction(async (transaction) => {
     // 1. Ensure kofiTransaction is not already handled
     const kofiTransactionSnap = await transaction.get(
