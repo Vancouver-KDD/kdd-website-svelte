@@ -1,7 +1,7 @@
 import {doc, getDoc} from 'firebase/firestore'
 import {db} from '$lib/firebase'
 
-async function getEvent(): Promise<string> {
+export async function getEvent() {
   try {
     const docRef = doc(db, 'registrant')
     const docSnap = await getDoc(docRef)

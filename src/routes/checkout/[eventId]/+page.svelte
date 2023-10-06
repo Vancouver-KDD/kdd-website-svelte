@@ -10,7 +10,7 @@
   const pathnameParts = pageUrl.pathname.split('/')
   const eventId = pathnameParts[pathnameParts.length - 1]
 
-  const checkoutEvent = events.find((event: any) => event.id === eventId)
+  const checkoutEvent = events.find((event) => event.id === eventId)
   console.log('checkoutEvent', checkoutEvent)
 
   function limit(string = '', limit = 0) {
@@ -48,7 +48,9 @@
       </div>
     </div>
     <div class="w-full flex-center">
-      <CheckoutForm {checkoutEvent} />
+      {#if checkoutEvent}
+        <CheckoutForm {checkoutEvent} />
+      {/if}
     </div>
   </div>
   <div class="mt-24">

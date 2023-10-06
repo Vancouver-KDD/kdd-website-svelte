@@ -21,6 +21,7 @@
         console.log(errorCode, errorMessage)
 
         success = false
+        console.log(success)
       })
   }
 </script>

@@ -9,6 +9,7 @@
   <Drawer class="w-40 max-h-screen">
     <Content class="h-full">
       <List class="flex-start flex-col gap-4 p-4 border bg-gray-50 h-full">
+        {clicked}
         <Item
           href="javascript:void(0)"
           class="text-center"

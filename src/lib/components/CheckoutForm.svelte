@@ -1,10 +1,10 @@
 <script lang="ts">
   // import {saveFormData} from '$lib/api/firebase'
-  import toast, {Toaster} from 'svelte-french-toast'
+  import {Toaster} from 'svelte-french-toast'
 
-  export let checkoutEvent: any
+  export let checkoutEvent: DB.Event
 
-  let timestamp = ''
+  // let timestamp = ''
   let firstTime = ''
   let name = ''
   let email = ''
@@ -14,22 +14,20 @@
   let message = ''
 
   function handleSubmit() {
-    const formData = {
-      timestamp: new Date().toISOString(),
-      firstTime,
-      name,
-      email,
-      occupation,
-      work,
-      location,
-      message,
-    }
-
-    function redirectToSuccessPage() {
-      const successUrl = isEventFree ? '/events' : '/checkout/payment'
-      window.location.href = successUrl
-    }
-
+    // const formData = {
+    //   timestamp: new Date().toISOString(),
+    //   firstTime,
+    //   name,
+    //   email,
+    //   occupation,
+    //   work,
+    //   location,
+    //   message,
+    // }
+    // function redirectToSuccessPage() {
+    //   const successUrl = isEventFree ? '/events' : '/checkout/payment'
+    //   window.location.href = successUrl
+    // }
     // saveFormData(formData)
     //   .then(() => {
     //     toast.success('이벤트에 성공적으로 신청되었습니다')
