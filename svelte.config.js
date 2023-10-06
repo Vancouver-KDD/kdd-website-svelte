@@ -32,6 +32,9 @@ const config = {
       },
     }),
   },
+  csrf: {
+    checkOrigin: false,
+  },
   vitePlugin: {
     inspector: true,
   },
