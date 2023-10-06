@@ -1,4 +1,4 @@
-import admin from 'firebase-admin'
+import admin, {type ServiceAccount} from 'firebase-admin'
 import {env} from '$env/dynamic/private'
 
 const serviceAccount = {
@@ -13,8 +13,11 @@ const serviceAccount = {
   auth_provider_x509_cert_url: env.FIREABSE_ADMIN_AUTH_PROVIDER_X509_CERT_URL,
   client_x509_cert_url: env.FIREABSE_ADMIN_CLIENT_X509_CERT_URL,
   universe_domain: env.FIREABSE_ADMIN_UNIVERSE_DOMAIN,
-} as admin.ServiceAccount
+} as unknown as ServiceAccount
 
-const app = admin.initializeApp(serviceAccount)
+const app = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: 'https://vancouver-kdd-default-rtdb.firebaseio.com',
+})
 
 export const db = app.firestore()
