@@ -1,10 +1,9 @@
 <script lang="ts">
-  // import {saveFormData} from '$lib/api/firebase'
-  import {Toaster} from 'svelte-french-toast'
+  import {saveFormData} from '$lib/services/firestoreService'
+  import {Toaster, toast} from 'svelte-french-toast'
 
   export let checkoutEvent: DB.Event
 
-  // let timestamp = ''
   let firstTime = ''
   let name = ''
   let email = ''
@@ -14,29 +13,29 @@
   let message = ''
 
   function handleSubmit() {
-    // const formData = {
-    //   timestamp: new Date().toISOString(),
-    //   firstTime,
-    //   name,
-    //   email,
-    //   occupation,
-    //   work,
-    //   location,
-    //   message,
-    // }
-    // function redirectToSuccessPage() {
-    //   const successUrl = isEventFree ? '/events' : '/checkout/payment'
-    //   window.location.href = successUrl
-    // }
-    // saveFormData(formData)
-    //   .then(() => {
-    //     toast.success('이벤트에 성공적으로 신청되었습니다')
-    //     redirectToSuccessPage()
-    //   })
-    //   .catch((error) => {
-    //     toast.error('오류 발생! 다시 시도해주세요')
-    //     console.error('Error saving form data:', error)
-    //   })
+    const formData = {
+      timestamp: new Date().toISOString(),
+      firstTime,
+      name,
+      email,
+      occupation,
+      work,
+      location,
+      message,
+    }
+    function redirectToSuccessPage() {
+      const successUrl = isEventFree ? '/events' : '/checkout/payment'
+      window.location.href = successUrl
+    }
+    saveFormData(formData)
+      .then(() => {
+        toast.success('이벤트에 성공적으로 신청되었습니다')
+        redirectToSuccessPage()
+      })
+      .catch((error) => {
+        toast.error('오류 발생! 다시 시도해주세요')
+        console.error('Error saving form data:', error)
+      })
   }
 
   let isEventFree = false
@@ -132,7 +131,7 @@
           class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
       </div>
 
-      <div class="mb-4">
+      <!-- <div class="mb-4">
         <label for="work" class="block text-sm font-medium text-gray-700"
           >무료 Tire 조건 (아래 중 한가지에 해당하면 됩니다)</label>
         <div class="flex flex-col gap-2 border border-gray-200 rounded-lg p-2">
@@ -165,7 +164,7 @@
             <label for="no" class="text-sm text-gray-700 font-medium">No</label>
           </span>
         </div>
-      </div>
+      </div> -->
 
       <div class="mb-4">
         <label for="message" class="block text-sm font-medium text-gray-700">Message:</label>
