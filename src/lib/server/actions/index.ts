@@ -105,7 +105,7 @@ export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verific
       })
 
       await transaction.create(db.collection('Email').doc(), {
-        to: 'vancouverkdd@gmail.com',
+        to: 'vancouverkdd+ticket@gmail.com',
         message: {
           subject: '[WARN] KoFi Donation without Unpaid Ticket',
           text: `KoFi Transaction ${url} was received but could not find any ticket that is unpaid under email ${email}!`,
@@ -138,7 +138,7 @@ export async function refundTicket(ticketId: string) {
 
   if (ticketData.status === 'paid') {
     batch.create(db.collection('Email').doc(), {
-      to: 'vancouverkdd@gmail.com',
+      to: 'vancouverkdd+ticket@gmail.com',
       message: {
         subject: `[Action Required] Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
         text: `Ticket cancelled for ${ticketData.email}.
@@ -147,7 +147,7 @@ export async function refundTicket(ticketId: string) {
     } satisfies DB.Email)
   } else {
     batch.create(db.collection('Email').doc(), {
-      to: 'vancouverkdd@gmail.com',
+      to: 'vancouverkdd+ticket@gmail.com',
       message: {
         subject: `Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
         text: `Ticket cancelled for ${ticketData.email}.`,
