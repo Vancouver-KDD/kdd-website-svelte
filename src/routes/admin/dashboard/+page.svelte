@@ -34,25 +34,16 @@
   <title>KDD Admin Page</title>
 </svelte:head>
 
-<section class="flex flex-col items-center gap-4 p-10 bg-gray-50 h-full">
-  <div class="w-full flex justify-between items-center gap-8 p-4">
-    <h1 class="text-xl font-semibold">KDD Admin Dashboard</h1>
+<section class="flex flex-col items-center gap-4 p-5 bg-gray-50 h-full">
+  <div class="w-full flex justify-between p-2 items-center gap-8">
+    <h1 class="text-2xl font-semibold text-royalBlue-800">KDD Admin Dashboard</h1>
     <button
       on:click={handleLogout}
       class="border px-4 py-2 rounded-lg bg-royalBlue-500 text-white font-semibold">Logout</button>
   </div>
   <div class="w-full h-full">
-    {#each events as event (event.id)}
-      <div>
-        {event.id}
-        <button on:click={() => goto(`/admin/dashboard?eventId=${event.id}`)}>{event.title}</button>
-      </div>
-    {/each}
-    {#if ticketsStore}
-      {#each $ticketsStore as ticket (ticket.id)}
-        Email: {ticket.email}
-      {/each}
+    {#if events && ticketsStore}
+      <Drawer {events} {ticketsStore} />
     {/if}
-    <!-- <Drawer {tickets} /> -->
   </div>
 </section>

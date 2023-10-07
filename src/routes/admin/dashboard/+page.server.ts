@@ -1,6 +1,6 @@
 import {getLatestEvents} from '$lib/actions/airtable'
 
 export const load = async () => {
-  const events = getLatestEvents({limit: 10})
+  const events = getLatestEvents({limit: 5})
   return {events}
 }

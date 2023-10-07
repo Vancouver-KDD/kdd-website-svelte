@@ -22,15 +22,6 @@ declare namespace App {
     is_first_subscription_payment: boolean
     kofi_transaction_id: string // ex. '00000000-1111-2222-3333-444444444444'
   }
-  // TODO: For now hard code data to be collected by user
-  interface TicketFormData {
-    firstTime: boolean
-    name: string
-    occupation: string
-    work: string
-    location: string
-    message: string
-  }
 }
 
 declare namespace DB {
@@ -93,17 +84,21 @@ declare namespace DB {
     link: string
   }
 
-  // Firestore
   interface Ticket {
-    id: string
-    email: string
     eventId: string
     eventName: string
     status: 'free' | 'unpaid' | 'paid' | 'cancelled'
-    createdAt: Timestamp
-    formData: string // JSON string
     price: string // '3.00'
     currency: 'CAD'
+    createdAt: Timestamp
+    id: string
+    firstTime: boolean
+    name: string
+    email: string
+    occupation: string
+    work: string
+    location: string
+    message: string
   }
 
   interface Email {
