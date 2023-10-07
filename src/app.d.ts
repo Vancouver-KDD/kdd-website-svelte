@@ -71,6 +71,7 @@ declare namespace DB {
     joinLink: string
     location: string
     poster: Attachment
+    isFree: boolean
     PhotosIds: string[]
   }
 
