@@ -2,32 +2,32 @@
   import Drawer, {AppContent, Content} from '@smui/drawer'
   import List, {Item, Text} from '@smui/list'
 
-  export let tickets: App.Ticket[]
+  export let tickets: DB.Ticket[]
 
   console.log('tickets', tickets)
 
   let eventNames: string[] = []
-  let eventTickets: {eventName: string; tickets: App.Ticket[]}[] = []
+  let eventTickets: {eventName: string; tickets: DB.Ticket[]}[] = []
 
   function handleItemClick(eventName: string) {
     const filteredTickets = eventTickets.find((et) => et.eventName === eventName)?.tickets || []
     console.log('filteredTickets', filteredTickets)
   }
 
-  const groupedTickets = tickets.reduce((acc, ticket) => {
-    if (!acc[ticket.eventName]) {
-      acc[ticket.eventName] = []
-    }
-    acc[ticket.eventName].push(ticket)
-    return acc
-  }, {})
+  // const groupedTickets = tickets.reduce((acc, ticket) => {
+  //   if (!acc[ticket.eventName]) {
+  //     acc[ticket.eventName] = []
+  //   }
+  //   acc[ticket.eventName].push(ticket)
+  //   return acc
+  // }, {})
 
-  eventTickets = Object.entries(groupedTickets).map(([eventName, tickets]) => {
-    return {
-      eventName,
-      tickets,
-    }
-  })
+  // eventTickets = Object.entries(groupedTickets).map(([eventName, tickets]) => {
+  //   return {
+  //     eventName,
+  //     tickets,
+  //   }
+  // })
 </script>
 
 <div class="flex h-full border">

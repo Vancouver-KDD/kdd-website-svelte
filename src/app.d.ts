@@ -99,7 +99,7 @@ declare namespace DB {
     eventId: string
     eventName: string
     status: 'free' | 'unpaid' | 'paid' | 'cancelled'
-    createdAt: DateTime
+    createdAt: Timestamp
     formData: string // JSON string
     price: string // '3.00'
     currency: 'CAD'
@@ -124,14 +124,5 @@ declare namespace DB {
     uid: string
     isAdmin: boolean
     email: string
-  }
-
-  // TODO: allow form data to be changed per event
-  interface FormData {
-    name: string
-    email: string
-    occupation: string
-    work: string
-    message: string
   }
 }

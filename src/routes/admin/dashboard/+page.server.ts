@@ -1,7 +1,6 @@
-import {fetchTickets} from '$lib/actions/firebase-action'
-import type {PageServerLoad} from './$types'
+import {getLatestEvents} from '$lib/actions/airtable'
 
-export const load = (async () => {
-  const tickets = fetchTickets()
-  return {tickets}
-}) satisfies PageServerLoad
+export const load = async () => {
+  const events = getLatestEvents({limit: 10})
+  return {events}
+}

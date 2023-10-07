@@ -4,9 +4,12 @@
   import {authUser} from '$lib/store/authStore'
   import {goto} from '$app/navigation'
   import Drawer from '$lib/components/Drawer.svelte'
+  import {page} from '$app/stores'
+  import {getTicketsStore} from '$lib/store/index.js'
+  import type {Readable} from 'svelte/store'
 
   export let data
-  const {tickets} = data
+  const {events} = data
 
   const handleLogout = () => {
     signOut(firebaseAuth)
@@ -17,6 +20,13 @@
       .catch((error) => {
         console.log(error)
       })
+  }
+
+  $: selectedEventId = $page.url.searchParams.get('eventId')
+
+  let ticketsStore: Readable<DB.Ticket[]>
+  $: if (selectedEventId) {
+    ticketsStore = getTicketsStore(selectedEventId)
   }
 </script>
 
@@ -32,6 +42,17 @@
       class="border px-4 py-2 rounded-lg bg-royalBlue-500 text-white font-semibold">Logout</button>
   </div>
   <div class="w-full h-full">
-    <Drawer {tickets} />
+    {#each events as event (event.id)}
+      <div>
+        {event.id}
+        <button on:click={() => goto(`/admin/dashboard?eventId=${event.id}`)}>{event.title}</button>
+      </div>
+    {/each}
+    {#if ticketsStore}
+      {#each $ticketsStore as ticket (ticket.id)}
+        Email: {ticket.email}
+      {/each}
+    {/if}
+    <!-- <Drawer {tickets} /> -->
   </div>
 </section>
