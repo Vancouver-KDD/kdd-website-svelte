@@ -6,12 +6,9 @@
   export let data
   const {events} = data
 
-  const pageUrl = new URL($page.url)
-  const pathnameParts = pageUrl.pathname.split('/')
-  const eventId = pathnameParts[pathnameParts.length - 1]
+  const eventId = $page.url.searchParams.get('eventId')
 
   const checkoutEvent = events.find((event) => event.id === eventId)
-  console.log('checkoutEvent', checkoutEvent)
 
   function limit(string = '', limit = 0) {
     return string.substring(0, limit)

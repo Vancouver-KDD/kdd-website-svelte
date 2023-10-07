@@ -15,7 +15,7 @@
     signOut(firebaseAuth)
       .then(() => {
         $authUser = undefined
-        goto('/admin/login')
+        goto('/admin')
       })
       .catch((error) => {
         console.log(error)

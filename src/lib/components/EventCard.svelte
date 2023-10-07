@@ -40,12 +40,12 @@
         <!-- eslint-disable svelte/no-at-html-tags -->
         {@html Marked.parse(event.description ?? '')}
       </p>
-      {#if event.joinLink}
+      {#if event.id}
         <Button
           on:click={(e) => e.stopImmediatePropagation()}
           disabled={isPastEvent}
           class="rounded-full"
-          href={event.joinLink}>
+          href={`/checkout?eventId=${event.id}`}>
           {isPastEvent ? 'CLOSED' : 'RSVP'}
         </Button>
       {/if}
@@ -79,8 +79,8 @@
           <!-- eslint-disable svelte/no-at-html-tags -->
           {@html Marked.parse(event.description ?? '')}
         </p>
-        {#if event.joinLink}
-          <Button disabled={isPastEvent} class="rounded-full" href={event.joinLink}>
+        {#if event.id}
+          <Button disabled={isPastEvent} class="rounded-full" href={`/checkout/${event.id}`}>
             {isPastEvent ? 'CLOSED' : 'RSVP'}
           </Button>
         {/if}
