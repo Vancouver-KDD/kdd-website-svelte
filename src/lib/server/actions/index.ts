@@ -19,13 +19,27 @@ export async function createTicket(data: DB.Ticket) {
       status: 'cancelled',
     })
   }
-  await batch.commit()
 
   // 3. Create New Ticket
-  await db.doc(`Tickets/${data.id}`).set({
+  await batch.set(db.doc(`Tickets/${data.id}`), {
     ...data,
     createdAt: new Date(),
   })
+
+  if (parseFloat(data.price) == 0) {
+    // 4. If it is free event, send confirmation email
+    await batch.create(db.collection('Email').doc(), {
+      to: data.email,
+      message: {
+        subject: `Purchase Complete for ${data.eventName}`,
+        text: `Congratulations, you are confirmed for the event.
+      See you at ${data.eventName}!
+      To cancel your ticket goto https://vancouverkdd.com/refundTicket?ticketId=${data.id}`,
+      },
+    } satisfies DB.Email)
+  }
+
+  await batch.commit()
   return true
 }
 
