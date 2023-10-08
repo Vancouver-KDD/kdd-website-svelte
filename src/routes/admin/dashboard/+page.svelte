@@ -3,7 +3,7 @@
   import {firebaseAuth} from '$lib/firebase'
   import {authUser} from '$lib/store/authStore'
   import {goto} from '$app/navigation'
-  import Drawer from '$lib/components/Drawer.svelte'
+  import {Drawer} from '$lib/components'
   import {page} from '$app/stores'
   import {getTicketsStore} from '$lib/store/index.js'
   import type {Readable} from 'svelte/store'

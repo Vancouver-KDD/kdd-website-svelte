@@ -3,7 +3,7 @@
   import List, {Item, Text} from '@smui/list'
   import {goto} from '$app/navigation'
   import type {Readable} from 'svelte/store'
-  import AdminTable from './AdminTable.svelte'
+  import {AdminTable} from './index'
 
   export let events: DB.Event[]
   export let ticketsStore: Readable<DB.Ticket[]>
@@ -12,7 +12,7 @@
 <div class="flex h-full border">
   <Drawer class="w-64 max-h-screen">
     <Content class="h-full">
-      <List class="flex-start flex-col gap-2 p-2 border bg-gray-50 h-full overflow-auto">
+      <List class="flex-start flex-col gap-2 p-2 border bg-gray-50 h-full overflow-y-auto">
         {#each events as event}
           <button on:click={() => goto(`/admin/dashboard?eventId=${event.id}`)}>
             <Item

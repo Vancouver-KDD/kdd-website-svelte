@@ -5,17 +5,17 @@
   export let ticketsStore: Readable<DB.Ticket[]>
 </script>
 
-<DataTable stickyHeader table$aria-label="User list" class="w-full">
+<DataTable stickyHeader aria-label="User list" class="w-[180%] overflow-auto">
   <Head class="w-full">
     <Row class="border text-center bg-royalBlue-50 m-4">
-      <Cell class="text-left pl-4 w-32">신청일</Cell>
-      <Cell>이름</Cell>
-      <Cell>Email</Cell>
-      <Cell>직업</Cell>
-      <Cell>직장</Cell>
-      <Cell>거주지</Cell>
-      <Cell>처음 참여?</Cell>
-      <Cell>비고</Cell>
+      <Cell class="text-left pl-4">신청일</Cell>
+      <Cell class="">이름</Cell>
+      <Cell class="">Email</Cell>
+      <Cell class="">직업</Cell>
+      <Cell class="pl-2">직장</Cell>
+      <Cell class="pl-2">거주지</Cell>
+      <Cell class="pl-2">처음 참여?</Cell>
+      <Cell class="text-left pl-4">비고</Cell>
     </Row>
   </Head>
   <Body class="w-full">
@@ -25,10 +25,10 @@
         <Cell>{ticket.name}</Cell>
         <Cell>{ticket.email}</Cell>
         <Cell>{ticket.occupation}</Cell>
-        <Cell>{ticket.work}</Cell>
-        <Cell>{ticket.location}</Cell>
-        <Cell>{ticket.firstTime}</Cell>
-        <Cell>{ticket.message}</Cell>
+        <Cell class="pl-2">{ticket.work}</Cell>
+        <Cell class="pl-2">{ticket.location}</Cell>
+        <Cell class="pl-2">{ticket.firstTime}</Cell>
+        <Cell class="text-left pl-4">{ticket.message}</Cell>
       </Row>
     {/each}
   </Body>
