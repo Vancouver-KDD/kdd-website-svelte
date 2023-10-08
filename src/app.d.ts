@@ -87,12 +87,12 @@ declare namespace DB {
   interface Ticket {
     eventId: string
     eventName: string
-    status: 'free' | 'unpaid' | 'paid' | 'cancelled'
+    status?: 'free' | 'unpaid' | 'paid' | 'cancelled'
     price: string // '3.00'
-    currency: 'CAD'
+    currency?: 'CAD'
     createdAt: Timestamp
     id: string
-    firstTime: boolean
+    firstTime: string
     name: string
     email: string
     occupation: string

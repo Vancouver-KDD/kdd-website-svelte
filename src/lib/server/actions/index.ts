@@ -21,14 +21,14 @@ export async function createTicket(data: DB.Ticket) {
   }
 
   // 3. Create New Ticket
-  await batch.set(db.doc(`Tickets/${data.id}`), {
+  batch.set(db.doc(`Tickets/${data.id}`), {
     ...data,
     createdAt: new Date(),
   })
 
   if (parseFloat(data.price) == 0) {
     // 4. If it is free event, send confirmation email
-    await batch.create(db.collection('Email').doc(), {
+    batch.create(db.collection('Email').doc(), {
       to: data.email,
       message: {
         subject: `Purchase Complete for ${data.eventName}`,

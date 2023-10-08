@@ -42,8 +42,10 @@
       class="border px-4 py-2 rounded-lg bg-royalBlue-500 text-white font-semibold">Logout</button>
   </div>
   <div class="w-full h-full">
-    {#if events && ticketsStore}
+    {#if events}
       <Drawer {events} {ticketsStore} />
+    {:else}
+      <p class="text-royalBlue-800">No event selected</p>
     {/if}
   </div>
 </section>

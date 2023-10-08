@@ -29,7 +29,7 @@
   <AppContent class="flex-auto overflow-auto">
     <main class="h-full">
       <List class="flex-start flex-col gap-1 border h-full overflow-auto p-2">
-        {#if $ticketsStore[0]}
+        {#if $ticketsStore && $ticketsStore.length > 0}
           <AdminTable {ticketsStore} />
         {:else}
           <p class="m-auto text-royalBlue-800">해당 이벤트에 대한 참여명부가 없습니다.</p>
