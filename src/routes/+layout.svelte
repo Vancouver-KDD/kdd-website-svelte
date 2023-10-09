@@ -8,7 +8,7 @@
   $: isFooterVisible =
     !$page.url.pathname.includes('checkout') &&
     !$page.url.pathname.includes('admin') &&
-    !$page.url.pathname.includes('refundTicket')
+    !$page.url.pathname.includes('myTicket')
   $: isHeaderVisible = $page.url.pathname.includes('admin') === false
 
   import type {LayoutServerData} from './$types'
