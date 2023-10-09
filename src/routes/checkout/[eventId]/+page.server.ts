@@ -29,6 +29,7 @@ export const actions = {
     for (const [key, value] of formData.entries()) {
       userData[key] = value.toString()
     }
+    console.log('userData', userData)
 
     const isFree = userData.isFreeApplicable === 'Yes' || airtableEventData.price === '0.00'
 
