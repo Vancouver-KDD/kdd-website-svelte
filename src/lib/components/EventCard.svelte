@@ -45,7 +45,7 @@
           on:click={(e) => e.stopImmediatePropagation()}
           disabled={isPastEvent}
           class="rounded-full"
-          href={`/checkout/${event.id}`}>
+          href={event.joinLink ? event.joinLink : `/checkout/${event.id}`}>
           {isPastEvent ? 'CLOSED' : 'RSVP'}
         </Button>
       {/if}
@@ -80,7 +80,10 @@
           {@html Marked.parse(event.description ?? '')}
         </p>
         {#if event.id}
-          <Button disabled={isPastEvent} class="rounded-full" href={`/checkout/${event.id}`}>
+          <Button
+            disabled={isPastEvent}
+            class="rounded-full"
+            href={event.joinLink ? event.joinLink : `/checkout/${event.id}`}>
             {isPastEvent ? 'CLOSED' : 'RSVP'}
           </Button>
         {/if}
@@ -110,9 +113,4 @@
       height: 7.5rem;
     }
   }
-
-  /* 
-  .md\:line-clamp-4-safari {
-    height: 1rem;
-  } */
 </style>
