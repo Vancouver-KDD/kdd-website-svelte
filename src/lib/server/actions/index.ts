@@ -71,7 +71,7 @@ export async function updateTicketAsPaid(ticketId: string) {
 }
 
 export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verification_token'>) {
-  const {email, amount, currency, kofi_transaction_id, url} = data
+  const {email, amount, kofi_transaction_id, url} = data
 
   await db.runTransaction(async (transaction) => {
     // 1. Ensure kofiTransaction is not already handled

@@ -1,10 +1,9 @@
 <script lang="ts">
   import {applyAction, enhance} from '$app/forms'
-  import {goto} from '$app/navigation'
   import {db} from '$lib/firebase'
   import {collection, doc} from 'firebase/firestore'
   import {DateTime} from 'luxon'
-  import {Toaster, toast} from 'svelte-french-toast'
+  import {Toaster} from 'svelte-french-toast'
 
   export let data
   const {event} = data

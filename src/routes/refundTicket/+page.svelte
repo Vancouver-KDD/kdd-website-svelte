@@ -1,6 +1,6 @@
 <script lang="ts">
   import {page} from '$app/stores'
-  import {Toaster, toast} from 'svelte-french-toast'
+  import {Toaster} from 'svelte-french-toast'
   import Card, {Content, PrimaryAction, Media, MediaContent} from '@smui/card'
   import {fetchTicket} from '$lib/actions/firebase-action'
 
@@ -9,8 +9,8 @@
   const ticketId = $page.url.searchParams.get('ticketId') ?? ''
   fetchTicket(ticketId).then((data) => {
     reservedTicket = data as DB.Ticket
+    console.log(reservedTicket)
   })
-
   let clicked = 0
 </script>
 
