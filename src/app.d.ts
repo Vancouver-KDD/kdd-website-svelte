@@ -64,6 +64,7 @@ declare namespace DB {
     poster: Attachment
     price: string
     PhotosIds: string[]
+    price: number
   }
 
   interface Organizer {

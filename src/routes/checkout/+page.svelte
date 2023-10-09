@@ -1,25 +1,21 @@
 <script lang="ts">
-  import {page} from '$app/stores'
-  import {enhance} from '$app/forms'
+  import {applyAction, enhance} from '$app/forms'
+  import {goto} from '$app/navigation'
+  import {db} from '$lib/firebase'
+  import {collection, doc} from 'firebase/firestore'
   import {DateTime} from 'luxon'
   import {Toaster, toast} from 'svelte-french-toast'
 
   export let data
-
-  const {events} = data
-  const eventId = $page.url.searchParams.get('eventId')
-  const checkoutEvent = events?.find((event) => event.id === eventId)
-
+  const {event} = data
   function limit(string = '', limit = 0) {
     return string.substring(0, limit)
   }
 
-  let formData: DB.Ticket = {
-    id: '',
-    createdAt: '',
-    eventId: '',
-    eventName: '',
-    price: '',
+  const ticketId = doc(collection(db, 'Tickets')).id
+
+  const formData = {
+    id: ticketId,
     firstTime: '',
     name: '',
     email: '',
@@ -28,8 +24,7 @@
     location: '',
     message: '',
   }
-
-  let isEventFree = true
+  $: isFree = event?.price === '0.00'
 </script>
 
 <svelte:head>
@@ -41,24 +36,24 @@
 <section class="flex-center flex-col">
   <div class="max-w-4xl w-full flex flex-col md:flex-row gap-8">
     <div class="w-full flex flex-col p-4 pt-6">
-      <img class="w-full h-52" src={checkoutEvent?.poster?.url} alt="event-poster" />
+      <img class="w-full h-52" src={event?.poster?.url} alt="event-poster" />
       <div class="mt-2">
         <div class="grid grid-cols-4 mt-4">
           <h3 class="font-semibold text-lg text-royalBlue-700 tracking-tighter">Date & Time</h3>
           <div class="col-span-3 px-2 text-gray-600">
-            {checkoutEvent && DateTime.fromISO(checkoutEvent.date).toFormat('yyyy LLL dd H:mm a')}
+            {event && DateTime.fromISO(event.date).toFormat('yyyy LLL dd H:mm a')}
           </div>
         </div>
         <div class="grid grid-cols-4 mt-2">
           <h3 class="font-semibold text-lg text-royalBlue-700">Location</h3>
           <div class="col-span-3 px-2 text-gray-600">
-            {checkoutEvent && checkoutEvent.location}
+            {event && event.location}
           </div>
         </div>
         <div class="grid grid-cols-4 mt-2">
           <h3 class="font-semibold text-lg text-royalBlue-700">Summary</h3>
           <div class="col-span-3 px-2 text-gray-500 text-sm">
-            {checkoutEvent && limit(checkoutEvent.description, 320)} [...]
+            {event && limit(event.description, 320)} [...]
           </div>
         </div>
       </div>
@@ -70,18 +65,17 @@
         <div class="w-full p-6">
           <form
             method="POST"
-            use:enhance={({formData}) => {
-              if (checkoutEvent) {
-                formData.append('createdAt', new Date().toISOString())
-                formData.append('eventId', checkoutEvent.id)
-                formData.append('eventName', checkoutEvent.title)
-                formData.append('price', '0.00') // Free event for now
+            use:enhance={() => {
+              return async ({result}) => {
+                applyAction(result)
               }
-              toast.success('이벤트에 성공적으로 신청되었습니다')
             }}>
+            <input type="text" name="id" value={ticketId} aria-hidden="true" class="hidden" />
+            <input type="text" name="eventId" value={event?.id} aria-hidden="true" class="hidden" />
+
             <div class="mb-5">
               <h1 class="text-xl text-royalBlue-800 font-semibold animate-bounce">
-                {checkoutEvent?.title}
+                {event?.title}
               </h1>
             </div>
             <div class="flex gap-6 mb-4">
@@ -162,10 +156,10 @@
                 class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
             </div>
 
-            <!-- {#if checkoutEvent?.price !== '0.00'}
+            {#if !isFree}
               <div class="mb-4">
-                <label for="work" class="flex items-center gap-2"
-                  ><p class="text-sm font-medium text-gray-700">무료 Tier 조건에 해당하시나요?</p>
+                <label for="work" class="flex items-center gap-2">
+                  <p class="text-sm font-medium text-gray-700">무료 Tier 조건에 해당하시나요?</p>
                   <p class="text-xs text-gray-500">(아래 중 1개 항목이 충족되면 해당)</p></label>
                 <div class="flex flex-col gap-2 border border-gray-200 rounded-lg p-2">
                   <p class="text-sm text-gray-500">1. 저는 현재 학생입니다</p>
@@ -178,7 +172,7 @@
                     <input
                       type="radio"
                       id="yes"
-                      name="attendance"
+                      name="isFreeApplicable"
                       value="Yes"
                       required
                       class="form-radio text-royalBlue-500" />
@@ -188,14 +182,14 @@
                     <input
                       type="radio"
                       id="no"
-                      name="attendance"
+                      name="isFreeApplicable"
                       value="No"
                       class="form-radio text-royalBlue-500" />
                     <label for="no" class="text-sm text-gray-700 font-medium">No</label>
                   </span>
                 </div>
               </div>
-            {/if} -->
+            {/if}
 
             <div class="mb-4">
               <label for="message" class="block text-sm font-medium text-gray-700">Message:</label>
@@ -209,16 +203,16 @@
             </div>
 
             <div class="text-right">
-              {#if !isEventFree}
-                <button
-                  type="submit"
-                  class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
-                  >Next</button>
-              {:else}
+              {#if isFree}
                 <button
                   type="submit"
                   class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
                   >Reserve</button>
+              {:else}
+                <button
+                  type="submit"
+                  class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
+                  >Next</button>
               {/if}
             </div>
           </form>

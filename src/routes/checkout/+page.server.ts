@@ -1,28 +1,40 @@
-import {getLatestEvents} from '$lib/actions/airtable'
+import {getEvent} from '$lib/actions/airtable'
 import type {PageServerLoad, Actions} from './$types'
-import {db} from '$lib/server/firebaseAdmin'
 import {createTicket} from '$lib/server/actions'
+import {error, redirect} from '@sveltejs/kit'
 
-export const load = (async () => {
-  const events = getLatestEvents({limit: 100})
-  return {events}
+export const load = (async ({url}) => {
+  const eventId = url.searchParams.get('eventId')
+  if (eventId) {
+    const data = await getEvent(eventId)
+    return {event: data}
+  }
+  return {event: null}
 }) satisfies PageServerLoad
 
 export const actions = {
   default: async ({request}) => {
     const formData = await request.formData()
+    const eventId = formData.get('eventId') as string
+    if (!eventId) {
+      throw error(400, 'Invalid eventId')
+    }
+
+    const airtableEventData = await getEvent(eventId)
+
     const userData: {[key: string]: string} = {}
 
     for (const [key, value] of formData.entries()) {
       userData[key] = value.toString()
     }
 
+    const isFree = userData.isFreeApplicable === 'Yes' || airtableEventData.price === '0.00'
+
     const ticketData = {
-      id: db.collection('Tickets').doc().id,
-      eventId: userData.eventId,
-      eventName: userData.eventName,
-      price: userData.price,
-      createdAt: userData.createdAt,
+      eventName: airtableEventData.title,
+      price: airtableEventData.price,
+      id: userData.id,
+      eventId,
       firstTime: userData.firstTime,
       name: userData.name,
       email: userData.email,
@@ -30,13 +42,15 @@ export const actions = {
       work: userData.work,
       location: userData.location,
       message: userData.message,
-    }
+      status: isFree ? 'free' : 'unpaid',
+    } satisfies Omit<DB.Ticket, 'createdAt'>
 
     await createTicket(ticketData)
 
-    return {
-      status: 200,
-      body: {message: 'Ticket created successfully'},
+    if (ticketData.status === 'unpaid') {
+      throw redirect(300, `/checkout/payment?eventId=${eventId}&ticketId=${userData.id}`)
+    } else if (ticketData.status === 'free') {
+      throw redirect(300, `/events`)
     }
   },
 } satisfies Actions

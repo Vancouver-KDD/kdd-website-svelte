@@ -1,6 +1,6 @@
 import {db} from '$lib/server/firebaseAdmin'
 
-export async function createTicket(data: DB.Ticket) {
+export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
   // 1. Check if data.id (TicketId) does not already exist
   if ((await db.doc(`Tickets/${data.id}`).get()).exists) {
     throw new Error('Ticket with given ID already exists')
@@ -26,7 +26,7 @@ export async function createTicket(data: DB.Ticket) {
     createdAt: new Date(),
   })
 
-  if (parseFloat(data.price) == 0) {
+  if (data.status === 'free') {
     // 4. If it is free event, send confirmation email
     batch.create(db.collection('Email').doc(), {
       to: data.email,
