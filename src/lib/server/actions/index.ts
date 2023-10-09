@@ -91,6 +91,8 @@ export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verific
     const ticketData = (ticketSnap?.data() as DB.Ticket) ?? {}
 
     // 3. If ticketPrice is same as KoFi Donation amount, save KofiTransaction and update ticket status to paid, send email to user.
+    console.log({ticketData})
+    console.log({amount})
     if (ticketData.price === amount && ticketData.currency === currency) {
       await transaction.set(db.doc(`KoFiTransactions/${kofi_transaction_id}`), {
         ...data,
