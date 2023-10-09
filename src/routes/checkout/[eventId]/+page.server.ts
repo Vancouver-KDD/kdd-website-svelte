@@ -1,10 +1,10 @@
 import {getEvent} from '$lib/actions/airtable'
-import type {PageServerLoad, Actions} from './$types'
 import {createTicket} from '$lib/server/actions'
 import {error, redirect} from '@sveltejs/kit'
 
-export const load = (async ({url}) => {
-  const eventId = url.searchParams.get('eventId')
+export const load = async ({params}) => {
+  const eventId = params.eventId
+
   console.log({eventId})
   if (eventId) {
     const data = await getEvent(eventId)
@@ -12,7 +12,7 @@ export const load = (async ({url}) => {
     return {event: data}
   }
   return {event: null}
-}) satisfies PageServerLoad
+}
 
 export const actions = {
   default: async ({request}) => {
@@ -50,9 +50,9 @@ export const actions = {
     await createTicket(ticketData)
 
     if (ticketData.status === 'unpaid') {
-      throw redirect(300, `/checkout/payment?eventId=${eventId}&ticketId=${userData.id}`)
+      throw redirect(300, `/payment?eventId=${eventId}&ticketId=${userData.id}`)
     } else if (ticketData.status === 'free') {
       throw redirect(300, `/events`)
     }
   },
-} satisfies Actions
+}

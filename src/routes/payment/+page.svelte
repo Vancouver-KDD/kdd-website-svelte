@@ -5,10 +5,9 @@
   import {doc, onSnapshot} from 'firebase/firestore'
   import {onMount} from 'svelte'
 
-  const ticketId = $page.url.searchParams.get('ticketId')
-
   let ticketData: DB.Ticket | undefined
   onMount(() => {
+    const ticketId = $page.url.searchParams.get('ticketId')
     return onSnapshot(doc(db, `Tickets/${ticketId}`), (snap) => {
       ticketData = snap.data() as DB.Ticket
     })

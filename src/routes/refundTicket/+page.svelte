@@ -10,6 +10,8 @@
   fetchTicket(ticketId).then((data) => {
     reservedTicket = data as DB.Ticket
   })
+
+  let clicked = 0
 </script>
 
 <svelte:head>
