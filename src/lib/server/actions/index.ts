@@ -1,7 +1,6 @@
-import {env} from '$env/dynamic/private'
 import {db} from '$lib/server/firebaseAdmin'
 
-export async function createTicket(data: DB.Ticket) {
+export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
   // 1. Check if data.id (TicketId) does not already exist
   if ((await db.doc(`Tickets/${data.id}`).get()).exists) {
     throw new Error('Ticket with given ID already exists')
@@ -20,13 +19,27 @@ export async function createTicket(data: DB.Ticket) {
       status: 'cancelled',
     })
   }
-  await batch.commit()
 
   // 3. Create New Ticket
-  await db.doc(`Tickets/${data.id}`).set({
+  batch.set(db.doc(`Tickets/${data.id}`), {
     ...data,
     createdAt: new Date(),
   })
+
+  if (data.status === 'free') {
+    // 4. If it is free event, send confirmation email
+    batch.create(db.collection('Email').doc(), {
+      to: data.email,
+      message: {
+        subject: `Purchase Complete for ${data.eventName}`,
+        text: `Congratulations, you are confirmed for the event.
+      See you at ${data.eventName}!
+      To cancel your ticket goto https://vancouverkdd.com/refundTicket?ticketId=${data.id}`,
+      },
+    } satisfies DB.Email)
+  }
+
+  await batch.commit()
   return true
 }
 
@@ -57,28 +70,8 @@ export async function updateTicketAsPaid(ticketId: string) {
   return true
 }
 
-type KoFiWebhookData = {
-  verification_token: string // ex. 'a3d45423-d339-4053-ba7b-4d83b5633d77'
-  message_id: string // ex. '8e466784-d7d2-4a8c-a654-1cc10b5f739b'
-  timestamp: string // ex. '2023-10-05T22:21:56Z'
-  type: 'Donation' | 'Shop Order' | 'Subscription'
-  is_public: boolean
-  from_name: string
-  message: string
-  amount: string // ex. "3.00"
-  url: string
-  email: string
-  currency: 'USD' | 'CAD'
-  is_subscription_payment: boolean
-  is_first_subscription_payment: boolean
-  kofi_transaction_id: string // ex. '00000000-1111-2222-3333-444444444444'
-}
-
-export async function handleKofiWebhook(data: KoFiWebhookData) {
-  const {verification_token, email, amount, currency, kofi_transaction_id, url} = data
-  if (verification_token !== env.KOFI_VERIFICATION_TOKEN) {
-    throw new Error('Invalid verificationToken')
-  }
+export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verification_token'>) {
+  const {email, amount, kofi_transaction_id, url} = data
 
   await db.runTransaction(async (transaction) => {
     // 1. Ensure kofiTransaction is not already handled
@@ -98,7 +91,7 @@ export async function handleKofiWebhook(data: KoFiWebhookData) {
     const ticketData = (ticketSnap?.data() as DB.Ticket) ?? {}
 
     // 3. If ticketPrice is same as KoFi Donation amount, save KofiTransaction and update ticket status to paid, send email to user.
-    if (ticketData.price === amount && ticketData.currency === currency) {
+    if (ticketData.price === amount) {
       await transaction.set(db.doc(`KoFiTransactions/${kofi_transaction_id}`), {
         ...data,
         ticketId: ticketSnap.id,
@@ -111,11 +104,13 @@ export async function handleKofiWebhook(data: KoFiWebhookData) {
 
       await transaction.create(db.collection('Email').doc(), {
         to: email,
-        subject: `Purchase Complete for ${ticketData.eventName}`,
-        text: `Congratulations, we received payment ${data.amount}.
-See you at ${ticketData.eventName}!
-To request refund goto https://vancouverkdd.com/refundTicket?ticketId=${ticketData.id}`,
-      })
+        message: {
+          subject: `Purchase Complete for ${ticketData.eventName}`,
+          text: `Congratulations, we received payment ${data.amount}.
+  See you at ${ticketData.eventName}!
+  To request refund goto https://vancouverkdd.com/refundTicket?ticketId=${ticketData.id}`,
+        },
+      } satisfies DB.Email)
     } else {
       // 4. If ticketPrice does not match, just save KoFiTransaction only, send warning email to admin
       await transaction.set(db.doc(`KoFiTransactions/${kofi_transaction_id}`), {
@@ -124,10 +119,12 @@ To request refund goto https://vancouverkdd.com/refundTicket?ticketId=${ticketDa
       })
 
       await transaction.create(db.collection('Email').doc(), {
-        to: 'vancouverkdd@gmail.com',
-        subject: '[WARN] KoFi Donation without Unpaid Ticket',
-        text: `KoFi Transaction ${url} was received but could not find any ticket that is unpaid under email ${email}!`,
-      })
+        to: 'admin@vancouverkdd.com',
+        message: {
+          subject: '[WARN] KoFi Donation without Unpaid Ticket',
+          text: `KoFi Transaction ${url} was received but could not find any ticket that is unpaid under email ${email}!`,
+        },
+      } satisfies DB.Email)
     }
   })
 
@@ -155,24 +152,28 @@ export async function refundTicket(ticketId: string) {
 
   if (ticketData.status === 'paid') {
     batch.create(db.collection('Email').doc(), {
-      to: 'vancouverkdd@gmail.com',
-      subject: `[Action Required] Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
-      text: `Ticket cancelled for ${ticketData.email}.
-Please refund ${ticketData.price} back`,
-    })
+      to: 'admin@vancouverkdd.com',
+      message: {
+        subject: `[Action Required] Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
+        text: `Ticket cancelled for ${ticketData.email}.
+        Please refund ${ticketData.price} back`,
+      },
+    } satisfies DB.Email)
   } else {
     batch.create(db.collection('Email').doc(), {
-      to: 'vancouverkdd@gmail.com',
-      subject: `Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
-      text: `Ticket cancelled for ${ticketData.email}.`,
-    })
+      to: 'admin@vancouverkdd.com',
+      message: {
+        subject: `Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
+        text: `Ticket cancelled for ${ticketData.email}.`,
+      },
+    } satisfies DB.Email)
     return batch.commit()
   }
 }
 
 type EmailParams = {
   to: string
-  subject: string
+  subject?: string
   templateId?: string
   templateData?: unknown
   html?: string
@@ -182,11 +183,26 @@ type EmailParams = {
 export async function sendEmail(params: EmailParams) {
   const {to, subject} = params
 
-  return db.collection('Email').add({
+  const email = {
     to,
-    subject,
-    ...(params.templateId ? {name: params.templateId, data: params.templateData ?? {}} : {}),
-    ...(params.html ? {html: params.html} : {}),
-    ...(params.text ? {text: params.text} : {}),
-  })
+    ...(subject
+      ? {
+          message: {
+            subject,
+            ...(params.html ? {html: params.html} : {}),
+            ...(params.text ? {text: params.text} : {}),
+          },
+        }
+      : {}),
+    ...(params.templateId
+      ? {
+          template: {
+            name: params.templateId,
+            data: params.templateData,
+          },
+        }
+      : {}),
+  } satisfies DB.Email
+
+  return db.collection('Email').add(email)
 }

@@ -1,5 +1,17 @@
 <script lang="ts">
+  import {page} from '$app/stores'
+  import {db} from '$lib/firebase'
   import CheckoutImage from '$lib/images/checkout-image.png'
+  import {doc, onSnapshot} from 'firebase/firestore'
+  import {onMount} from 'svelte'
+
+  let ticketData: DB.Ticket | undefined
+  onMount(() => {
+    const ticketId = $page.url.searchParams.get('ticketId')
+    return onSnapshot(doc(db, `Tickets/${ticketId}`), (snap) => {
+      ticketData = snap.data() as DB.Ticket
+    })
+  })
 </script>
 
 <svelte:head>
@@ -23,13 +35,18 @@
       </div>
     </div>
     <div class="w-full flex-center">
-      <iframe
-        id="kofiframe"
-        src="https://ko-fi.com/vancouverkdd/?hidefeed=true&widget=true&embed=true&preview=true"
-        style="border:none;width:100%;padding:4px;background:#f9f9f9;"
-        height="712"
-        title="vancouverkdd"></iframe>
-      <!-- web hook test -->
+      {#if ticketData === undefined}
+        Loading...
+      {:else if ticketData.status === 'unpaid'}
+        <iframe
+          id="kofiframe"
+          src="https://ko-fi.com/vancouverkdd/?hidefeed=true&widget=true&embed=true&preview=true"
+          style="border:none;width:100%;padding:4px;background:#f9f9f9;"
+          height="712"
+          title="vancouverkdd"></iframe>
+      {:else if ticketData.status === 'paid'}
+        Success
+      {/if}
     </div>
   </div>
   <div class="p-6">

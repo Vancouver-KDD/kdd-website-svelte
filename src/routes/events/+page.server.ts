@@ -1,4 +1,4 @@
-import {getLatestEvents} from '$lib/api/airtable'
+import {getLatestEvents} from '$lib/actions/airtable'
 import type {PageServerLoad} from './$types'
 
 export const load = (async () => {

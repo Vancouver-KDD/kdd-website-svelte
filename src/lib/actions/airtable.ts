@@ -28,6 +28,37 @@ export const getLatestBlogs = async ({limit}: {limit: number}) => {
   }) as DB.Blog[]
 }
 
+export const getEvent = async (eventId: string) => {
+  const base = Airtable.base(AIRTABLE_KDD_BASE)
+  const record = await base('Events').find(eventId)
+  const {
+    id,
+    fields: {
+      date,
+      duration,
+      title,
+      description,
+      joinLink,
+      location,
+      poster: attachments,
+      PhotosIds,
+      price,
+    },
+  } = record
+  return {
+    id,
+    date,
+    duration,
+    title,
+    description,
+    joinLink,
+    location,
+    poster: (attachments as Attachment[])?.[0],
+    PhotosIds,
+    price: (price as number).toFixed(2),
+  } as DB.Event
+}
+
 export const getLatestEvents = async ({limit}: {limit: number}) => {
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Events')
@@ -45,6 +76,7 @@ export const getLatestEvents = async ({limit}: {limit: number}) => {
         location,
         poster: attachments,
         PhotosIds,
+        price,
       },
     } = record
     return {
@@ -57,6 +89,7 @@ export const getLatestEvents = async ({limit}: {limit: number}) => {
       location,
       poster: (attachments as Attachment[])?.[0],
       PhotosIds,
+      price,
     }
   }) as DB.Event[]
 }
