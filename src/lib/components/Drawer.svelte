@@ -28,7 +28,7 @@
 
   <AppContent class="flex-auto overflow-auto">
     <main class="h-full">
-      <List class="flex-start flex-col gap-1 border h-full overflow-auto p-2">
+      <List class="flex-start flex-col gap-1 border h-full overflow-auto p-2" id="print-area">
         {#if $ticketsStore && $ticketsStore.length > 0}
           <AdminTable {ticketsStore} />
         {:else}

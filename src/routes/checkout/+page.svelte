@@ -1,11 +1,8 @@
 <script lang="ts">
-  import {CheckoutForm} from '$lib/components'
   import {page} from '$app/stores'
-  import {goto} from '$app/navigation'
   import {enhance} from '$app/forms'
   import {DateTime} from 'luxon'
   import {Toaster, toast} from 'svelte-french-toast'
-  import {Timestamp} from 'firebase/firestore'
 
   export let data
 
@@ -31,19 +28,6 @@
     location: '',
     message: '',
   }
-
-  let success = false
-
-  // $: {
-  //   if (formData) {
-  //     success = true
-  //     setTimeout(() => {
-  //       success = false
-  //       toast.success('이벤트에 성공적으로 신청되었습니다')
-  //       goto('/events')
-  //     }, 3000)
-  //   }
-  // }
 
   let isEventFree = true
 </script>
@@ -93,6 +77,7 @@
                 formData.append('eventName', checkoutEvent.title)
                 formData.append('price', '0.00') // Free event for now
               }
+              toast.success('이벤트에 성공적으로 신청되었습니다')
             }}>
             <div class="mb-5">
               <h1 class="text-xl text-royalBlue-800 font-semibold animate-bounce">
@@ -177,40 +162,40 @@
                 class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
             </div>
 
-            <!-- <div class="mb-4">
-        <label for="work" class="block text-sm font-medium text-gray-700"
-          >무료 Tire 조건 (아래 중 한가지에 해당하면 됩니다)</label>
-        <div class="flex flex-col gap-2 border border-gray-200 rounded-lg p-2">
-          <p class="text-sm text-gray-500">1. 저는 현재 학생입니다</p>
-          <p class="text-sm text-gray-500">2. 저는 현재 구직중입니다</p>
-          <p class="text-sm text-gray-500">3. 저는 KDD 밋업에 처음 참석합니다</p>
-        </div>
-        <div></div>
-        <h3 class="text-sm text-gray-700 font-medium">** KDD 밋업에 처음 참석하시나요?</h3>
-        <div>
-          <span>
-            <input
-              type="radio"
-              id="yes"
-              name="attendance"
-              value="Yes"
-              bind:group={firstTime}
-              required
-              class="form-radio text-royalBlue-500" />
-            <label for="yes" class="text-sm text-gray-700 font-medium">Yes</label>
-          </span>
-          <span>
-            <input
-              type="radio"
-              id="no"
-              name="attendance"
-              value="No"
-              bind:group={firstTime}
-              class="form-radio text-royalBlue-500" />
-            <label for="no" class="text-sm text-gray-700 font-medium">No</label>
-          </span>
-        </div>
-      </div> -->
+            <!-- {#if checkoutEvent?.price !== '0.00'}
+              <div class="mb-4">
+                <label for="work" class="flex items-center gap-2"
+                  ><p class="text-sm font-medium text-gray-700">무료 Tier 조건에 해당하시나요?</p>
+                  <p class="text-xs text-gray-500">(아래 중 1개 항목이 충족되면 해당)</p></label>
+                <div class="flex flex-col gap-2 border border-gray-200 rounded-lg p-2">
+                  <p class="text-sm text-gray-500">1. 저는 현재 학생입니다</p>
+                  <p class="text-sm text-gray-500">2. 저는 현재 구직중입니다</p>
+                  <p class="text-sm text-gray-500">3. 저는 KDD 밋업에 처음 참석합니다</p>
+                </div>
+                <div></div>
+                <div class="flex gap-4">
+                  <span>
+                    <input
+                      type="radio"
+                      id="yes"
+                      name="attendance"
+                      value="Yes"
+                      required
+                      class="form-radio text-royalBlue-500" />
+                    <label for="yes" class="text-sm text-gray-700 font-medium">Yes</label>
+                  </span>
+                  <span>
+                    <input
+                      type="radio"
+                      id="no"
+                      name="attendance"
+                      value="No"
+                      class="form-radio text-royalBlue-500" />
+                    <label for="no" class="text-sm text-gray-700 font-medium">No</label>
+                  </span>
+                </div>
+              </div>
+            {/if} -->
 
             <div class="mb-4">
               <label for="message" class="block text-sm font-medium text-gray-700">Message:</label>

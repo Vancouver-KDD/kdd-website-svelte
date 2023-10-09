@@ -1,4 +1,4 @@
-import {collection, getDocs} from 'firebase/firestore'
+import {collection, doc, getDoc, getDocs} from 'firebase/firestore'
 import {db} from '$lib/firebase'
 
 export async function fetchTickets(): Promise<DB.Ticket[]> {
@@ -9,5 +9,20 @@ export async function fetchTickets(): Promise<DB.Ticket[]> {
   } catch (error) {
     console.error(error)
     return []
+  }
+}
+
+export async function fetchTicket(ticketId: string): Promise<DB.Ticket | null> {
+  try {
+    const docSnapshot = await getDoc(doc(db, 'Tickets', ticketId))
+    if (docSnapshot.exists()) {
+      const ticket = docSnapshot.data() as DB.Ticket
+      return ticket
+    } else {
+      return null
+    }
+  } catch (error) {
+    console.error(error)
+    return null
   }
 }
