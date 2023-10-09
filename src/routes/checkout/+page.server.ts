@@ -5,8 +5,10 @@ import {error, redirect} from '@sveltejs/kit'
 
 export const load = (async ({url}) => {
   const eventId = url.searchParams.get('eventId')
+  console.log({eventId})
   if (eventId) {
     const data = await getEvent(eventId)
+    console.log('data', data)
     return {event: data}
   }
   return {event: null}
