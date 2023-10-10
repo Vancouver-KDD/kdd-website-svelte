@@ -2,7 +2,7 @@
   import {Toaster} from 'svelte-french-toast'
   import {DateTime} from 'luxon'
   import RefundTicketImage from '$lib/images/refund-ticket.png'
-  import RefundTicketSuccess from '$lib/images/refund-ticket-success.png'
+  import RefundTicketSuccess from '$lib/images/ticket-image.png'
 
   export let data
 
