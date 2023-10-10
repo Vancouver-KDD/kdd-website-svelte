@@ -34,12 +34,13 @@
   <title>KDD Admin Page</title>
 </svelte:head>
 
-<section class="flex flex-col items-center gap-4 p-5 bg-gray-50 h-full">
+<section class="flex flex-col items-center gap-4 p-5 bg-gray-50 h-full relative">
   <div class="w-full flex justify-between p-2 items-center gap-8">
     <h1 class="text-2xl font-semibold text-royalBlue-800">KDD Admin Dashboard</h1>
     <button
       on:click={handleLogout}
-      class="border px-4 py-2 rounded-lg bg-royalBlue-500 text-white font-semibold">Logout</button>
+      class="border px-4 py-2 rounded-lg bg-radicalRed-400 hover:bg-radicalRed-500 text-white font-semibold"
+      >Logout</button>
   </div>
   <div class="w-full h-full">
     {#if events}

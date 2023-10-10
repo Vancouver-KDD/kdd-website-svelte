@@ -10,7 +10,7 @@
 </script>
 
 <div class="flex h-full border">
-  <Drawer class="w-64 max-h-screen">
+  <Drawer class="w-80 max-h-screen">
     <Content class="h-full">
       <List class="flex-start flex-col gap-2 p-2 border bg-gray-50 h-full overflow-y-auto">
         {#each events as event}
@@ -26,9 +26,9 @@
     </Content>
   </Drawer>
 
-  <AppContent class="flex-auto overflow-auto">
+  <AppContent class="w-full flex-auto overflow-auto">
     <main class="h-full">
-      <List class="flex-start flex-col gap-1 border h-full overflow-auto p-2" id="print-area">
+      <List class="flex-start flex-col gap-1 border h-full overflow-auto p-2">
         {#if $ticketsStore && $ticketsStore.length > 0}
           <AdminTable {ticketsStore} />
         {:else}
