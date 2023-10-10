@@ -1,17 +1,12 @@
 <script lang="ts">
-  import {page} from '$app/stores'
   import {Toaster} from 'svelte-french-toast'
-  import Card, {Content, PrimaryAction, Media, MediaContent} from '@smui/card'
-  import {fetchTicket} from '$lib/actions/firebase-action'
+  import {DateTime} from 'luxon'
+  import RefundTicketImage from '$lib/images/refund-ticket.png'
+  import RefundTicketSuccess from '$lib/images/refund-ticket-success.png'
 
-  let reservedTicket: DB.Ticket
+  export let data
 
-  const ticketId = $page.url.searchParams.get('ticketId') ?? ''
-  fetchTicket(ticketId).then((data) => {
-    reservedTicket = data as DB.Ticket
-    console.log(reservedTicket)
-  })
-  let clicked = 0
+  const {reservedTicket, event} = data
 </script>
 
 <svelte:head>
@@ -21,68 +16,77 @@
 <Toaster />
 
 <section class="flex-center flex-col">
-  <div class="max-w-4xl w-full flex flex-col md:flex-row gap-8">
-    <div class="card-display shadow-lg">
-      <div class="card-container">
-        <Card>
-          <Media class="card-media-16x9" aspectRatio="16x9">
-            <MediaContent>
-              <h2
-                class="mdc-typography--headline6"
-                style="color: #fff; position: absolute; bottom: 16px; left: 16px; margin: 0;">
-                A card with 16x9 media.
-              </h2>
-            </MediaContent>
-          </Media>
-          <Content style="color: #888;"></Content>
-        </Card>
+  <div class="max-w-4xl w-full flex flex-col md:flex-row gap-8 mt-8">
+    <div class="w-full flex flex-col">
+      <img class="w-full h-full -mt-4" src={RefundTicketImage} alt="refund-ticket" />
+      <div class="-mt-4 pl-2">
+        <p class="text-gray-500 text-sm">
+          Once you have checked your ticket, click the "Cancel" button, and KDD team will review
+          your request. You will receive a confirmation email shortly. If you have any questions or
+          need assistance, please contact us at <a
+            class="text-royalBlue-600"
+            href="mailto:partner@vancouverkdd.com"
+            >partner@vancouverkdd.com
+          </a>
+        </p>
       </div>
-
-      <div class="card-container">
-        <Card style="min-width: 300px;">
-          <Media class="card-media-square" aspectRatio="square">
-            <div style="color: #fff; position: absolute; bottom: 16px; left: 16px;">
-              <h2 class="mdc-typography--headline6" style="margin: 0;">
-                A card with square media.
-              </h2>
-              <h3 class="mdc-typography--subtitle2" style="margin: 0;">And a subtitle.</h3>
+    </div>
+    <div class="w-full px-8">
+      <div class="pt-6 pb-4">
+        <h1 class="text-xl font-semibold text-royalBlue-700">My KDD Ticket</h1>
+      </div>
+      <div class="flex flex-col justify-center h-96 p-4 rounded shadow-lg">
+        {#if reservedTicket && reservedTicket.status !== 'cancelled'}
+          <form method="POST" class="flex flex-col gap-1">
+            <div class="mb-2">
+              <img class="w-full h-52" src={event?.poster?.url} alt="event-poster" />
             </div>
-          </Media>
-        </Card>
-      </div>
-
-      <div class="card-container">
-        <Card>
-          <div style="padding: 1rem;">
-            <h2 class="mdc-typography--headline6" style="margin: 0;">A card with media.</h2>
-            <h3 class="mdc-typography--subtitle2" style="margin: 0; color: #888;">
-              And a subtitle.
-            </h3>
+            <div class="flex gap-2 text-sm">
+              <h1 class="text-gray-700">Event:</h1>
+              <h2 class="font-semibold text-gray-700">
+                {reservedTicket?.eventName}
+              </h2>
+            </div>
+            <div class="flex gap-2 text-sm">
+              <h1 class="text-gray-700">Date:</h1>
+              <h2 class="font-semibold text-gray-700">
+                {event && DateTime.fromISO(event.date).toFormat('yyyy LLL dd H:mm a')}
+              </h2>
+            </div>
+            <div class="flex gap-1 text-sm">
+              <h1 class="text-gray-700">Name:</h1>
+              <h2 class="font-semibold text-gray-700">
+                {reservedTicket?.name}
+              </h2>
+            </div>
+            <div class="flex gap-1 text-sm">
+              <h1 class="text-gray-700">Email:</h1>
+              <h3 class="ml-1 text-sm">
+                {reservedTicket?.email}
+              </h3>
+            </div>
+            <div class="flex justify-end items-center gap-2">
+              <div class="mt-1">
+                {#if reservedTicket?.price === '0.00'}
+                  <h3 class="text-gray-400 pt-1">Free</h3>
+                {:else}
+                  <h3 class="text-gray-500 pt-1">
+                    ${reservedTicket?.price}
+                  </h3>
+                {/if}
+              </div>
+              <button
+                type="submit"
+                class="border-2 bg-radicalRed-400 text-white px-4 py-2 rounded-lg">Cancel</button>
+            </div>
+          </form>
+        {:else}
+          <div class="flex flex-col items-center -mt-16">
+            <img class="w-40 opacity-50" src={RefundTicketSuccess} alt="ticket-logo" />
+            <h1 class="text-md italic text-gray-500 font-medium -mt-6">You have no ticket yet</h1>
           </div>
-          <PrimaryAction on:click={() => clicked++}>
-            <Media class="card-media-16x9" aspectRatio="16x9" />
-            <Content class="mdc-typography--body2">
-              And some info text. And the media and info text are a primary action for the card.
-            </Content>
-          </PrimaryAction>
-        </Card>
+        {/if}
       </div>
     </div>
   </div>
-  <div class="mt-24 mb-4">
-    <p class="text-xs md:text-sm">
-      ** This information is solely for reserving KDD's open events and will not be used for any
-      other purpose.
-    </p>
-  </div>
 </section>
-
-<style>
-  * :global(.card-media-16x9) {
-    background-image: url(https://placehold.co/320x180?text=16x9);
-  }
-
-  * :global(.card-media-square) {
-    background-image: url(https://placehold.co/320x320?text=square);
-  }
-</style>
