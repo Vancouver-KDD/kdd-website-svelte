@@ -3,7 +3,7 @@
   import {db} from '$lib/firebase'
   import {collection, doc} from 'firebase/firestore'
   import {DateTime} from 'luxon'
-  import {Toaster} from 'svelte-french-toast'
+  import {Toaster, toast} from 'svelte-french-toast'
 
   export let data
   const {event} = data
@@ -67,6 +67,7 @@
             use:enhance={() => {
               return async ({result}) => {
                 applyAction(result)
+                toast.success('예약 완료! Email을 확인하세요.')
               }
             }}>
             <input type="text" name="id" value={ticketId} aria-hidden="true" class="hidden" />

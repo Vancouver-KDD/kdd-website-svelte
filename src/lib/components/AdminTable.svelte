@@ -28,7 +28,7 @@
 
 <div>
   <button
-    class="absolute top-0 right-28 m-7 bg-royalBlue-500 hover:bg-royalBlue-600 text-white font-bold py-2 px-4 rounded-lg"
+    class="absolute top-0 right-24 m-7 bg-royalBlue-500/75 hover:bg-royalBlue-600 text-white font-bold py-2 px-4 rounded-lg"
     on:click={printContent}>
     Print
   </button>
