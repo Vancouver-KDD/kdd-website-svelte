@@ -34,7 +34,7 @@ export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
         subject: `Purchase Complete for ${data.eventName}`,
         text: `Congratulations, you are confirmed for the event.
       See you at ${data.eventName}!
-      To cancel your ticket goto https://vancouverkdd.com/refundTicket?ticketId=${data.id}`,
+      To cancel your ticket goto https://vancouverkdd.com/myTicket?ticketId=${data.id}`,
       },
     } satisfies DB.Email)
   }

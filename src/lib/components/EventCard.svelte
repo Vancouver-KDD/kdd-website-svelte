@@ -11,6 +11,14 @@
 
   $: isPastEvent = DateTime.fromISO(event.date).diffNow().toMillis() < 0
 
+  let isSoldOut = false
+
+  if (Array.isArray(event.quantity)) {
+    isSoldOut = event.quantity.every((ticket) => ticket.soldOut)
+  } else {
+    isSoldOut = event.quantity === 0
+  }
+
   let scrollToTopAnchor: HTMLDivElement
 </script>
 
@@ -45,7 +53,7 @@
           on:click={(e) => e.stopImmediatePropagation()}
           disabled={isPastEvent}
           class="rounded-full"
-          href={event.joinLink ? event.joinLink : `/checkout/${event.id}`}>
+          href={`/checkout/${event.id}`}>
           {isPastEvent ? 'CLOSED' : 'RSVP'}
         </Button>
       {/if}
