@@ -43,6 +43,7 @@ export const getEvent = async (eventId: string) => {
       poster: attachments,
       PhotosIds,
       price,
+      quantity,
     },
   } = record
   return {
@@ -56,6 +57,7 @@ export const getEvent = async (eventId: string) => {
     poster: (attachments as Attachment[])?.[0],
     PhotosIds,
     price: (price as number).toFixed(2),
+    quantity,
   } as DB.Event
 }
 
@@ -77,6 +79,7 @@ export const getLatestEvents = async ({limit}: {limit: number}) => {
         poster: attachments,
         PhotosIds,
         price,
+        quantity,
       },
     } = record
     return {
@@ -90,6 +93,7 @@ export const getLatestEvents = async ({limit}: {limit: number}) => {
       poster: (attachments as Attachment[])?.[0],
       PhotosIds,
       price,
+      quantity,
     }
   }) as DB.Event[]
 }

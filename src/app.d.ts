@@ -65,6 +65,7 @@ declare namespace DB {
     price: string
     PhotosIds: string[]
     price: number
+    quantity: Ticket[] | number
   }
 
   interface Organizer {
@@ -100,6 +101,7 @@ declare namespace DB {
     work: string
     location: string
     message: string
+    soldOut: boolean
   }
 
   interface Email {
