@@ -31,7 +31,7 @@ export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
     batch.create(db.collection('Email').doc(), {
       to: data.email,
       message: {
-        subject: `Purchase Complete for ${data.eventName}`,
+        subject: `[Vancouver KDD] Purchase Complete for ${data.eventName}`,
         text: `Congratulations, you are confirmed for the event.
       See you at ${data.eventName}!
       To cancel your ticket goto https://vancouverkdd.com/myTicket?ticketId=${data.id}`,
@@ -105,7 +105,7 @@ export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verific
       await transaction.create(db.collection('Email').doc(), {
         to: email,
         message: {
-          subject: `Purchase Complete for ${ticketData.eventName}`,
+          subject: `[Vancouver KDD] Purchase Complete for ${ticketData.eventName}`,
           text: `Congratulations, we received payment ${data.amount}.
   See you at ${ticketData.eventName}!
   To request refund goto https://vancouverkdd.com/myTicket?ticketId=${ticketData.id}`,
@@ -121,7 +121,7 @@ export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verific
       await transaction.create(db.collection('Email').doc(), {
         to: 'admin@vancouverkdd.com',
         message: {
-          subject: '[WARN] KoFi Donation without Unpaid Ticket',
+          subject: '[Vancouver KDD] Warning KoFi Donation without Unpaid Ticket',
           text: `KoFi Transaction ${url} was received but could not find any ticket that is unpaid under email ${email}!`,
         },
       } satisfies DB.Email)
@@ -154,7 +154,7 @@ export async function refundTicket(ticketId: string) {
     batch.create(db.collection('Email').doc(), {
       to: 'admin@vancouverkdd.com',
       message: {
-        subject: `[Action Required] Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
+        subject: `[Vancouver KDD] Action Required - Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
         text: `Ticket cancelled for ${ticketData.email}.
         Please refund ${ticketData.price} back`,
       },
@@ -163,7 +163,7 @@ export async function refundTicket(ticketId: string) {
     batch.create(db.collection('Email').doc(), {
       to: 'admin@vancouverkdd.com',
       message: {
-        subject: `Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
+        subject: `[Vancouver KDD] Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
         text: `Ticket cancelled for ${ticketData.email}.`,
       },
     } satisfies DB.Email)
