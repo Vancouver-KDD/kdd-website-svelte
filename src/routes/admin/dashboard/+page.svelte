@@ -5,8 +5,7 @@
   import {goto} from '$app/navigation'
   import {Drawer} from '$lib/components'
   import {page} from '$app/stores'
-  import {getTicketsStore} from '$lib/store/index.js'
-  import type {Readable} from 'svelte/store'
+  import {selectedEventId, ticketValue} from '$lib/store/index.js'
 
   export let data
   const {events} = data
@@ -22,11 +21,9 @@
       })
   }
 
-  $: selectedEventId = $page.url.searchParams.get('eventId')
-
-  let ticketsStore: Readable<DB.Ticket[]>
-  $: if (selectedEventId) {
-    ticketsStore = getTicketsStore(selectedEventId)
+  $: _selectedEventId = $page.url.searchParams.get('eventId')
+  $: if (_selectedEventId) {
+    $selectedEventId = _selectedEventId
   }
 </script>
 
@@ -44,7 +41,7 @@
   </div>
   <div class="w-full h-full">
     {#if events}
-      <Drawer {events} {ticketsStore} />
+      <Drawer {events} ticketValue={$ticketValue} />
     {:else}
       <p class="text-royalBlue-800">No event selected</p>
     {/if}

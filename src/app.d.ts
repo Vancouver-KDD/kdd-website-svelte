@@ -65,7 +65,13 @@ declare namespace DB {
     price: string
     PhotosIds: string[]
     price: number
-    quantity: Ticket[] | number
+    quantity: number
+  }
+
+  interface EventAnalytics {
+    id: string
+    ticketsConfirmedCount: number
+    ticketsOnHoldCount: number
   }
 
   interface Organizer {
@@ -101,7 +107,6 @@ declare namespace DB {
     work: string
     location: string
     message: string
-    soldOut: boolean
   }
 
   interface Email {
@@ -116,8 +121,6 @@ declare namespace DB {
       data: unknown
     }
   }
-
-  interface Event {}
 
   interface User {
     uid: string

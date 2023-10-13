@@ -2,11 +2,10 @@
   import Drawer, {AppContent, Content} from '@smui/drawer'
   import List, {Item, Text} from '@smui/list'
   import {goto} from '$app/navigation'
-  import type {Readable} from 'svelte/store'
   import {AdminTable} from './index'
 
   export let events: DB.Event[]
-  export let ticketsStore: Readable<DB.Ticket[]>
+  export let ticketValue: Map<string, DB.Ticket>
 </script>
 
 <div class="flex h-full border">
@@ -29,8 +28,8 @@
   <AppContent class="w-full flex-auto overflow-auto">
     <main class="h-full">
       <List class="flex-start flex-col gap-1 border h-full overflow-auto p-2">
-        {#if $ticketsStore && $ticketsStore.length > 0}
-          <AdminTable {ticketsStore} />
+        {#if ticketValue && ticketValue.size > 0}
+          <AdminTable />
         {:else}
           <p class="m-auto text-royalBlue-800">해당 이벤트에 대한 참여명부가 없습니다.</p>
         {/if}

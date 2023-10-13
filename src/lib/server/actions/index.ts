@@ -1,4 +1,5 @@
 import {db} from '$lib/server/firebaseAdmin'
+import {FieldValue} from 'firebase-admin/firestore'
 
 export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
   // 1. Check if data.id (TicketId) does not already exist
@@ -26,6 +27,18 @@ export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
     createdAt: new Date(),
   })
 
+  batch.set(
+    db.doc(`EventsAnalytics/${data.eventId}`),
+    data.status === 'free'
+      ? {
+          ticketsConfirmedCount: FieldValue.increment(1),
+        }
+      : {
+          ticketsOnHoldCount: FieldValue.increment(1),
+        },
+    {merge: true}
+  )
+
   if (data.status === 'free') {
     // 4. If it is free event, send confirmation email
     batch.create(db.collection('Email').doc(), {
@@ -44,30 +57,51 @@ export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
 }
 
 export async function cancelTicket(ticketId: string) {
-  const ticketData = (await db.doc(`Tickets/${ticketId}`).get()).data() as DB.Ticket
-  if (ticketData.status === 'cancelled') {
-    throw new Error('Ticket already cancelled')
-  }
+  return db.runTransaction(async (transaction) => {
+    const ticketData = (await transaction.get(db.doc(`Tickets/${ticketId}`))).data()
+    if (!ticketData) {
+      throw new Error('Invalid ticketId')
+    }
+    if (ticketData.status === 'cancelled') {
+      throw new Error('Ticket already cancelled')
+    }
 
-  await db.doc(`Tickets/${ticketId}`).update({
-    status: 'cancelled',
-  } satisfies Partial<DB.Ticket>)
+    await transaction.update(db.doc(`Tickets/${ticketId}`), {
+      status: 'cancelled',
+    } satisfies Partial<DB.Ticket>)
 
-  return true
+    await transaction.update(
+      db.doc(`EventsAnalytics/${ticketData.eventId}`),
+      ticketData.status === 'free'
+        ? {
+            ticketsConfirmedCount: FieldValue.increment(-1),
+          }
+        : {
+            ticketsOnHoldCount: FieldValue.increment(-1),
+          }
+    )
+  })
 }
 
 export async function updateTicketAsPaid(ticketId: string) {
-  const ticketData = (await db.doc(`Tickets/${ticketId}`).get()).data() as DB.Ticket
+  return db.runTransaction(async (transaction) => {
+    const ticketData = (await transaction.get(db.doc(`Tickets/${ticketId}`))).data()
+    if (!ticketData) {
+      throw new Error('Invalid ticketId')
+    }
+    if (ticketData.status !== 'unpaid') {
+      throw new Error('Ticket must be unpaid. Currently ticket is ' + ticketData.status)
+    }
 
-  if (ticketData.status !== 'unpaid') {
-    throw new Error('Ticket must be unpaid. Currently ticket is ' + ticketData.status)
-  }
+    await transaction.update(db.doc(`Tickets/${ticketId}`), {
+      status: 'paid',
+    } satisfies Partial<DB.Ticket>)
 
-  await db.doc(`Tickets/${ticketId}`).update({
-    status: 'paid',
-  } satisfies Partial<DB.Ticket>)
-
-  return true
+    await transaction.update(db.doc(`EventsAnalytics/${ticketData.eventId}`), {
+      ticketsConfirmedCount: FieldValue.increment(1),
+      ticketsOnHoldCount: FieldValue.increment(-1),
+    })
+  })
 }
 
 export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verification_token'>) {
@@ -136,39 +170,49 @@ export async function refundTicket(ticketId: string) {
     throw new Error('missing ticketId')
   }
 
-  const ticketData = (await db.doc(`Tickets/${ticketId}`).get()).data() as DB.Ticket
-  if (!ticketData) {
-    throw new Error('Cannot find Ticket with id ' + ticketId)
-  }
+  return db.runTransaction(async (transaction) => {
+    const ticketData = (await transaction.get(db.doc(`Tickets/${ticketId}`))).data() as DB.Ticket
+    if (!ticketData) {
+      throw new Error('Cannot find Ticket with id ' + ticketId)
+    }
+    if (ticketData.status === 'cancelled') {
+      throw new Error('Ticket already cancelled')
+    }
 
-  if (ticketData.status === 'cancelled') {
-    throw new Error('Ticket already cancelled')
-  }
+    await transaction.update(db.doc(`Tickets/${ticketId}`), {
+      status: 'cancelled',
+    } satisfies Partial<DB.Ticket>)
 
-  const batch = db.batch()
-  batch.update(db.doc(`Tickets/${ticketId}`), {
-    status: 'cancelled',
-  })
+    await transaction.update(
+      db.doc(`EventsAnalytics/${ticketData.eventId}`),
+      ticketData.status === 'free'
+        ? {
+            ticketsConfirmedCount: FieldValue.increment(-1),
+          }
+        : {
+            ticketsOnHoldCount: FieldValue.increment(-1),
+          }
+    )
 
-  if (ticketData.status === 'paid') {
-    batch.create(db.collection('Email').doc(), {
-      to: 'admin@vancouverkdd.com',
-      message: {
-        subject: `[Vancouver KDD] Action Required - Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
-        text: `Ticket cancelled for ${ticketData.email}.
+    if (ticketData.status === 'paid') {
+      await transaction.create(db.collection('Email').doc(), {
+        to: 'admin@vancouverkdd.com',
+        message: {
+          subject: `[Action Required] - Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
+          text: `Ticket cancelled for ${ticketData.email}.
         Please refund ${ticketData.price} back`,
-      },
-    } satisfies DB.Email)
-  } else {
-    batch.create(db.collection('Email').doc(), {
-      to: 'admin@vancouverkdd.com',
-      message: {
-        subject: `[Vancouver KDD] Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
-        text: `Ticket cancelled for ${ticketData.email}.`,
-      },
-    } satisfies DB.Email)
-    return batch.commit()
-  }
+        },
+      } satisfies DB.Email)
+    } else {
+      await transaction.create(db.collection('Email').doc(), {
+        to: 'admin@vancouverkdd.com',
+        message: {
+          subject: `Ticket Cancelled: ${ticketData.email} ${ticketData.eventName}`,
+          text: `Ticket cancelled for ${ticketData.email}.`,
+        },
+      } satisfies DB.Email)
+    }
+  })
 }
 
 type EmailParams = {

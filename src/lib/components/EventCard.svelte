@@ -2,6 +2,9 @@
   import {DateTime} from 'luxon'
   import {Button} from '$lib/components'
   import {Marked} from '@ts-stack/markdown'
+  import {createEventAnalyticsStore} from '$lib/store'
+  import {onMount} from 'svelte'
+  import type {Readable} from 'svelte/store'
 
   Marked.setOptions({
     sanitize: true,
@@ -11,9 +14,17 @@
 
   $: isPastEvent = DateTime.fromISO(event.date).diffNow().toMillis() < 0
 
-  $: isSoldOut = event.quantity === 0
-
   let scrollToTopAnchor: HTMLDivElement
+
+  let eventAnalyticsStore: Readable<DB.EventAnalytics | null | undefined> | undefined
+  onMount(() => {
+    eventAnalyticsStore = createEventAnalyticsStore(event.id)
+  })
+
+  $: ticketsLeft =
+    event.quantity -
+    (($eventAnalyticsStore?.ticketsConfirmedCount ?? 0) +
+      ($eventAnalyticsStore?.ticketsOnHoldCount ?? 0))
 </script>
 
 <button
@@ -45,10 +56,16 @@
       {#if event.id}
         <Button
           on:click={(e) => e.stopImmediatePropagation()}
-          disabled={isPastEvent || isSoldOut}
+          disabled={isPastEvent || $eventAnalyticsStore === undefined || ticketsLeft <= 0}
           class="rounded-full"
-          href={`/checkout/${event.id}`}>
-          {isSoldOut ? 'SOLD OUT' : isPastEvent ? 'CLOSED' : 'RSVP'}
+          href={event.joinLink ? event.joinLink : `/checkout/${event.id}`}>
+          {isPastEvent
+            ? 'CLOSED'
+            : $eventAnalyticsStore === undefined
+            ? 'loading...'
+            : ticketsLeft > 0
+            ? 'RSVP'
+            : 'SOLD OUT'}
         </Button>
       {/if}
     </div>
@@ -83,10 +100,16 @@
         </p>
         {#if event.id}
           <Button
-            disabled={isPastEvent || isSoldOut}
+            disabled={isPastEvent || $eventAnalyticsStore === undefined || ticketsLeft <= 0}
             class="rounded-full"
             href={event.joinLink ? event.joinLink : `/checkout/${event.id}`}>
-            {isSoldOut ? 'SOLD OUT' : isPastEvent ? 'CLOSED' : 'RSVP'}
+            {isPastEvent
+              ? 'CLOSED'
+              : $eventAnalyticsStore === undefined
+              ? 'loading...'
+              : ticketsLeft > 0
+              ? 'RSVP'
+              : 'SOLD OUT'}
           </Button>
         {/if}
       </div>

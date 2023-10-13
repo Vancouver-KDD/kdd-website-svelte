@@ -29,7 +29,6 @@ export const actions = {
     for (const [key, value] of formData.entries()) {
       userData[key] = value.toString()
     }
-    console.log('userData', userData)
 
     const isFree = userData.isFreeApplicable === 'Yes' || airtableEventData.price === '0.00'
 
@@ -53,7 +52,7 @@ export const actions = {
     if (ticketData.status === 'unpaid') {
       throw redirect(300, `/payment?eventId=${eventId}&ticketId=${userData.id}`)
     } else if (ticketData.status === 'free') {
-      throw redirect(300, `/events`)
+      throw redirect(300, `/myTicket?ticketId=${ticketData.id}`)
     }
   },
 }

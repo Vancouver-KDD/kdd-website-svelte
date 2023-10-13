@@ -1,8 +1,6 @@
 <script lang="ts">
   import DataTable, {Head, Body, Row, Cell} from '@smui/data-table'
-  import type {Readable} from 'svelte/store'
-
-  export let ticketsStore: Readable<DB.Ticket[]>
+  import {activeTickets, cancelledTickets} from '$lib/store'
 
   let initBodyHtml: string | null = null
 
@@ -47,7 +45,7 @@
       </Row>
     </Head>
     <Body class="w-full">
-      {#each $ticketsStore.filter((ticket) => ticket.status !== 'cancelled') as ticket, index (ticket.id)}
+      {#each $activeTickets as ticket, index (ticket.id)}
         <Row class="border text-center">
           <Cell class="w-[2%]">{index + 1}</Cell>
           <Cell class="w-[5%]">{ticket.createdAt.toDate().toLocaleDateString()}</Cell>
@@ -80,7 +78,7 @@
       </Row>
     </Head>
     <Body class="w-full">
-      {#each $ticketsStore.filter((ticket) => ticket.status === 'cancelled') as ticket, index (ticket.id)}
+      {#each $cancelledTickets as ticket, index (ticket.id)}
         <Row class="border text-center">
           <Cell class="w-[2%]">{index + 1}</Cell>
           <Cell class="w-[5%]">{ticket.createdAt.toDate().toLocaleDateString()}</Cell>

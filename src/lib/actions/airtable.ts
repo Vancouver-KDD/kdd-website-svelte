@@ -2,6 +2,7 @@ import {AIRTABLE_TOKEN, AIRTABLE_KDD_BASE} from '$env/static/private'
 import Airtable from 'airtable'
 Airtable.configure({apiKey: AIRTABLE_TOKEN})
 import type {Attachment} from 'airtable'
+import {DEV} from 'esm-env'
 
 export const getLatestBlogs = async ({limit}: {limit: number}) => {
   const base = Airtable.base(AIRTABLE_KDD_BASE)
@@ -64,7 +65,11 @@ export const getEvent = async (eventId: string) => {
 export const getLatestEvents = async ({limit}: {limit: number}) => {
   const base = Airtable.base(AIRTABLE_KDD_BASE)
   const records = await base('Events')
-    .select({pageSize: limit, sort: [{field: 'date', direction: 'desc'}]})
+    .select({
+      pageSize: limit,
+      filterByFormula: `{dev} = ${DEV ? '1' : '0'}`,
+      sort: [{field: 'date', direction: 'desc'}],
+    })
     .firstPage()
   return records.map((record) => {
     const {
