@@ -18,7 +18,8 @@
     "firebase-admin": "^11.11.0",
     "flowbite-svelte": "^0.44.17",
     "luxon": "^3.4.1",
-    "svelte-french-toast": "^1.2.0"
+    "svelte-french-toast": "^1.2.0",
+    "tailwind-merge": "^1.14.0"
   },
   "devDependencies": {
     "@smui/data-table": "^7.0.0-beta.15",

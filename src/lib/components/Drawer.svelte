@@ -3,7 +3,8 @@
   import List, {Item, Text} from '@smui/list'
   import {goto} from '$app/navigation'
   import {AdminTable} from './index'
-
+  import {selectedEventId} from '$lib/store'
+  import {twMerge} from 'tailwind-merge'
   export let events: DB.Event[]
   export let ticketValue: Map<string, DB.Ticket>
 </script>
@@ -16,7 +17,10 @@
           <button on:click={() => goto(`/admin/dashboard?eventId=${event.id}`)}>
             <Item
               id="event-title"
-              class="flex p-2 cursor-pointer bg-gray-100 hover:bg-gray-300 ease-in-out duration-200 rounded hover:font-semibold">
+              class={twMerge(
+                'flex p-2 cursor-pointer bg-gray-100 hover:bg-gray-300 ease-in-out duration-200 rounded hover:font-semibold',
+                event.id === $selectedEventId && 'bg-purple-300'
+              )}>
               <Text class="text-start">{event.title}</Text>
             </Item>
           </button>
