@@ -141,7 +141,7 @@
                 name="work"
                 bind:value={formData.work}
                 required
-                placeholder="학교, 회사, 기타"
+                placeholder="학교명, 회사명, 프리랜서, 기타"
                 class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
             </div>
 
