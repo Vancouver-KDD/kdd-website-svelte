@@ -1,7 +1,8 @@
 <script lang="ts">
   import {Toaster} from 'svelte-french-toast'
   import {DateTime} from 'luxon'
-  import RefundTicketImage from '$lib/images/refund-ticket.png'
+  import {Confetti} from 'svelte-confetti'
+  import MyTicketImage from '$lib/images/my-ticket.png'
   import RefundTicketSuccess from '$lib/images/ticket-image.png'
 
   export let data
@@ -16,23 +17,23 @@
 <Toaster />
 
 <section class="flex-center flex-col">
-  <div class="max-w-4xl w-full flex flex-col md:flex-row gap-8 mt-8">
-    <div class="w-full flex flex-col">
-      <img class="w-full h-full -mt-4" src={RefundTicketImage} alt="refund-ticket" />
-      <div class="-mt-4 pl-2">
-        <p class="text-gray-500 text-sm">
-          Once you have checked your ticket, click the "Cancel" button, and KDD team will review
-          your request. You will receive a confirmation email shortly. If you have any questions or
-          need assistance, please contact us at <a
+  <div class="max-w-4xl w-full flex flex-col md:flex-row gap-10 mt-8">
+    <div class="w-full flex-center flex-col">
+      <img class="w-[85%] h-[80%]" src={MyTicketImage} alt="my-ticket" />
+      <div class="pl-2">
+        <p class="text-gray-500 text-sm text-center">
+          If you wish to cancel your ticket, please click the 'Cancel' button, and the KDD team will
+          review your request. You will receive a confirmation email shortly. If you have any
+          questions or need assistance, please contact us at <a
             class="text-royalBlue-600"
             href="mailto:partner@vancouverkdd.com"
-            >partner@vancouverkdd.com
+            >admin@vancouverkdd.com
           </a>
         </p>
       </div>
     </div>
-    <div class="w-full px-8">
-      <div class="pt-6 pb-4">
+    <div class="w-full px-8 pt-2">
+      <div class="pt-8 pb-4">
         <h1 class="text-xl font-semibold text-royalBlue-700">My KDD Ticket</h1>
       </div>
       <div class="flex flex-col justify-center h-96 p-4 rounded shadow-lg">
@@ -89,4 +90,28 @@
       </div>
     </div>
   </div>
+
+  <div class="confetti-wrapper">
+    <Confetti
+      x={[-5, 5]}
+      y={[0, 0.1]}
+      delay={[500, 2000]}
+      duration={3000}
+      amount={150}
+      fallDistance="100vh" />
+  </div>
 </section>
+
+<style>
+  .confetti-wrapper {
+    position: fixed;
+    top: -50px;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+  }
+</style>
