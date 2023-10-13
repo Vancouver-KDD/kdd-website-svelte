@@ -31,11 +31,12 @@ function handleQuerySnapshot<T extends DocumentData>(
 
 function deriveStoreFromQuery<V, T extends DocumentData>(
   stores: Parameters<typeof derived>[0],
-  getQuery: (value: V) => Query
+  getQuery: (value: V) => Query | null
 ) {
-  return derived(stores, ($stores, set) =>
-    handleQuerySnapshot<T>(getQuery($stores), set)
-  ) as Readable<Map<string, T>>
+  return derived(stores, ($stores, set) => {
+    const q = getQuery($stores)
+    q ? handleQuerySnapshot<T>(q, set) : q
+  }) as Readable<Map<string, T>>
 }
 
 function handleDocSnapshot<T extends DocumentData>(
@@ -61,11 +62,13 @@ export const selectedEventId = writable<string>()
 export const ticketValue = deriveStoreFromQuery<string, DB.Ticket>(
   selectedEventId,
   ($selectedEventId) =>
-    query(
-      collection(db, 'Tickets'),
-      where('eventId', '==', $selectedEventId),
-      orderBy('createdAt', 'desc')
-    )
+    $selectedEventId
+      ? query(
+          collection(db, 'Tickets'),
+          where('eventId', '==', $selectedEventId),
+          orderBy('createdAt', 'desc')
+        )
+      : null
 )
 export const selectedTicket = {
   // State
