@@ -3,7 +3,8 @@
   import {db} from '$lib/firebase'
   import {collection, doc} from 'firebase/firestore'
   import {DateTime} from 'luxon'
-  import {Toaster, toast} from 'svelte-french-toast'
+  import {toast} from 'svelte-french-toast'
+  import {Confetti} from 'svelte-confetti'
 
   export let data
   const {event} = data
@@ -24,13 +25,17 @@
     message: '',
   }
   $: isFree = event?.price === '0.00'
+
+  let isTicketReserved = false
+
+  const reserveBtnHandler = () => {
+    isTicketReserved = true
+  }
 </script>
 
 <svelte:head>
   <title>Vancouver KDD - Checkout</title>
 </svelte:head>
-
-<Toaster />
 
 <section class="flex-center flex-col">
   <div class="max-w-4xl w-full flex flex-col md:flex-row gap-8">
@@ -67,7 +72,7 @@
             use:enhance={() => {
               return async ({result}) => {
                 applyAction(result)
-                toast.success('예약 완료! Email을 확인하세요.')
+                toast.success('티켓 예약이 완료되었습니다.')
               }
             }}>
             <input type="text" name="id" value={ticketId} aria-hidden="true" class="hidden" />
@@ -207,7 +212,9 @@
                 <button
                   type="submit"
                   class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
-                  >Reserve</button>
+                  on:click={() => {
+                    reserveBtnHandler
+                  }}>Reserve</button>
               {:else}
                 <button
                   type="submit"
@@ -226,4 +233,30 @@
       other purpose.
     </p>
   </div>
+  {#if isTicketReserved}
+    <div class="confetti-wrapper">
+      <Confetti
+        x={[-5, 5]}
+        y={[0, 0.1]}
+        delay={[500, 2000]}
+        infinite
+        duration={3000}
+        amount={150}
+        fallDistance="100vh" />
+    </div>
+  {/if}
 </section>
+
+<style>
+  .confetti-wrapper {
+    position: fixed;
+    top: -50px;
+    left: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+  }
+</style>

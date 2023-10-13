@@ -47,7 +47,7 @@ export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
         subject: `[Vancouver KDD] Purchase Complete for ${data.eventName}`,
         text: `Congratulations, you are confirmed for the event.
       See you at ${data.eventName}!
-      To cancel your ticket goto https://vancouverkdd.com/myTicket?ticketId=${data.id}`,
+      To view your ticket, please visit this link https://vancouverkdd.com/myTicket?ticketId=${data.id}`,
       },
     } satisfies DB.Email)
   }
@@ -142,7 +142,7 @@ export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verific
           subject: `[Vancouver KDD] Purchase Complete for ${ticketData.eventName}`,
           text: `Congratulations, we received payment ${data.amount}.
   See you at ${ticketData.eventName}!
-  To request refund goto https://vancouverkdd.com/myTicket?ticketId=${ticketData.id}`,
+  To view your ticket, please visit this link https://vancouverkdd.com/myTicket?ticketId=${ticketData.id}`,
         },
       } satisfies DB.Email)
     } else {
