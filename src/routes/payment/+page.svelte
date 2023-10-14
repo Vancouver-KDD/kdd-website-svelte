@@ -4,8 +4,7 @@
   import CheckoutImage from '$lib/images/checkout-image.png'
   import {doc, onSnapshot} from 'firebase/firestore'
   import {onMount} from 'svelte'
-  import {Confetti} from 'svelte-confetti'
-  import TicketImage from '$lib/images/ticket-image.png'
+  import {Redirect} from '$lib/components'
 
   let ticketData: DB.Ticket | undefined
   onMount(() => {
@@ -46,7 +45,8 @@
           height="712"
           title="vancouverkdd"></iframe>
       {:else if ticketData.status === 'paid'}
-        <div class="flex flex-col h-[700px] w-full items-center mt-28">
+        <Redirect href={`/myTicket?ticketId=${ticketData.id}`} />
+        <!-- <div class="flex flex-col h-[700px] w-full items-center mt-28">
           <img class="w-48 opacity-80" src={TicketImage} alt="ticket" />
           <p class="font-semibold text-center -mt-4">
             You're ready to roll! <br /> Your ticket is headed to your email.
@@ -62,7 +62,7 @@
             duration={3000}
             amount={150}
             fallDistance="100vh" />
-        </div>
+        </div> -->
       {/if}
     </div>
   </div>
@@ -75,7 +75,7 @@
 </section>
 
 <style>
-  .confetti-wrapper {
+  /* .confetti-wrapper {
     position: fixed;
     top: -50px;
     left: 0;
@@ -85,5 +85,5 @@
     justify-content: center;
     overflow: hidden;
     pointer-events: none;
-  }
+  } */
 </style>
