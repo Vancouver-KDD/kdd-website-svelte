@@ -19,6 +19,9 @@ export async function createTicket(data: Omit<DB.Ticket, 'createdAt'>) {
     batch.update(doc.ref, {
       status: 'cancelled',
     })
+    batch.update(db.doc(`EventsAnalytics/${data.eventId}`), {
+      ticketsOnHoldCount: FieldValue.increment(-1),
+    })
   }
 
   // 3. Create New Ticket
