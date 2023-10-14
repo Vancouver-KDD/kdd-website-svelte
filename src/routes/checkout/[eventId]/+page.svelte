@@ -5,17 +5,19 @@
   import {DateTime} from 'luxon'
   import {toast} from 'svelte-french-toast'
   import {Confetti} from 'svelte-confetti'
+  import {onMount} from 'svelte'
 
   export let data
   const {event} = data
   function limit(string = '', limit = 0) {
     return string.substring(0, limit)
   }
-
-  const ticketId = doc(collection(db, 'Tickets')).id
+  let ticketId: string | undefined
+  onMount(() => {
+    ticketId = doc(collection(db, 'Tickets')).id
+  })
 
   const formData = {
-    id: ticketId,
     firstTime: '',
     name: '',
     email: '',
