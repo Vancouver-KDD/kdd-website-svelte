@@ -3,6 +3,8 @@ import type {PageServerLoad} from './$types'
 import {getEvent} from '$lib/actions/airtable'
 import {refundTicket} from '$lib/server/actions'
 
+export const prerender = false
+
 export const load = (async ({url}) => {
   // Get ticket data
   const ticketId = url.searchParams.get('ticketId')
