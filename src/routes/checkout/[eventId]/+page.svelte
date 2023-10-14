@@ -5,7 +5,6 @@
   import {DateTime} from 'luxon'
   import {toast} from 'svelte-french-toast'
   import {Confetti} from 'svelte-confetti'
-  import {onMount} from 'svelte'
 
   export let data
   const {event} = data
@@ -67,8 +66,7 @@
         <div class="w-full p-6">
           <form
             method="POST"
-            use:enhance={({formData}) => {
-              formData.append('id', doc(collection(db, 'Tickets')).id)
+            use:enhance={() => {
               return async ({result}) => {
                 applyAction(result)
                 toast.success('티켓 예약이 완료되었습니다.')

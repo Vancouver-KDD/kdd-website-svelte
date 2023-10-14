@@ -1,4 +1,5 @@
 import {getEvent} from '$lib/actions/airtable'
+import {db} from '$lib/server/firebaseAdmin.js'
 import {createTicket} from '$lib/server/actions'
 import {error, redirect} from '@sveltejs/kit'
 
@@ -31,11 +32,11 @@ export const actions = {
     }
 
     const isFree = userData.isFreeApplicable === 'Yes' || airtableEventData.price === '0.00'
-
+    const ticketId = db.collection('Tickets').doc().id
     const ticketData = {
       eventName: airtableEventData.title,
       price: airtableEventData.price,
-      id: userData.id,
+      id: ticketId,
       eventId,
       firstTime: userData.firstTime,
       name: userData.name,
