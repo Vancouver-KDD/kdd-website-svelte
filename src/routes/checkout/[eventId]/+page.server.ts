@@ -17,6 +17,8 @@ export const load = async ({params}) => {
 
 export const actions = {
   default: async ({request}) => {
+    console.log('checkout page.server.ts is this cached? ' + new Date().valueOf())
+
     const formData = await request.formData()
     const eventId = formData.get('eventId') as string
     if (!eventId) {
@@ -49,7 +51,6 @@ export const actions = {
     } satisfies Omit<DB.Ticket, 'createdAt'>
 
     await createTicket(ticketData)
-
     if (ticketData.status === 'unpaid') {
       throw redirect(300, `/payment?eventId=${eventId}&ticketId=${userData.id}`)
     } else if (ticketData.status === 'free') {
