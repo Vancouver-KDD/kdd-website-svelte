@@ -7,7 +7,7 @@
 
   export let data
 
-  $: ({reservedTicket, event} = data)
+  const {reservedTicket, event} = data
 </script>
 
 <svelte:head>
