@@ -12,10 +12,6 @@
   function limit(string = '', limit = 0) {
     return string.substring(0, limit)
   }
-  let ticketId: string | undefined
-  onMount(() => {
-    ticketId = doc(collection(db, 'Tickets')).id
-  })
 
   const formData = {
     firstTime: '',
@@ -71,13 +67,13 @@
         <div class="w-full p-6">
           <form
             method="POST"
-            use:enhance={() => {
+            use:enhance={({formData}) => {
+              formData.append('id', doc(collection(db, 'Tickets')).id)
               return async ({result}) => {
                 applyAction(result)
                 toast.success('티켓 예약이 완료되었습니다.')
               }
             }}>
-            <input type="text" name="id" value={ticketId} aria-hidden="true" class="hidden" />
             <input type="text" name="eventId" value={event?.id} aria-hidden="true" class="hidden" />
 
             <div class="mb-5">
