@@ -67,7 +67,7 @@ export const getLatestEvents = async ({limit}: {limit: number}) => {
   const records = await base('Events')
     .select({
       pageSize: limit,
-      filterByFormula: `{dev} = ${DEV ? '1' : '0'}`,
+      // filterByFormula: `{dev} = ${DEV ? '1' : '0'}`,
       sort: [{field: 'date', direction: 'desc'}],
     })
     .firstPage()
