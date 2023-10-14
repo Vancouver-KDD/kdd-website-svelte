@@ -52,7 +52,7 @@ export const actions = {
 
     await createTicket(ticketData)
     if (ticketData.status === 'unpaid') {
-      throw redirect(300, `/payment?eventId=${eventId}&ticketId=${userData.id}`)
+      throw redirect(300, `/payment?eventId=${eventId}&ticketId=${ticketData.id}`)
     } else if (ticketData.status === 'free') {
       throw redirect(300, `/myTicket?ticketId=${ticketData.id}`)
     }
