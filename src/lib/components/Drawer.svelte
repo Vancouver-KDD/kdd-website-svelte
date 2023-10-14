@@ -18,8 +18,8 @@
             <Item
               id="event-title"
               class={twMerge(
-                'flex p-2 cursor-pointer bg-gray-100 hover:bg-gray-300 ease-in-out duration-200 rounded hover:font-semibold',
-                event.id === $selectedEventId && 'bg-gray-300 font-semibold'
+                'flex p-2 cursor-pointer bg-gray-100 text-gray-500/80 hover:bg-gray-300 ease-in-out duration-200 rounded font-semibold',
+                event.id === $selectedEventId && 'bg-gray-300 text-gray-900 font-semibold'
               )}>
               <Text class="text-start">{event.title}</Text>
             </Item>
