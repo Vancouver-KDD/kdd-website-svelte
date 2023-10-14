@@ -66,12 +66,31 @@
         <div class="w-full p-6">
           <form
             method="POST"
-            use:enhance={() => {
+            on:submit|preventDefault={async (e) => {
+              const data = new FormData(e.currentTarget)
+              const headers = new Headers()
+              headers.append('x-prerender-revalidate', '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf')
+              const response = await fetch(e.currentTarget.action, {
+                method: 'POST',
+                headers,
+                body: data,
+              })
+              const result = await response.json()
+              applyAction(result)
+              toast.success('티켓 예약이 완료되었습니다.')
+            }}>
+            <!-- use:enhance={({formElement, formData, action, cancel, submitter}) => {
+              action.
+              action.action.request.headers.append(
+                'x-prerender-revalidate',
+                '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf'
+              )
+
               return async ({result}) => {
                 applyAction(result)
                 toast.success('티켓 예약이 완료되었습니다.')
               }
-            }}>
+            }} -->
             <input type="text" name="eventId" value={event?.id} aria-hidden="true" class="hidden" />
 
             <div class="mb-5">
