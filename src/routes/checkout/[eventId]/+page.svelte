@@ -67,9 +67,9 @@
         <div class="grid grid-cols-4 mt-2">
           <h3 class="font-semibold text-lg text-royalBlue-700">Summary</h3>
           <button
-            class="col-span-3 px-2 text-left text-sm cursor-pointer text-gray-500 hover:text-gray-800"
+            class="col-span-3 px-2 text-left text-sm cursor-pointer text-gray-600 hover:text-royalBlue-800"
             on:click={handleClick}>
-            {event && limit(event.description, 320)} [...]
+            {event && limit(event.description, 322)}... [더보기]
           </button>
         </div>
       </div>
@@ -142,13 +142,27 @@
             <div class="mb-4">
               <label for="occupation" class="block text-sm font-medium text-gray-700"
                 >Occupation:</label>
-              <input
-                type="text"
-                name="occupation"
-                bind:value={formData.occupation}
-                required
-                placeholder="학생, 개발자, 디자이너, 기타"
-                class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
+              <div class="flex">
+                <select
+                  name="occupation"
+                  bind:value={formData.occupation}
+                  required
+                  class="w-full mr-2 px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500">
+                  <option value="">Select an option</option>
+                  <option value="개발자">개발자</option>
+                  <option value="디자이너">디자이너</option>
+                  <option value="학생">학생</option>
+                  <option value="기타">기타</option>
+                </select>
+                {#if formData.occupation === '기타'}
+                  <input
+                    type="text"
+                    name="customOccupation"
+                    placeholder="직업을 입력해주세요"
+                    class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500"
+                    on:change={(event) => (formData.occupation = event.target?.value)} />
+                {/if}
+              </div>
             </div>
 
             <div class="mb-4">
