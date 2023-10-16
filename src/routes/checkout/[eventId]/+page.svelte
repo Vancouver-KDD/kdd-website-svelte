@@ -1,10 +1,12 @@
 <script lang="ts">
   import {applyAction, enhance} from '$app/forms'
+  import {writable} from 'svelte/store'
   import {db} from '$lib/firebase'
   import {collection, doc} from 'firebase/firestore'
   import {DateTime} from 'luxon'
   import {toast} from 'svelte-french-toast'
   import {Confetti} from 'svelte-confetti'
+  import {Marked} from '@ts-stack/markdown'
 
   export let data
   const {event} = data
@@ -21,12 +23,27 @@
     location: '',
     message: '',
   }
+
   $: isFree = event?.price === '0.00'
+  const isFreeStore = writable(false)
 
   let isTicketReserved = false
 
   const reserveBtnHandler = () => {
     isTicketReserved = true
+  }
+
+  let dialog: HTMLDialogElement
+
+  const handleClick = () => {
+    dialog?.showModal()
+  }
+
+  let customOccupation = ''
+  $: customOccupation = formData.occupation
+
+  function updateOccupation() {
+    formData.occupation = customOccupation
   }
 </script>
 
@@ -53,9 +70,11 @@
         </div>
         <div class="grid grid-cols-4 mt-2">
           <h3 class="font-semibold text-lg text-royalBlue-700">Summary</h3>
-          <div class="col-span-3 px-2 text-gray-500 text-sm">
-            {event && limit(event.description, 320)} [...]
-          </div>
+          <button
+            class="col-span-3 px-2 text-left text-sm cursor-pointer text-gray-600 hover:text-royalBlue-800"
+            on:click={handleClick}>
+            {event && limit(event.description, 322)}... [더보기]
+          </button>
         </div>
       </div>
     </div>
@@ -145,13 +164,29 @@
             <div class="mb-4">
               <label for="occupation" class="block text-sm font-medium text-gray-700"
                 >Occupation:</label>
-              <input
-                type="text"
-                name="occupation"
-                bind:value={formData.occupation}
-                required
-                placeholder="학생, 개발자, 디자이너, 기타"
-                class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
+              <div class="flex">
+                <select
+                  name="occupation"
+                  bind:value={formData.occupation}
+                  required
+                  class="w-full mr-2 px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500">
+                  <option value="">Select an option</option>
+                  <option value="개발자">개발자</option>
+                  <option value="디자이너">디자이너</option>
+                  <option value="학생">학생</option>
+                  <option value="기타">기타</option>
+                </select>
+                {#if formData.occupation === '기타'}
+                  <input
+                    type="text"
+                    name="customOccupation"
+                    placeholder="직업을 입력해주세요"
+                    class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500"
+                    bind:value={customOccupation}
+                    on:input={(e) => (customOccupation = e.target?.value)}
+                    on:change={updateOccupation} />
+                {/if}
+              </div>
             </div>
 
             <div class="mb-4">
@@ -195,6 +230,9 @@
                       name="isFreeApplicable"
                       value="Yes"
                       required
+                      on:click={() => {
+                        isFreeStore.set(true)
+                      }}
                       class="form-radio text-royalBlue-500" />
                     <label for="yes" class="text-sm text-gray-700 font-medium">Yes</label>
                   </span>
@@ -204,6 +242,9 @@
                       id="no"
                       name="isFreeApplicable"
                       value="No"
+                      on:click={() => {
+                        isFreeStore.set(false)
+                      }}
                       class="form-radio text-royalBlue-500" />
                     <label for="no" class="text-sm text-gray-700 font-medium">No</label>
                   </span>
@@ -223,7 +264,7 @@
             </div>
 
             <div class="text-right">
-              {#if isFree}
+              {#if $isFreeStore}
                 <button
                   type="submit"
                   class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
@@ -261,6 +302,19 @@
     </div>
   {/if}
 </section>
+
+<!-- svelte-ignore a11y-click-events-have-key-events -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<dialog
+  bind:this={dialog}
+  on:click={() => dialog.close()}
+  class="bg-transparent backdrop-blur-sm max-w-full max-h-full min-w-full min-h-full flex items-center justify-center">
+  <div class="w-1/2 bg-white rounded-xl shadow-lg p-6">
+    <p class="text-sm [&>*]:pb-4">
+      {@html Marked.parse(event?.description ?? '')}
+    </p>
+  </div>
+</dialog>
 
 <style>
   .confetti-wrapper {
