@@ -6,10 +6,8 @@ import {error, redirect} from '@sveltejs/kit'
 export const load = async ({params}) => {
   const eventId = params.eventId
 
-  console.log({eventId})
   if (eventId) {
     const data = await getEvent(eventId)
-    console.log('data', data)
     return {event: data}
   }
   return {event: null}
@@ -17,8 +15,6 @@ export const load = async ({params}) => {
 
 export const actions = {
   default: async ({request}) => {
-    console.log('checkout page.server.ts is this cached? ' + new Date().valueOf())
-
     const formData = await request.formData()
     const eventId = formData.get('eventId') as string
     if (!eventId) {

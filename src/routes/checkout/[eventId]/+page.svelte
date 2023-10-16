@@ -266,6 +266,7 @@
 <dialog bind:this={dialog} on:click={() => dialog.close()} class="bg-transparent backdrop-blur-sm">
   <div class="bg-white rounded-xl shadow-lg p-6">
     <p class="text-sm [&>*]:pb-4 max-w-4xl">
+      <!-- eslint-disable svelte/no-at-html-tags -->
       {@html Marked.parse(event?.description ?? '')}
     </p>
   </div>
