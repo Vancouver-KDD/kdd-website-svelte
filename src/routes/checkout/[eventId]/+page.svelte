@@ -41,6 +41,13 @@
   const handleClick = () => {
     dialog?.showModal()
   }
+
+  let customOccupation = ''
+  $: customOccupation = formData.occupation
+
+  function updateOccupation() {
+    formData.occupation = customOccupation
+  }
 </script>
 
 <svelte:head>
@@ -160,7 +167,9 @@
                     name="customOccupation"
                     placeholder="직업을 입력해주세요"
                     class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500"
-                    on:change={(event) => (formData.occupation = event.target?.value)} />
+                    bind:value={customOccupation}
+                    on:input={(e) => (customOccupation = e.target?.value)}
+                    on:change={updateOccupation} />
                 {/if}
               </div>
             </div>

@@ -1,6 +1,7 @@
 <script lang="ts">
   import DataTable, {Head, Body, Row, Cell} from '@smui/data-table'
   import {activeTickets, cancelledTickets} from '$lib/store'
+  import exportExcel from '$lib/exportExcel'
 
   let initBodyHtml: string | null = null
 
@@ -26,9 +27,14 @@
 
 <div>
   <button
-    class="absolute top-0 right-24 m-7 bg-royalBlue-500/75 hover:bg-royalBlue-600 text-white font-bold py-2 px-4 rounded-lg"
+    class="absolute top-0 right-24 m-7 bg-royalBlue-500/75 hover:bg-royalBlue-500 text-white font-bold py-2 px-4 rounded-lg"
     on:click={printContent}>
     Print
+  </button>
+  <button
+    class="absolute top-0 right-44 m-7 bg-amber-300/75 hover:bg-amber-400 text-white font-bold py-2 px-4 rounded-lg"
+    on:click={() => exportExcel(null, 'data.csv')}>
+    CSV
   </button>
   <DataTable stickyHeader aria-label="Ticket List" class="w-[180%] overflow-auto" id="print-area">
     <Head class="w-full">
