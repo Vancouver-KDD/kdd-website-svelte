@@ -1,9 +1,10 @@
 import {firebaseConfig} from '$lib/firebaseConfig'
-import {initializeApp} from 'firebase/app'
+import {getApps, initializeApp} from 'firebase/app'
 import {getFirestore} from 'firebase/firestore'
 import {getAuth} from 'firebase/auth'
 
-const app = initializeApp(firebaseConfig)
+const apps = getApps()
+const app = apps[0] ? apps[0] : initializeApp(firebaseConfig)
 const db = getFirestore(app)
 
 const firebaseAuth = getAuth(app)
