@@ -9,19 +9,20 @@
   export let ticketValue: Map<string, DB.Ticket>
 </script>
 
-<div class="flex h-full border">
-  <Drawer class="w-80 max-h-screen">
-    <Content class="h-full">
-      <List class="flex-start flex-col gap-2 p-2 border bg-gray-50 h-full overflow-y-auto">
+<div class="flex flex-col md:flex-row h-full border">
+  <Drawer class="md:w-80 max-h-screen">
+    <Content class="h-full overflow-x-auto">
+      <List
+        class="flex-start flex-row md:flex-col gap-2 p-1 md:p-2 border bg-gray-50 h-full overflow-y-auto">
         {#each events as event}
           <button on:click={() => goto(`/admin/dashboard?eventId=${event.id}`)}>
             <Item
               id="event-title"
               class={twMerge(
-                'flex p-2 cursor-pointer bg-gray-100 text-gray-500/80 hover:bg-gray-300 ease-in-out duration-200 rounded font-semibold',
+                'w-60 line-clamp-1 md:w-full flex p-2 cursor-pointer bg-gray-100 text-gray-500/80 hover:bg-gray-300 ease-in-out duration-200 rounded font-semibold',
                 event.id === $selectedEventId && 'bg-gray-300 text-gray-900 font-semibold'
               )}>
-              <Text class="text-start">{event.title}</Text>
+              <Text class="text-start text-sm md:text-base">{event.title}</Text>
             </Item>
           </button>
         {/each}
@@ -31,7 +32,7 @@
 
   <AppContent class="w-full flex-auto overflow-auto">
     <main class="h-full">
-      <List class="flex-start flex-col gap-1 border h-full overflow-auto p-2">
+      <List class="flex-start flex-col gap-1 border h-full horizontal-overflow-auto p-2">
         {#if ticketValue && ticketValue.size > 0}
           <AdminTable />
         {:else}

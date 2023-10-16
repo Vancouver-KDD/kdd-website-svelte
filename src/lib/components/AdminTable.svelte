@@ -27,20 +27,20 @@
 
 <div>
   <button
-    class="absolute top-0 right-24 m-7 bg-royalBlue-500/75 hover:bg-royalBlue-500 text-white font-bold py-2 px-4 rounded-lg"
+    class="hidden md:block absolute top-0 right-24 m-7 bg-royalBlue-500/75 hover:bg-royalBlue-500 text-white font-bold py-2 px-4 rounded-lg"
     on:click={printContent}>
     Print
   </button>
-  <button
+  <!-- <button
     class="absolute top-0 right-44 m-7 bg-amber-300/75 hover:bg-amber-400 text-white font-bold py-2 px-4 rounded-lg"
-    on:click={() => exportExcel(null, 'data.csv')}>
+    on:click={() => exportExcel(table, 'data.csv')}>
     CSV
-  </button>
+  </button> -->
   <DataTable stickyHeader aria-label="Ticket List" class="w-[180%] overflow-auto" id="print-area">
     <Head class="w-full">
       <Row class="border text-center bg-royalBlue-50 m-4">
-        <Cell class="w-[2%]">번호</Cell>
-        <Cell class="w-[5%]">신청일</Cell>
+        <Cell class="w-[10%] md:w-[2%]">번호</Cell>
+        <Cell class="w-[28%] md:w-[5%]">신청일</Cell>
         <Cell class="w-[8%]">이름</Cell>
         <Cell class="w-[20%]">Email</Cell>
         <Cell class="">직업</Cell>
