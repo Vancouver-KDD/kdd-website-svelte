@@ -7,9 +7,11 @@ const serviceAccount = {
   privateKey: env.FIREABSE_ADMIN_PRIVATE_KEY,
 } as ServiceAccount
 
-const app = admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: 'https://vancouver-kdd-default-rtdb.firebaseio.com',
-})
+const app =
+  admin.apps[0] ??
+  admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: 'https://vancouver-kdd-default-rtdb.firebaseio.com',
+  })
 
 export const db = app.firestore()

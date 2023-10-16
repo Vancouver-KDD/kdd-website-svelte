@@ -7,7 +7,7 @@
   let email: string
   let password: string
 
-  let success: boolean | undefined = undefined
+  // let success: boolean | undefined = undefined
 
   const register = () => {
     createUserWithEmailAndPassword(firebaseAuth, email, password)
@@ -18,10 +18,8 @@
       .catch((error) => {
         const errorCode = error.code
         const errorMessage = error.message
-        console.log(errorCode, errorMessage)
-
-        success = false
-        console.log(success)
+        console.error(errorCode, errorMessage)
+        // success = false
       })
   }
 </script>

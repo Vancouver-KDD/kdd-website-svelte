@@ -1,18 +1,18 @@
 <script lang="ts">
-  import {applyAction, enhance} from '$app/forms'
+  import {applyAction} from '$app/forms'
   import {writable} from 'svelte/store'
-  import {db} from '$lib/firebase'
-  import {collection, doc} from 'firebase/firestore'
   import {DateTime} from 'luxon'
   import {toast} from 'svelte-french-toast'
-  import {Confetti} from 'svelte-confetti'
   import {Marked} from '@ts-stack/markdown'
+  import {truncate} from 'lodash'
+  import {Button} from '$lib/components'
+
+  Marked.setOptions({
+    sanitize: true,
+  })
 
   export let data
   const {event} = data
-  function limit(string = '', limit = 0) {
-    return string.substring(0, limit)
-  }
 
   const formData = {
     firstTime: '',
@@ -27,55 +27,42 @@
   $: isFree = event?.price === '0.00'
   const isFreeStore = writable(false)
 
-  let isTicketReserved = false
-
-  const reserveBtnHandler = () => {
-    isTicketReserved = true
-  }
-
   let dialog: HTMLDialogElement
 
-  const handleClick = () => {
-    dialog?.showModal()
-  }
+  $: eventTime = event && DateTime.fromISO(event.date)
+  $: eventTimeTo = event && DateTime.fromISO(event.date).plus({seconds: event.duration})
 
-  let customOccupation = ''
-  $: customOccupation = formData.occupation
-
-  function updateOccupation() {
-    formData.occupation = customOccupation
-  }
+  let isLoading = false
 </script>
 
 <svelte:head>
   <title>Vancouver KDD - Checkout</title>
 </svelte:head>
 
-<section class="flex-center flex-col">
+<section class="flex-center flex-col pb-20">
   <div class="max-w-4xl w-full flex flex-col md:flex-row gap-8">
     <div class="w-full flex flex-col p-4 pt-6">
-      <img class="w-full h-52" src={event?.poster?.url} alt="event-poster" />
-      <div class="mt-2">
-        <div class="grid grid-cols-4 mt-4">
-          <h3 class="font-semibold text-lg text-royalBlue-700 tracking-tighter">Date & Time</h3>
-          <div class="col-span-3 px-2 text-gray-600">
-            {event && DateTime.fromISO(event.date).toFormat('yyyy LLL dd H:mm a')}
-          </div>
+      <img class="w-full h-52 rounded" src={event?.poster?.url} alt="event-poster" />
+      <div class="grid grid-cols-[100px_1fr] gap-2 mt-2">
+        <h3 class="font-semibold text-lg text-royalBlue-700 tracking-tighter">Date</h3>
+        <div class="pt-0.5 text-gray-600">
+          {eventTime && eventTime.toLocaleString(DateTime.DATE_FULL)}
         </div>
-        <div class="grid grid-cols-4 mt-2">
-          <h3 class="font-semibold text-lg text-royalBlue-700">Location</h3>
-          <div class="col-span-3 px-2 text-gray-600">
-            {event && event.location}
-          </div>
+        <h3 class="font-semibold text-lg text-royalBlue-700 tracking-tighter">Time</h3>
+        <div class="pt-0.5 text-gray-600">
+          {eventTime && eventTime.toLocaleString(DateTime.TIME_SIMPLE)}
+          {eventTimeTo && '- ' + eventTimeTo.toLocaleString(DateTime.TIME_SIMPLE)}
         </div>
-        <div class="grid grid-cols-4 mt-2">
-          <h3 class="font-semibold text-lg text-royalBlue-700">Summary</h3>
-          <button
-            class="col-span-3 px-2 text-left text-sm cursor-pointer text-gray-600 hover:text-royalBlue-800"
-            on:click={handleClick}>
-            {event && limit(event.description, 322)}... [더보기]
-          </button>
+        <h3 class="font-semibold text-lg text-royalBlue-700">Location</h3>
+        <div class="pt-0.5 text-gray-600">
+          {event && event.location}
         </div>
+        <h3 class="font-semibold text-lg text-royalBlue-700">Summary</h3>
+        <button
+          class="pt-0.5 text-left text-sm cursor-pointer text-gray-600 hover:text-royalBlue-800"
+          on:click={() => dialog?.showModal()}>
+          {event && truncate(event.description, {length: 322})}
+        </button>
       </div>
     </div>
 
@@ -86,30 +73,23 @@
           <form
             method="POST"
             on:submit|preventDefault={async (e) => {
-              const data = new FormData(e.currentTarget)
-              const headers = new Headers()
-              headers.append('x-prerender-revalidate', '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf')
-              const response = await fetch(e.currentTarget.action, {
-                method: 'POST',
-                headers,
-                body: data,
-              })
-              const result = await response.json()
-              applyAction(result)
-              toast.success('티켓 예약이 완료되었습니다.')
-            }}>
-            <!-- use:enhance={({formElement, formData, action, cancel, submitter}) => {
-              action.
-              action.action.request.headers.append(
-                'x-prerender-revalidate',
-                '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf'
-              )
-
-              return async ({result}) => {
+              isLoading = true
+              try {
+                const data = new FormData(e.currentTarget)
+                const headers = new Headers()
+                headers.append('x-prerender-revalidate', '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf')
+                const response = await fetch(e.currentTarget.action, {
+                  method: 'POST',
+                  headers,
+                  body: data,
+                })
+                const result = await response.json()
                 applyAction(result)
                 toast.success('티켓 예약이 완료되었습니다.')
+              } finally {
+                isLoading = false
               }
-            }} -->
+            }}>
             <input type="text" name="eventId" value={event?.id} aria-hidden="true" class="hidden" />
 
             <div class="mb-5">
@@ -117,8 +97,10 @@
                 {event?.title}
               </h1>
             </div>
-            <div class="flex gap-6 mb-4">
-              <h3 class="text-sm text-gray-700 font-medium">** KDD 밋업에 처음 참석하시나요?</h3>
+            <div class="flex flex-col mb-4">
+              <h3 class="text-sm text-gray-700 font-medium">
+                KDD 밋업에 처음 참석하시나요? <span class="required">*</span>
+              </h3>
               <div class="flex items-center gap-5">
                 <span>
                   <input
@@ -142,7 +124,9 @@
             </div>
 
             <div class="mb-4">
-              <label for="name" class="block text-sm font-medium text-gray-700">Name:</label>
+              <label for="name" class="block text-sm font-medium text-gray-700">
+                Full Name: <span class="required">*</span>
+              </label>
               <input
                 type="text"
                 name="name"
@@ -152,7 +136,9 @@
             </div>
 
             <div class="mb-4">
-              <label for="email" class="block text-sm font-medium text-gray-700">Email:</label>
+              <label for="email" class="block text-sm font-medium text-gray-700">
+                Email: <span class="required">*</span>
+              </label>
               <input
                 type="email"
                 name="email"
@@ -162,35 +148,36 @@
             </div>
 
             <div class="mb-4">
-              <label for="occupation" class="block text-sm font-medium text-gray-700"
-                >Occupation:</label>
+              <label for="occupation" class="block text-sm font-medium text-gray-700">
+                Occupation: <span class="required">*</span>
+              </label>
               <div class="flex">
                 <select
                   name="occupation"
                   bind:value={formData.occupation}
                   required
                   class="w-full mr-2 px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500">
-                  <option value="">Select an option</option>
-                  <option value="개발자">개발자</option>
-                  <option value="디자이너">디자이너</option>
-                  <option value="학생">학생</option>
-                  <option value="기타">기타</option>
+                  <option value="" selected disabled hidden>Select an option</option>
+                  <option value="developer">개발자</option>
+                  <option value="designer">디자이너</option>
+                  <option value="student">학생</option>
+                  <option value="other">기타</option>
                 </select>
-                {#if formData.occupation === '기타'}
+                {#if formData.occupation === 'other'}
                   <input
+                    required
                     type="text"
                     name="customOccupation"
                     placeholder="직업을 입력해주세요"
-                    class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500"
-                    bind:value={customOccupation}
-                    on:input={(e) => (customOccupation = e.target?.value)}
-                    on:change={updateOccupation} />
+                    class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
                 {/if}
               </div>
             </div>
 
             <div class="mb-4">
-              <label for="work" class="block text-sm font-medium text-gray-700">Work:</label>
+              <label for="work" class="block text-sm font-medium text-gray-700">
+                Work: <span class="required">*</span>
+              </label>
               <input
                 type="text"
                 name="work"
@@ -201,7 +188,9 @@
             </div>
 
             <div class="mb-4">
-              <label for="work" class="block text-sm font-medium text-gray-700">Location:</label>
+              <label for="work" class="block text-sm font-medium text-gray-700">
+                Location: <span class="required">*</span>
+              </label>
               <input
                 type="text"
                 name="location"
@@ -215,13 +204,15 @@
               <div class="mb-4">
                 <label for="work" class="flex items-center gap-2">
                   <p class="text-sm font-medium text-gray-700">무료 Tier 조건에 해당하시나요?</p>
-                  <p class="text-xs text-gray-500">(아래 중 1개 항목이 충족되면 해당)</p></label>
+                  <p class="text-xs text-gray-500">
+                    (아래 중 1개 항목이 충족되면 해당) <span class="required">*</span>
+                  </p>
+                </label>
                 <div class="flex flex-col gap-2 border border-gray-200 rounded-lg p-2">
                   <p class="text-sm text-gray-500">1. 저는 현재 학생입니다</p>
                   <p class="text-sm text-gray-500">2. 저는 현재 구직중입니다</p>
                   <p class="text-sm text-gray-500">3. 저는 KDD 밋업에 처음 참석합니다</p>
                 </div>
-                <div></div>
                 <div class="flex gap-4">
                   <span>
                     <input
@@ -230,9 +221,7 @@
                       name="isFreeApplicable"
                       value="Yes"
                       required
-                      on:click={() => {
-                        isFreeStore.set(true)
-                      }}
+                      on:click={() => ($isFreeStore = true)}
                       class="form-radio text-royalBlue-500" />
                     <label for="yes" class="text-sm text-gray-700 font-medium">Yes</label>
                   </span>
@@ -242,9 +231,7 @@
                       id="no"
                       name="isFreeApplicable"
                       value="No"
-                      on:click={() => {
-                        isFreeStore.set(false)
-                      }}
+                      on:click={() => ($isFreeStore = false)}
                       class="form-radio text-royalBlue-500" />
                     <label for="no" class="text-sm text-gray-700 font-medium">No</label>
                   </span>
@@ -255,77 +242,37 @@
             <div class="mb-4">
               <label for="message" class="block text-sm font-medium text-gray-700">Message:</label>
               <textarea
-                name="message"
                 bind:value={formData.message}
+                name="message"
                 rows="4"
                 placeholder="KDD에 하시고 싶으신 말씀이나 건의사항이 있다면 남겨주세요."
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-sm"
-              ></textarea>
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-sm" />
             </div>
 
             <div class="text-right">
-              {#if $isFreeStore}
-                <button
-                  type="submit"
-                  class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
-                  on:click={() => {
-                    reserveBtnHandler
-                  }}>Reserve</button>
-              {:else}
-                <button
-                  type="submit"
-                  class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
-                  >Next</button>
-              {/if}
+              <Button type="submit" disabled={isLoading} loading={isLoading}>
+                {#if $isFreeStore}Reserve{:else}Continue to Payment{/if}
+              </Button>
             </div>
           </form>
         </div>
       </div>
     </div>
   </div>
-  <div class="mt-24 mb-4">
-    <p class="text-xs md:text-sm">
-      ** This information is solely for reserving KDD's open events and will not be used for any
-      other purpose.
-    </p>
-  </div>
-  {#if isTicketReserved}
-    <div class="confetti-wrapper">
-      <Confetti
-        x={[-5, 5]}
-        y={[0, 0.1]}
-        delay={[500, 2000]}
-        infinite
-        duration={3000}
-        amount={150}
-        fallDistance="100vh" />
-    </div>
-  {/if}
 </section>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<dialog
-  bind:this={dialog}
-  on:click={() => dialog.close()}
-  class="bg-transparent backdrop-blur-sm max-w-full max-h-full min-w-full min-h-full flex items-center justify-center">
-  <div class="w-1/2 bg-white rounded-xl shadow-lg p-6">
-    <p class="text-sm [&>*]:pb-4">
+<dialog bind:this={dialog} on:click={() => dialog.close()} class="bg-transparent backdrop-blur-sm">
+  <div class="bg-white rounded-xl shadow-lg p-6">
+    <p class="text-sm [&>*]:pb-4 max-w-4xl">
+      <!-- eslint-disable svelte/no-at-html-tags -->
       {@html Marked.parse(event?.description ?? '')}
     </p>
   </div>
 </dialog>
 
-<style>
-  .confetti-wrapper {
-    position: fixed;
-    top: -50px;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    display: flex;
-    justify-content: center;
-    overflow: hidden;
-    pointer-events: none;
-  }
+<style lang="sass">
+  span.required 
+    @apply text-red-500
 </style>
