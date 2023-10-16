@@ -5,6 +5,7 @@
   import {toast} from 'svelte-french-toast'
   import {Marked} from '@ts-stack/markdown'
   import {truncate} from 'lodash'
+  import {Button} from '$lib/components'
 
   Marked.setOptions({
     sanitize: true,
@@ -28,23 +29,21 @@
 
   let dialog: HTMLDialogElement
 
-  const handleClick = () => {
-    dialog?.showModal()
-  }
-
   $: eventTime = event && DateTime.fromISO(event.date)
   $: eventTimeTo = event && DateTime.fromISO(event.date).plus({seconds: event.duration})
+
+  let isLoading = false
 </script>
 
 <svelte:head>
   <title>Vancouver KDD - Checkout</title>
 </svelte:head>
 
-<section class="flex-center flex-col">
+<section class="flex-center flex-col pb-20">
   <div class="max-w-4xl w-full flex flex-col md:flex-row gap-8">
     <div class="w-full flex flex-col p-4 pt-6">
-      <img class="w-full h-52" src={event?.poster?.url} alt="event-poster" />
-      <div class="grid grid-cols-[100px_1fr] gap-2">
+      <img class="w-full h-52 rounded" src={event?.poster?.url} alt="event-poster" />
+      <div class="grid grid-cols-[100px_1fr] gap-2 mt-2">
         <h3 class="font-semibold text-lg text-royalBlue-700 tracking-tighter">Date</h3>
         <div class="pt-0.5 text-gray-600">
           {eventTime && eventTime.toLocaleString(DateTime.DATE_FULL)}
@@ -61,7 +60,7 @@
         <h3 class="font-semibold text-lg text-royalBlue-700">Summary</h3>
         <button
           class="pt-0.5 text-left text-sm cursor-pointer text-gray-600 hover:text-royalBlue-800"
-          on:click={handleClick}>
+          on:click={() => dialog?.showModal()}>
           {event && truncate(event.description, {length: 322})}
         </button>
       </div>
@@ -74,17 +73,22 @@
           <form
             method="POST"
             on:submit|preventDefault={async (e) => {
-              const data = new FormData(e.currentTarget)
-              const headers = new Headers()
-              headers.append('x-prerender-revalidate', '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf')
-              const response = await fetch(e.currentTarget.action, {
-                method: 'POST',
-                headers,
-                body: data,
-              })
-              const result = await response.json()
-              applyAction(result)
-              toast.success('티켓 예약이 완료되었습니다.')
+              isLoading = true
+              try {
+                const data = new FormData(e.currentTarget)
+                const headers = new Headers()
+                headers.append('x-prerender-revalidate', '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf')
+                const response = await fetch(e.currentTarget.action, {
+                  method: 'POST',
+                  headers,
+                  body: data,
+                })
+                const result = await response.json()
+                applyAction(result)
+                toast.success('티켓 예약이 완료되었습니다.')
+              } finally {
+                isLoading = false
+              }
             }}>
             <input type="text" name="eventId" value={event?.id} aria-hidden="true" class="hidden" />
 
@@ -246,22 +250,14 @@
             </div>
 
             <div class="text-right">
-              <button
-                type="submit"
-                class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]">
+              <Button type="submit" disabled={isLoading} loading={isLoading}>
                 {#if $isFreeStore}Reserve{:else}Continue to Payment{/if}
-              </button>
+              </Button>
             </div>
           </form>
         </div>
       </div>
     </div>
-  </div>
-  <div class="mt-24 mb-4">
-    <p class="text-xs md:text-sm">
-      ** This information is solely for reserving KDD's open events and will not be used for any
-      other purpose.
-    </p>
   </div>
 </section>
 
