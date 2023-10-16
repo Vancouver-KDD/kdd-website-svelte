@@ -31,6 +31,9 @@
   const handleClick = () => {
     dialog?.showModal()
   }
+
+  $: eventTime = event && DateTime.fromISO(event.date)
+  $: eventTimeTo = event && DateTime.fromISO(event.date).plus({seconds: event.duration})
 </script>
 
 <svelte:head>
@@ -44,11 +47,12 @@
       <div class="grid grid-cols-[100px_1fr] gap-2">
         <h3 class="font-semibold text-lg text-royalBlue-700 tracking-tighter">Date</h3>
         <div class="pt-0.5 text-gray-600">
-          {event && DateTime.fromISO(event.date).toLocaleString(DateTime.DATE_FULL)}
+          {eventTime && eventTime.toLocaleString(DateTime.DATE_FULL)}
         </div>
         <h3 class="font-semibold text-lg text-royalBlue-700 tracking-tighter">Time</h3>
         <div class="pt-0.5 text-gray-600">
-          {event && DateTime.fromISO(event.date).toLocaleString(DateTime.DATE_FULL)}
+          {eventTime && eventTime.toLocaleString(DateTime.TIME_SIMPLE)}
+          {eventTimeTo && '- ' + eventTimeTo.toLocaleString(DateTime.TIME_SIMPLE)}
         </div>
         <h3 class="font-semibold text-lg text-royalBlue-700">Location</h3>
         <div class="pt-0.5 text-gray-600">
