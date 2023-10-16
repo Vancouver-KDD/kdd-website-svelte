@@ -3,7 +3,6 @@
   import {writable} from 'svelte/store'
   import {DateTime} from 'luxon'
   import {toast} from 'svelte-french-toast'
-  import {Confetti} from 'svelte-confetti'
   import {Marked} from '@ts-stack/markdown'
   import {truncate} from 'lodash'
 
@@ -13,9 +12,6 @@
 
   export let data
   const {event} = data
-  function limit(string = '', limit = 0) {
-    return string.substring(0, limit)
-  }
 
   const formData = {
     firstTime: '',
@@ -29,12 +25,6 @@
 
   $: isFree = event?.price === '0.00'
   const isFreeStore = writable(false)
-
-  let isTicketReserved = false
-
-  const reserveBtnHandler = () => {
-    isTicketReserved = true
-  }
 
   let dialog: HTMLDialogElement
 
@@ -92,18 +82,6 @@
               applyAction(result)
               toast.success('티켓 예약이 완료되었습니다.')
             }}>
-            <!-- use:enhance={({formElement, formData, action, cancel, submitter}) => {
-              action.
-              action.action.request.headers.append(
-                'x-prerender-revalidate',
-                '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf'
-              )
-
-              return async ({result}) => {
-                applyAction(result)
-                toast.success('티켓 예약이 완료되었습니다.')
-              }
-            }} -->
             <input type="text" name="eventId" value={event?.id} aria-hidden="true" class="hidden" />
 
             <div class="mb-5">
@@ -189,8 +167,9 @@
             </div>
 
             <div class="mb-4">
-              <label for="work" class="block text-sm font-medium text-gray-700"
-                >Work: <span class="required">*</span></label>
+              <label for="work" class="block text-sm font-medium text-gray-700">
+                Work: <span class="required">*</span>
+              </label>
               <input
                 type="text"
                 name="work"
@@ -201,8 +180,9 @@
             </div>
 
             <div class="mb-4">
-              <label for="work" class="block text-sm font-medium text-gray-700"
-                >Location: <span class="required">*</span></label>
+              <label for="work" class="block text-sm font-medium text-gray-700">
+                Location: <span class="required">*</span>
+              </label>
               <input
                 type="text"
                 name="location"
@@ -218,7 +198,8 @@
                   <p class="text-sm font-medium text-gray-700">무료 Tier 조건에 해당하시나요?</p>
                   <p class="text-xs text-gray-500">
                     (아래 중 1개 항목이 충족되면 해당) <span class="required">*</span>
-                  </p></label>
+                  </p>
+                </label>
                 <div class="flex flex-col gap-2 border border-gray-200 rounded-lg p-2">
                   <p class="text-sm text-gray-500">1. 저는 현재 학생입니다</p>
                   <p class="text-sm text-gray-500">2. 저는 현재 구직중입니다</p>
@@ -232,9 +213,7 @@
                       name="isFreeApplicable"
                       value="Yes"
                       required
-                      on:click={() => {
-                        isFreeStore.set(true)
-                      }}
+                      on:click={() => ($isFreeStore = true)}
                       class="form-radio text-royalBlue-500" />
                     <label for="yes" class="text-sm text-gray-700 font-medium">Yes</label>
                   </span>
@@ -244,9 +223,7 @@
                       id="no"
                       name="isFreeApplicable"
                       value="No"
-                      on:click={() => {
-                        isFreeStore.set(false)
-                      }}
+                      on:click={() => ($isFreeStore = false)}
                       class="form-radio text-royalBlue-500" />
                     <label for="no" class="text-sm text-gray-700 font-medium">No</label>
                   </span>
@@ -257,28 +234,19 @@
             <div class="mb-4">
               <label for="message" class="block text-sm font-medium text-gray-700">Message:</label>
               <textarea
-                name="message"
                 bind:value={formData.message}
+                name="message"
                 rows="4"
                 placeholder="KDD에 하시고 싶으신 말씀이나 건의사항이 있다면 남겨주세요."
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-sm"
-              ></textarea>
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-sm" />
             </div>
 
             <div class="text-right">
-              {#if $isFreeStore}
-                <button
-                  type="submit"
-                  class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
-                  on:click={() => {
-                    reserveBtnHandler
-                  }}>Reserve</button>
-              {:else}
-                <button
-                  type="submit"
-                  class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]"
-                  >Next</button>
-              {/if}
+              <button
+                type="submit"
+                class="px-4 py-2 bg-[#bd2d87]/90 text-white rounded-md hover:bg-[#bd2d87]">
+                {#if $isFreeStore}Reserve{:else}Continue to Payment{/if}
+              </button>
             </div>
           </form>
         </div>
@@ -291,18 +259,6 @@
       other purpose.
     </p>
   </div>
-  {#if isTicketReserved}
-    <div class="confetti-wrapper">
-      <Confetti
-        x={[-5, 5]}
-        y={[0, 0.1]}
-        delay={[500, 2000]}
-        infinite
-        duration={3000}
-        amount={150}
-        fallDistance="100vh" />
-    </div>
-  {/if}
 </section>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -319,17 +275,6 @@
 </dialog>
 
 <style lang="sass">
-  .confetti-wrapper 
-    position: fixed
-    top: -50px
-    left: 0
-    height: 100vh
-    width: 100vw
-    display: flex
-    justify-content: center
-    overflow: hidden
-    pointer-events: none
-  
   span.required 
     @apply text-red-500
 </style>
