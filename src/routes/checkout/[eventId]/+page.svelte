@@ -267,12 +267,9 @@
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
-<dialog
-  bind:this={dialog}
-  on:click={() => dialog.close()}
-  class="bg-transparent backdrop-blur-sm max-w-full max-h-full min-w-full min-h-full flex items-center justify-center">
-  <div class="w-1/2 bg-white rounded-xl shadow-lg p-6">
-    <p class="text-sm [&>*]:pb-4">
+<dialog bind:this={dialog} on:click={() => dialog.close()} class="bg-transparent backdrop-blur-sm">
+  <div class="bg-white rounded-xl shadow-lg p-6">
+    <p class="text-sm [&>*]:pb-4 max-w-4xl">
       {@html Marked.parse(event?.description ?? '')}
     </p>
   </div>
