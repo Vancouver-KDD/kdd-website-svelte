@@ -84,7 +84,7 @@
                   body: data,
                 })
                 const result = await response.json()
-                applyAction(result)
+                await applyAction(result)
                 toast.success('티켓 예약이 완료되었습니다.')
               } finally {
                 isLoading = false
