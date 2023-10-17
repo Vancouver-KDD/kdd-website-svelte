@@ -25,7 +25,9 @@
   <Section title="Upcoming Event">
     {#if upcomingEvents?.length > 0}
       {#each upcomingEvents as event}
-        <EventCard {event} />
+        <div class="mb-2">
+          <EventCard {event} />
+        </div>
       {/each}
     {:else}
       <div class="max-h-72 rounded-md overflow-hidden grid max-md:grid-cols-1 md:grid-cols-2">
