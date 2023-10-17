@@ -62,7 +62,7 @@
         <button
           class="pt-0.5 text-left text-sm cursor-pointer text-gray-600 hover:text-royalBlue-800"
           on:click={() => dialog?.showModal()}>
-          {event && _.truncate(event.description, {length: 322})}
+          {@html Marked.parse(_.truncate(event?.description, {length: 322}))}
         </button>
       </div>
     </div>
@@ -249,9 +249,9 @@
               <textarea
                 bind:value={formData.message}
                 name="message"
-                rows="4"
-                placeholder="KDD에 하시고 싶으신 말씀이나 건의사항이 있다면 남겨주세요."
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-sm" />
+                rows="6"
+                placeholder="본 이벤트에 대한 건의사항이나 KDD 운영진에 하시고 싶은 말이 있으시면 남겨주세요. 행사 운영에 적극 반영할 예정입니다."
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-xs" />
             </div>
 
             <div class="flex justify-end">
