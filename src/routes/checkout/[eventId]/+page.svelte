@@ -19,6 +19,7 @@
     name: '',
     email: '',
     occupation: '',
+    customOccupation: '',
     work: '',
     location: '',
     message: '',
@@ -78,6 +79,7 @@
                 const data = new FormData(e.currentTarget)
                 const headers = new Headers()
                 headers.append('x-prerender-revalidate', '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf')
+
                 const response = await fetch(e.currentTarget.action, {
                   method: 'POST',
                   headers,
@@ -170,6 +172,7 @@
                     required
                     type="text"
                     name="customOccupation"
+                    bind:value={formData.customOccupation}
                     placeholder="직업을 입력해주세요"
                     class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
                 {/if}
