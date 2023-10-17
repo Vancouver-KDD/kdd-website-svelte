@@ -39,7 +39,7 @@ export const actions = {
       firstTime: userData.firstTime,
       name: userData.name,
       email: userData.email,
-      occupation: userData.occupation,
+      occupation: userData.occupation === 'other' ? userData.customOccupation : userData.occupation,
       work: userData.work,
       location: userData.location,
       message: userData.message,

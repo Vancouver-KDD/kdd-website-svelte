@@ -19,6 +19,7 @@
     name: '',
     email: '',
     occupation: '',
+    customOccupation: '',
     work: '',
     location: '',
     message: '',
@@ -33,8 +34,6 @@
   $: eventTimeTo = event && DateTime.fromISO(event.date).plus({seconds: event.duration})
 
   let isLoading = false
-
-  const customOccupation = writable('')
 </script>
 
 <svelte:head>
@@ -80,11 +79,6 @@
                 const data = new FormData(e.currentTarget)
                 const headers = new Headers()
                 headers.append('x-prerender-revalidate', '0VkJCrieFXnOIRGqLdqf0VkJCrieFXnOIRGqLdqf')
-
-                if (formData.occupation === 'other') {
-                  formData.occupation = $customOccupation
-                  console.log('이것이 바뀐값이다', formData.occupation)
-                }
 
                 const response = await fetch(e.currentTarget.action, {
                   method: 'POST',
@@ -178,12 +172,7 @@
                     required
                     type="text"
                     name="customOccupation"
-                    bind:value={$customOccupation}
-                    on:input={(e) => {
-                      if (e.target?.value) {
-                        customOccupation.set(e.target.value)
-                      }
-                    }}
+                    bind:value={formData.customOccupation}
                     placeholder="직업을 입력해주세요"
                     class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
                 {/if}
