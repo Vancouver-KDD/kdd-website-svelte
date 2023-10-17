@@ -32,22 +32,21 @@
     Print
   </button>
   <button
-    class="absolute top-0 right-44 m-7 bg-amber-300/75 hover:bg-amber-400 text-white font-bold py-2 px-4 rounded-lg">
+    class="hidden md:block absolute top-0 right-44 m-7 bg-amber-300/75 hover:bg-amber-400 text-white font-bold py-2 px-4 rounded-lg">
     <!-- on:click={() => exportExcel(null, 'data.csv')} -->
     CSV
   </button>
-  -->
   <DataTable stickyHeader aria-label="Ticket List" class="w-[180%] overflow-auto" id="print-area">
     <Head class="w-full">
       <Row class="border text-center bg-royalBlue-50 m-4">
-        <Cell class="w-[10%] md:w-[2%]">번호</Cell>
-        <Cell class="w-[28%] md:w-[5%]">신청일</Cell>
-        <Cell class="w-[8%]">이름</Cell>
+        <Cell class="w-[5%] md:w-[2%]">번호</Cell>
+        <Cell class="w-[15%] md:w-[5%]">신청일</Cell>
+        <Cell class="w-[15%] md:w-[8%]">이름</Cell>
         <Cell class="w-[20%]">Email</Cell>
-        <Cell class="">직업</Cell>
-        <Cell class="">직장</Cell>
-        <Cell class="">거주지</Cell>
-        <Cell class="w-[4%]">처음 참여?</Cell>
+        <Cell class="w-[10%] md:w-[4%]">직업</Cell>
+        <Cell class="w-[10%] md:w-[4%]">직장</Cell>
+        <Cell class="w-[10%] md:w-[4%]">거주지</Cell>
+        <Cell class="w-[10%] md:w-[4%]">처음 참여?</Cell>
         <Cell class="text-left pl-4 w-[40%]">비고</Cell>
       </Row>
     </Head>
@@ -73,14 +72,14 @@
   <DataTable stickyHeader aria-label="Cancelled Ticket List" class="w-[180%] overflow-auto">
     <Head class="w-full">
       <Row class="border text-center bg-radicalRed-50 m-4">
-        <Cell class="w-[2%]">번호</Cell>
-        <Cell class="w-[5%]">신청일</Cell>
-        <Cell class="w-[8%]">이름</Cell>
+        <Cell class="w-[5%] md:w-[2%]">번호</Cell>
+        <Cell class="w-[15%] md:w-[5%]">신청일</Cell>
+        <Cell class="w-[15%] md:w-[8%]">이름</Cell>
         <Cell class="w-[20%]">Email</Cell>
-        <Cell class="">직업</Cell>
-        <Cell class="">직장</Cell>
-        <Cell class="">거주지</Cell>
-        <Cell class="w-[4%]">처음 참여?</Cell>
+        <Cell class="w-[10%] md:w-[4%]">직업</Cell>
+        <Cell class="w-[10%] md:w-[4%]">직장</Cell>
+        <Cell class="w-[10%] md:w-[4%]">거주지</Cell>
+        <Cell class="w-[10%] md:w-[4%]">처음 참여?</Cell>
         <Cell class="text-left pl-4 w-[40%]">비고</Cell>
       </Row>
     </Head>
