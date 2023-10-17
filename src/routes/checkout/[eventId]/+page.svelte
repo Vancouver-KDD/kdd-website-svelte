@@ -4,7 +4,7 @@
   import {DateTime} from 'luxon'
   import {toast} from 'svelte-french-toast'
   import {Marked} from '@ts-stack/markdown'
-  import {truncate} from 'lodash'
+  import _ from 'lodash'
   import {Button} from '$lib/components'
 
   Marked.setOptions({
@@ -61,7 +61,7 @@
         <button
           class="pt-0.5 text-left text-sm cursor-pointer text-gray-600 hover:text-royalBlue-800"
           on:click={() => dialog?.showModal()}>
-          {event && truncate(event.description, {length: 322})}
+          {event && _.truncate(event.description, {length: 322})}
         </button>
       </div>
     </div>
