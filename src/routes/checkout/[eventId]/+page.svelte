@@ -251,7 +251,7 @@
                 class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-sm" />
             </div>
 
-            <div class="text-right">
+            <div class="flex justify-end">
               <Button type="submit" disabled={isLoading} loading={isLoading}>
                 {#if $isFreeStore || isFree}Reserve{:else}Continue to Payment{/if}
               </Button>
