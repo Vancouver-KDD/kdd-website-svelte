@@ -125,12 +125,14 @@
 
             <div class="mb-4">
               <label for="name" class="block text-sm font-medium text-gray-700">
-                Full Name: <span class="required">*</span>
+                Full Name <span class="text-xs">(한글/영어)</span>:
+                <span class="required">*</span>
               </label>
               <input
                 type="text"
                 name="name"
                 bind:value={formData.name}
+                placeholder="Gildong Hong/홍길동"
                 required
                 class="w-full px-3 py-2 border border-gray-300 rounded-md text-sm focus:outline-none focus:border-royalBlue-500" />
             </div>
