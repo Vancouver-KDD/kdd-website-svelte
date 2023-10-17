@@ -32,7 +32,7 @@
 
   <AppContent class="w-full flex-auto overflow-auto">
     <main class="h-full">
-      <List class="flex-start flex-col gap-1 border h-full horizontal-overflow-auto p-2">
+      <List class="flex-start flex-col gap-1 border h-full horizontal-overflow-auto p-2 pb-10">
         {#if ticketValue && ticketValue.size > 0}
           <AdminTable />
         {:else}
