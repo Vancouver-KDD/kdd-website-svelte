@@ -17,7 +17,7 @@
 <Toaster />
 
 <section class="flex-center flex-col">
-  <div class="max-w-4xl w-full flex flex-col md:flex-row gap-10 mt-8">
+  <div class="max-w-4xl w-full flex flex-col md:flex-row gap-10 mt-4">
     <div class="w-full flex-center flex-col">
       <img class="w-[85%] h-[80%]" src={MyTicketImage} alt="my-ticket" />
       <div class="pl-2">
@@ -36,33 +36,40 @@
       <div class="pt-8 pb-4">
         <h1 class="text-xl font-semibold text-royalBlue-700">My KDD Ticket</h1>
       </div>
-      <div class="flex flex-col justify-center h-96 p-4 rounded shadow-lg">
+      <div class="flex flex-col justify-center h-96 p-4 pb-6 rounded shadow-lg">
         {#if reservedTicket && reservedTicket.status !== 'cancelled'}
           <form method="POST" class="flex flex-col gap-1">
             <div class="mb-2">
               <img class="w-full h-52" src={event?.poster?.url} alt="event-poster" />
             </div>
-            <div class="flex gap-2 text-sm">
-              <h1 class="text-gray-700">Event:</h1>
+            <div class="flex gap-1 text-sm">
+              <h1 class="w-12 text-gray-700">Event:</h1>
               <h2 class="font-semibold text-gray-700">
                 {reservedTicket?.eventName}
               </h2>
             </div>
-            <div class="flex gap-2 text-sm">
-              <h1 class="text-gray-700">Date:</h1>
+            <div class="flex gap-1 text-sm">
+              <h1 class="w-12 text-gray-700">Date:</h1>
               <h2 class="font-semibold text-gray-700">
-                {event && DateTime.fromISO(event.date).toFormat('yyyy LLL dd H:mm a')}
+                {event && DateTime.fromISO(event.date).toFormat('LLL dd, yyyy')}
               </h2>
             </div>
             <div class="flex gap-1 text-sm">
-              <h1 class="text-gray-700">Name:</h1>
+              <h1 class="w-12 text-gray-700">Time:</h1>
+              <h2 class="font-semibold text-gray-700">
+                {event && DateTime.fromISO(event.date).toFormat('H:mm a')} - {event &&
+                  DateTime.fromISO(event.date).plus({seconds: event.duration}).toFormat('H:mm a')}
+              </h2>
+            </div>
+            <div class="flex gap-1 text-sm">
+              <h1 class="w-12 text-gray-700">Name:</h1>
               <h2 class="font-semibold text-gray-700">
                 {reservedTicket?.name}
               </h2>
             </div>
             <div class="flex gap-1 text-sm">
-              <h1 class="text-gray-700">Email:</h1>
-              <h3 class="ml-1 text-sm">
+              <h1 class="w-12 text-gray-700">Email:</h1>
+              <h3 class="text-sm">
                 {reservedTicket?.email}
               </h3>
             </div>
