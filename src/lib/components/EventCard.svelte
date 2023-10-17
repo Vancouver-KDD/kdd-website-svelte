@@ -89,12 +89,6 @@
           alt="event poster" />
       </div>
       <div class="flex-col min-h-40 max-h-72 overflow-y-auto bg-gray-100 p-6 gap-3">
-        <div bind:this={scrollToTopAnchor}>
-          <p class="text-base">
-            {DateTime.fromISO(event.date).toFormat('yyyy LLL dd H:mm a')}
-          </p>
-          <p class="font-medium">{event.location ?? ''}</p>
-        </div>
         <h3 class="text-2xl font-bold">{event.title ?? ''}</h3>
         <p class="text-sm [&>*]:pb-4">
           <!-- eslint-disable svelte/no-at-html-tags -->
