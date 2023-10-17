@@ -253,7 +253,7 @@
 
             <div class="text-right">
               <Button type="submit" disabled={isLoading} loading={isLoading}>
-                {#if $isFreeStore}Reserve{:else}Continue to Payment{/if}
+                {#if $isFreeStore || isFree}Reserve{:else}Continue to Payment{/if}
               </Button>
             </div>
           </form>
