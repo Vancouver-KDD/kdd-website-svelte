@@ -1,13 +1,19 @@
 <script lang="ts">
   import {Toaster} from 'svelte-french-toast'
   import {DateTime} from 'luxon'
+  import {onMount} from 'svelte'
   import {Confetti} from 'svelte-confetti'
+  import {Wave} from 'svelte-loading-spinners'
   import MyTicketImage from '$lib/images/my-ticket.png'
   import RefundTicketSuccess from '$lib/images/ticket-image.png'
 
   export let data
-
   const {reservedTicket, event} = data
+  let isLoading = true
+
+  onMount(() => {
+    isLoading = false
+  })
 </script>
 
 <svelte:head>
@@ -37,7 +43,11 @@
         <h1 class="text-xl font-semibold text-royalBlue-700">My KDD Ticket</h1>
       </div>
       <div class="flex flex-col justify-center h-96 p-4 pb-6 rounded shadow-lg">
-        {#if reservedTicket && reservedTicket.status !== 'cancelled'}
+        {#if isLoading}
+          <div class="flex-center opacity-80">
+            <Wave size="60" color="#5d5fef" unit="px" duration="1s" />
+          </div>
+        {:else if reservedTicket && reservedTicket.status !== 'cancelled'}
           <form method="POST" class="flex flex-col gap-1">
             <div class="mb-2">
               <img class="w-full h-52" src={event?.poster?.url} alt="event-poster" />
