@@ -61,7 +61,7 @@
       <th>직장</th>
       <th>거주지</th>
       <th>처음 참여?</th>
-      <th class="w-[40rem]">비고</th>
+      <th class="w-[40rem] text-left">비고</th>
     </tr>
     {#each $activeTickets as ticket, index (ticket.id)}
       <tr class="border text-center">
@@ -73,7 +73,7 @@
         <td>{ticket.work}</td>
         <td>{ticket.location}</td>
         <td>{ticket.firstTime}</td>
-        <td>{ticket.message}</td>
+        <td class="text-left">{ticket.message}</td>
       </tr>
     {/each}
 
@@ -94,7 +94,7 @@
         <td>{ticket.work}</td>
         <td>{ticket.location}</td>
         <td>{ticket.firstTime}</td>
-        <td>{ticket.message}</td>
+        <td class="text-left">{ticket.message}</td>
       </tr>
     {/each}
   </table>
