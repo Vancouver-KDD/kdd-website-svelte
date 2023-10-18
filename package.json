@@ -19,7 +19,8 @@
     "lodash": "^4.17.21",
     "luxon": "^3.4.1",
     "svelte-french-toast": "^1.2.0",
-    "tailwind-merge": "^1.14.0"
+    "tailwind-merge": "^1.14.0",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@smui/data-table": "^7.0.0-beta.15",

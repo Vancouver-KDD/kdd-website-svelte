@@ -9,11 +9,11 @@
   export let ticketValue: Map<string, DB.Ticket>
 </script>
 
-<div class="flex flex-col md:flex-row h-full border">
+<div class="flex flex-col md:flex-row h-full">
   <Drawer class="md:w-80 max-h-screen">
-    <Content class="h-full overflow-x-auto">
+    <Content class="h-full">
       <List
-        class="flex-start flex-row md:flex-col gap-2 p-1 md:p-2 border bg-gray-50 h-full overflow-y-auto">
+        class="flex-start flex-row md:flex-col gap-2 p-1 md:p-2 bg-gray-50 h-full overflow-auto">
         {#each events as event}
           <button on:click={() => goto(`/admin/dashboard?eventId=${event.id}`)}>
             <Item
@@ -30,11 +30,11 @@
     </Content>
   </Drawer>
 
-  <AppContent class="w-full flex-auto overflow-auto">
-    <main class="h-full">
-      <List class="flex-start flex-col gap-1 border h-full horizontal-overflow-auto p-2 pb-10">
+  <AppContent class="flex-auto pb-8">
+    <main class="h-full w-full">
+      <List class="flex-start flex-col gap-1 h-full horizontal-overflow-auto w-[150%] p-2">
         {#if ticketValue && ticketValue.size > 0}
-          <AdminTable />
+          <AdminTable {events} />
         {:else}
           <p class="m-auto text-royalBlue-800">해당 이벤트에 대한 참여명부가 없습니다.</p>
         {/if}
