@@ -31,7 +31,7 @@
   <title>KDD Admin Page</title>
 </svelte:head>
 
-<section class="flex flex-col items-center gap-4 p-5 bg-gray-50 h-full relative">
+<section class="flex flex-col items-center gap-4 p-5 h-full relative">
   <div class="w-full flex justify-between p-2 items-center gap-8">
     <h1 class="text-2xl font-semibold text-royalBlue-800">KDD Admin Dashboard</h1>
     <button
