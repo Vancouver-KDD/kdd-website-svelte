@@ -1,32 +1,8 @@
 <script lang="ts">
-  import DataTable, {Head, Body, Row, Cell} from '@smui/data-table'
   import {activeTickets, cancelledTickets} from '$lib/store'
-  import exportExcel from '$lib/exportExcel'
-  import type {Table} from 'airtable'
   import * as XLSX from 'xlsx'
 
   export let events: DB.Event[]
-
-  let initBodyHtml: string | null = null
-
-  function printContent() {
-    window.print()
-  }
-
-  function beforePrint() {
-    initBodyHtml = document.body.innerHTML
-    document.body.innerHTML = document.getElementById('print-area')?.innerHTML as string
-  }
-
-  function afterPrint() {
-    if (initBodyHtml !== null) {
-      document.body.innerHTML = initBodyHtml
-      initBodyHtml = null
-    }
-  }
-
-  window.onbeforeprint = beforePrint
-  window.onafterprint = afterPrint
 
   let ticketTable: HTMLTableElement
 
@@ -40,12 +16,7 @@
 
 <div>
   <button
-    class="hidden md:block absolute top-0 right-24 m-7 bg-royalBlue-500/75 hover:bg-royalBlue-500 text-white font-bold py-2 px-4 rounded-lg"
-    on:click={printContent}>
-    Print
-  </button>
-  <button
-    class="hidden md:block absolute top-0 right-44 m-7 bg-amber-300/75 hover:bg-amber-400 text-white font-bold py-2 px-4 rounded-lg"
+    class="hidden md:block absolute top-0 right-24 m-7 bg-amber-400/75 hover:bg-amber-400 text-white font-bold py-2 px-4 rounded-lg"
     on:click={() => {
       exportData('csv')
     }}>

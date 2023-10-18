@@ -10,7 +10,7 @@
 </script>
 
 <div class="flex flex-col md:flex-row h-full">
-  <Drawer class="md:w-80 max-h-screen">
+  <Drawer class="md:w-60 max-h-screen">
     <Content class="h-full w-60">
       <List class="flex-start flex-row md:flex-col gap-2 p-1 md:p-2 h-full overflow-auto">
         {#each events as event}
@@ -29,7 +29,7 @@
     </Content>
   </Drawer>
 
-  <AppContent class="flex-auto pb-8">
+  <AppContent class="flex-auto pb-8 w-full h-full">
     <main class="h-full w-full">
       <List class="flex-start flex-col gap-1 h-full horizontal-overflow-auto w-[150%] p-2">
         {#if ticketValue && ticketValue.size > 0}
