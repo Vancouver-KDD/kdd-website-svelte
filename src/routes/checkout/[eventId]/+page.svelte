@@ -245,13 +245,15 @@
             {/if}
 
             <div class="mb-4">
-              <label for="message" class="block text-sm font-medium text-gray-700">Message:</label>
+              <label for="message" class="block text-sm font-medium text-gray-700">Message: <span class="required">*</span></label>
+
+              <!-- placeholder="본 이벤트에 대한 건의사항이나 KDD 운영진에 하시고 싶은 말이 있으시면 남겨주세요. 행사 운영에 적극 반영할 예정입니다." -->
               <textarea
                 bind:value={formData.message}
                 name="message"
                 rows="6"
-                placeholder="본 이벤트에 대한 건의사항이나 KDD 운영진에 하시고 싶은 말이 있으시면 남겨주세요. 행사 운영에 적극 반영할 예정입니다."
-                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-xs" />
+                placeholder="네트워킹 시  대화하고 싶으신 주제를 적어주세요."
+                class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-royalBlue-500 text-sm" />
             </div>
 
             <div class="flex justify-end">
