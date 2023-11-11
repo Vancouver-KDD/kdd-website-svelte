@@ -34,7 +34,7 @@
       <th>처음 참여?</th>
       <th class="w-[40rem] text-left">비고</th>
     </tr>
-    {#each $activeTickets as ticket, index (ticket.id)}
+    {#each $activeTickets.slice().reverse() as ticket, index (ticket.id)}
       <tr class="border text-center">
         <td>{index + 1}</td>
         <td>{ticket.createdAt.toDate().toLocaleDateString()}</td>
