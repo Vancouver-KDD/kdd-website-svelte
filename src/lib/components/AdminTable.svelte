@@ -52,8 +52,8 @@
 
         <!-- for event 밴쿠버 IT회사 옆 대나무숲 -->
         <td>{ticket.field ? ticket.field : '해당없음'}</td>
-        <td>{ticket.kakao ? ticket.field : '해당없음'}</td>
-        <td>{ticket.dinner ? ticket.field : '해당없음'}</td>
+        <td>{ticket.kakao ? ticket.kakao : '해당없음'}</td>
+        <td>{ticket.dinner ? ticket.dinner : '해당없음'}</td>
 
         <td>{ticket.firstTime}</td>
         <td class="text-left">{ticket.message}</td>
@@ -77,9 +77,10 @@
         <td>{ticket.occupation}</td>
         <td>{ticket.work}</td>
 
-        <td>{ticket.field}</td>
-        <td>{ticket.kakao}</td>
-        <td>{ticket.dinner}</td>
+        <!-- for event 밴쿠버 IT회사 옆 대나무숲 -->
+        <td>{ticket.field ? ticket.field : '해당없음'}</td>
+        <td>{ticket.kakao ? ticket.kakao : '해당없음'}</td>
+        <td>{ticket.dinner ? ticket.dinner : '해당없음'}</td>
 
         <td>{ticket.firstTime}</td>
         <td class="text-left">{ticket.message}</td>
