@@ -44,6 +44,11 @@ export const actions = {
       location: userData.location,
       message: userData.message,
       status: isFree ? 'free' : 'unpaid',
+
+      //for event 밴쿠버 IT회사 옆 대나무숲
+      field: userData.field,
+      kakao: userData.kakao,
+      dinner: userData.dinner,
     } satisfies Omit<DB.Ticket, 'createdAt'>
 
     await createTicket(ticketData)
