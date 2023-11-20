@@ -5,6 +5,7 @@
   import {AdminTable} from './index'
   import {selectedEventId} from '$lib/store'
   import {twMerge} from 'tailwind-merge'
+
   export let events: DB.Event[]
   export let ticketValue: Map<string, DB.Ticket>
 </script>

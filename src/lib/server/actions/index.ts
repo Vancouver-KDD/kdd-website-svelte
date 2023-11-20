@@ -144,8 +144,8 @@ export async function handleKofiWebhook(data: Omit<App.KoFiWebhookData, 'verific
         message: {
           subject: `[Vancouver KDD] Purchase Complete for ${ticketData.eventName}`,
           text: `Congratulations, we received payment ${data.amount}.
-  See you at ${ticketData.eventName}!
-  To view your ticket, please visit this link https://vancouverkdd.com/myTicket?ticketId=${ticketData.id}`,
+                  See you at ${ticketData.eventName}!
+                  To view your ticket, please visit this link https://vancouverkdd.com/myTicket?ticketId=${ticketData.id}`,
         },
       } satisfies DB.Email)
     } else {
