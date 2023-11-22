@@ -108,9 +108,9 @@ declare namespace DB {
     location: string
     message: string
 
-    field: string
-    kakao: string
-    dinner: string
+    field?: string
+    kakao?: string
+    dinner?: string
   }
 
   interface Email {
