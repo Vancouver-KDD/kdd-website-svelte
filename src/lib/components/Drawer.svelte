@@ -34,7 +34,7 @@
     <main class="h-full w-full">
       <List class="flex-start flex-col gap-1 h-full horizontal-overflow-auto w-[150%] p-2">
         {#if ticketValue && ticketValue.size > 0}
-          <AdminTable {events} />
+          <AdminTable />
         {:else}
           <p class="m-auto text-royalBlue-800">해당 이벤트에 대한 참여명부가 없습니다.</p>
         {/if}

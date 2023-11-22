@@ -2,8 +2,6 @@
   import {activeTickets, cancelledTickets} from '$lib/store'
   import * as XLSX from 'xlsx'
 
-  export let events: DB.Event[]
-
   let ticketTable: HTMLTableElement
 
   function exportData(type: string) {
