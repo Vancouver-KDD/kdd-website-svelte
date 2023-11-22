@@ -46,9 +46,9 @@ export const actions = {
       status: isFree ? 'free' : 'unpaid',
 
       //for event 밴쿠버 IT회사 옆 대나무숲
-      field: userData.field,
-      kakao: userData.kakao,
-      dinner: userData.dinner,
+      field: userData.field ? userData.field : "해당없음",
+      kakao: userData.kakao ? userData.field: "해당없음",
+      dinner: userData.dinner ? userData.dinner : "해당없음",
     } satisfies Omit<DB.Ticket, 'createdAt'>
 
     await createTicket(ticketData)
