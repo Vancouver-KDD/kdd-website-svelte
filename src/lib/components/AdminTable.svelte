@@ -2,12 +2,10 @@
   import {activeTickets, cancelledTickets} from '$lib/store'
   import * as XLSX from 'xlsx'
 
-  export let events: DB.Event[]
-
   let ticketTable: HTMLTableElement
 
   function exportData(type: string) {
-    const fileName = `${events[0].title}.` + type
+    const fileName = 'KDD행사리스트.' + type
     const table = ticketTable
     const wb = XLSX.utils.table_to_book(table)
     XLSX.writeFile(wb, fileName)
