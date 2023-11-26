@@ -302,7 +302,7 @@
               </div>
             {/if}
 
-            {#if !isFree}
+            <!-- {#if !isFree}
               <div class="mb-4">
                 <label for="work" class="flex items-center gap-2">
                   <p class="text-sm font-medium text-gray-700">무료 Tier 조건에 해당하시나요?</p>
@@ -339,7 +339,7 @@
                   </span>
                 </div>
               </div>
-            {/if}
+            {/if} -->
 
             <div class="mb-4">
               <label for="message" class="block text-sm font-medium text-gray-700"
