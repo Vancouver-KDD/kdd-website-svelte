@@ -24,8 +24,8 @@
     <tr class="border text-center bg-royalBlue-50 m-4">
       <th class="w-[3rem]">번호</th>
       <th class="w-[7rem]">신청일</th>
-      <th>이름</th>
-      <th>Email</th>
+      <th class="w-[9rem]">이름</th>
+      <th class="w-[9rem]">Email</th>
       <th class="w-[6rem]">거주지</th>
       <th class="w-[6rem]">직업</th>
       <th class="w-[6rem]">직장</th>
