@@ -22,21 +22,21 @@
   </button>
   <table aria-label="Ticket List" class="w-full" id="print-area" bind:this={ticketTable}>
     <tr class="border text-center bg-royalBlue-50 m-4">
-      <th>번호</th>
-      <th>신청일</th>
-      <th>이름</th>
+      <th class="w-[3rem]">번호</th>
+      <th class="w-[7rem]">신청일</th>
+      <th class="w-[6rem]">이름</th>
       <th>Email</th>
-      <th>거주지</th>
-      <th>직업</th>
-      <th>직장</th>
+      <th class="w-[6rem]">거주지</th>
+      <th class="w-[6rem]">직업</th>
+      <th class="w-[6rem]">직장</th>
 
       <!-- for event 밴쿠버 IT회사 옆 대나무숲 -->
-      <th>필드</th>
-      <th>카톡</th>
-      <th>2차 참석?</th>
+      <th class="w-[6rem]">필드</th>
+      <th class="w-[6rem]">카톡</th>
+      <th class="w-[6rem]">2차 참석?</th>
 
-      <th>처음 참여?</th>
-      <th>결제 완료?</th>
+      <th class="w-[6rem]">처음 참여?</th>
+      <th class="w-[6rem]">결제 완료?</th>
       <th class="w-[40rem] text-left">비고</th>
     </tr>
     {#each $activeTickets.slice().reverse() as ticket, index (ticket.id)}
