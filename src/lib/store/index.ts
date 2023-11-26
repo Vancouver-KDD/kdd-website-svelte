@@ -82,6 +82,15 @@ export const activeTickets = derived(ticketValue, ($ticketValue) =>
   [...$ticketValue.values()].filter((ticket) => ticket.status !== 'cancelled')
 )
 
+// 유료이벤트용
+export const paidTickets = derived(ticketValue, ($ticketValue) =>
+  [...$ticketValue.values()].filter((ticket) => ticket.status === 'paid')
+)
+export const unpaidTickets = derived(ticketValue, ($ticketValue) =>
+  [...$ticketValue.values()].filter((ticket) => ticket.status === 'unpaid')
+)
+
+
 export function createEventAnalyticsStore(eventId: string) {
   return getStoreFromDocRef<DB.EventAnalytics>(doc(db, `EventsAnalytics/${eventId}`))
 }

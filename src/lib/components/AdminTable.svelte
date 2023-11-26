@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {activeTickets, cancelledTickets} from '$lib/store'
+  import {activeTickets, cancelledTickets, paidTickets, unpaidTickets} from '$lib/store'
   import * as XLSX from 'xlsx'
 
   let ticketTable: HTMLTableElement
@@ -36,6 +36,7 @@
       <th>2차 참석?</th>
 
       <th>처음 참여?</th>
+      <th>결제 완료?</th>
       <th class="w-[40rem] text-left">비고</th>
     </tr>
     {#each $activeTickets.slice().reverse() as ticket, index (ticket.id)}
@@ -54,6 +55,8 @@
         <td>{ticket.dinner ? ticket.dinner : '해당없음'}</td>
 
         <td>{ticket.firstTime}</td>
+        <td class={ticket.status !== 'paid' ? 'text-radicalRed-500' : 'text-royalBlue-500'}>{ticket.status === 'paid' ? 'Yes' : 'No' }</td>
+
         <td class="text-left">{ticket.message}</td>
       </tr>
     {/each}
@@ -81,6 +84,8 @@
         <td>{ticket.dinner ? ticket.dinner : '해당없음'}</td>
 
         <td>{ticket.firstTime}</td>
+        <td class={ticket.status !== 'paid' ? 'text-radicalRed-500' : 'text-royalBlue-500'}>{ticket.status === 'paid' ? 'Yes' : 'No' }</td>
+
         <td class="text-left">{ticket.message}</td>
       </tr>
     {/each}
