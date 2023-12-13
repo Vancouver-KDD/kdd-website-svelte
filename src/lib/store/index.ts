@@ -79,7 +79,7 @@ export const cancelledTickets = derived(ticketValue, ($ticketValue) =>
   [...$ticketValue.values()].filter((ticket) => ticket.status === 'cancelled')
 )
 export const activeTickets = derived(ticketValue, ($ticketValue) =>
-  [...$ticketValue.values()].filter((ticket) => ticket.status !== 'cancelled')
+  [...$ticketValue.values()].filter((ticket) => ticket.status !== 'cancelled' && 'unpaid')
 )
 
 // 유료이벤트용
