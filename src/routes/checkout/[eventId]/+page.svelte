@@ -261,8 +261,8 @@
                 class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
             </div>
 
-            <!-- for event 밴쿠버 IT회사 옆 대나무숲 -->
-            {#if event?.id === 'recCay7Taim9hFJbF'}
+            <!-- for 3월 딥코브 이벤트 -->
+            {#if event?.id === 'rec4I13yKmYkBAAqW'}
               <div class="mb-4">
                 <label for="work" class="block text-sm font-medium text-gray-700">
                   카톡아이디:
@@ -271,7 +271,7 @@
                   rows="2"
                   name="kakao"
                   bind:value={formData.kakao}
-                  placeholder={'현직자분들을 위한 카톡방을 운영하려고 합니다. \r\n참여 원하시면 카톡 아이디를 남겨주세요.'}
+                  placeholder={'원활한 이벤트 진행을 위해 카톡 아이디를 남겨주세요.'}
                   class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
               </div>
 
