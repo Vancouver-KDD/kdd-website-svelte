@@ -275,7 +275,7 @@
                   class="w-full px-3 py-2 border border-gray-300 text-sm rounded-md focus:outline-none focus:border-royalBlue-500" />
               </div>
 
-              <div class="flex flex-col mb-4">
+              <!-- <div class="flex flex-col mb-4">
                 <h3 class="text-sm text-gray-700 font-medium">
                   2차(저녁) 참가여부 <span class="required">*</span>
                 </h3>
@@ -299,7 +299,7 @@
                       class="form-radio text-royalBlue-500" />
                     <label for="no" class="text-sm text-gray-700 font-medium">No</label></span>
                 </div>
-              </div>
+              </div> -->
             {/if}
 
             <!-- {#if !isFree}
