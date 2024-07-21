@@ -56,9 +56,9 @@
       {#if event.id}
         <Button
           on:click={(e) => e.stopImmediatePropagation()}
-          disabled={!isPastEvent ||
+          disabled={isPastEvent ||
             $eventAnalyticsStore === undefined ||
-            ticketsLeft <= 0 ||
+            (ticketsLeft <= 0 && !event.joinLink) ||
             event.id === 'recmVKh6OgGcv8itV'}
           class="rounded-full"
           href={event.joinLink ? event.joinLink : `/checkout/${event.id}`}>
@@ -66,7 +66,7 @@
             ? 'CLOSED'
             : $eventAnalyticsStore === undefined
             ? 'loading...'
-            : ticketsLeft < 0
+            : ticketsLeft < 0 && !event.joinLink
             ? 'SOLD OUT'
             : 'RSVP'}
         </Button>
