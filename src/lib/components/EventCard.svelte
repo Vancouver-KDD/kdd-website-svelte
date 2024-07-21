@@ -25,6 +25,8 @@
     event.quantity -
     (($eventAnalyticsStore?.ticketsConfirmedCount ?? 0) +
       ($eventAnalyticsStore?.ticketsOnHoldCount ?? 0))
+
+  console.log('event', event)
 </script>
 
 <button
@@ -56,16 +58,17 @@
       {#if event.id}
         <Button
           on:click={(e) => e.stopImmediatePropagation()}
-          disabled={!isPastEvent ||
+          disabled={isPastEvent ||
             $eventAnalyticsStore === undefined ||
-            (ticketsLeft < 0 && !event.joinLink)}
+            ticketsLeft < 0 ||
+            event.id === 'recmVKh6OgGcv8itV'}
           class="rounded-full"
           href={event.joinLink ? event.joinLink : `/checkout/${event.id}`}>
           {isPastEvent
             ? 'CLOSED'
             : $eventAnalyticsStore === undefined
             ? 'loading...'
-            : ticketsLeft < 0
+            : ticketsLeft < 0 && !event.joinLink
             ? 'SOLD OUT'
             : 'RSVP'}
         </Button>
