@@ -25,8 +25,6 @@
     event.quantity -
     (($eventAnalyticsStore?.ticketsConfirmedCount ?? 0) +
       ($eventAnalyticsStore?.ticketsOnHoldCount ?? 0))
-
-  console.log('event', event)
 </script>
 
 <button
