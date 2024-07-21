@@ -56,7 +56,7 @@
       {#if event.id}
         <Button
           on:click={(e) => e.stopImmediatePropagation()}
-          disabled={isPastEvent ||
+          disabled={!isPastEvent ||
             $eventAnalyticsStore === undefined ||
             (ticketsLeft < 0 && !event.joinLink)}
           class="rounded-full"
