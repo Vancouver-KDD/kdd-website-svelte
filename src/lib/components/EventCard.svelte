@@ -58,7 +58,8 @@
           on:click={(e) => e.stopImmediatePropagation()}
           disabled={!isPastEvent ||
             $eventAnalyticsStore === undefined ||
-            (ticketsLeft < 0 && !event.joinLink)}
+            ticketsLeft < 0 ||
+            event.id === 'recmVKh6OgGcv8itV'}
           class="rounded-full"
           href={event.joinLink ? event.joinLink : `/checkout/${event.id}`}>
           {isPastEvent
