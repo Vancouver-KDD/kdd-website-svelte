@@ -65,7 +65,7 @@
             ? 'CLOSED'
             : $eventAnalyticsStore === undefined
             ? 'loading...'
-            : ticketsLeft < 0 && !event.joinLink
+            : ticketsLeft < 0
             ? 'SOLD OUT'
             : 'RSVP'}
         </Button>
