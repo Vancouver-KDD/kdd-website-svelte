@@ -56,7 +56,7 @@
       {#if event.id}
         <Button
           on:click={(e) => e.stopImmediatePropagation()}
-          disabled={isPastEvent ||
+          disabled={!isPastEvent ||
             $eventAnalyticsStore === undefined ||
             ticketsLeft <= 0 ||
             event.id === 'recmVKh6OgGcv8itV'}
@@ -66,7 +66,7 @@
             ? 'CLOSED'
             : $eventAnalyticsStore === undefined
             ? 'loading...'
-            : ticketsLeft < 0 && !event.joinLink
+            : ticketsLeft < 0
             ? 'SOLD OUT'
             : 'RSVP'}
         </Button>
